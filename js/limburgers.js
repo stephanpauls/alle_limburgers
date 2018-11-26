@@ -131,6 +131,15 @@ function createStartSearchBlock(lijn,crit) {
         targetToPush += '<div class="card" id="liSearchCrit_'+itemNr+'">';
         targetToPush += '<div class="row">';
         targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="andOrNotlijst_'+itemNr+'">';
+    targetToPush += '<select onchange="composeQuery()">';
+    targetToPush += '<option value="AND">AND</option>';
+    targetToPush += '<option value="OR">OR</option>';
+    targetToPush += '<option value="NOT">NOT</option>';
+    targetToPush += '</select>';  
+    targetToPush += '</div>';          
+    targetToPush += '</div>';          
+        targetToPush += '<div class="col-sm">';
         targetToPush += '<div id="criterialijst_'+itemNr+'">';
         targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();composeQuery()">';
         targetToPush += '<option selected value="naam">naam</option>';
@@ -151,7 +160,8 @@ function createStartSearchBlock(lijn,crit) {
         targetToPush += '</div>';
         targetToPush += '</div>';
         targetToPush += '<div class="col-sm">';
-        targetToPush += '<textarea onkeyup="composeQuery()"; id="al_filter_'+itemNr+'" cols="20" rows="1"></textarea>';
+        targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery()"; value="Some text...">';
+        //targetToPush += '<textarea onkeyup="composeQuery()"; id="al_filter_'+itemNr+'" cols="20" rows="1"></textarea>';
         targetToPush += '</div>';
         targetToPush += '</div>';
         if (lijn==0) targetToPush += '</div>';
@@ -178,6 +188,15 @@ function createStartDatumSearchBlock() {
     var poutput = [];// voorbereiding
      var targetToPush = '';
         targetToPush = '<div class="row">';
+    targetToPush += '<div class="col-sm col-md-offset-1">';    
+    targetToPush += '<div id="andOrNotlijst_1">';
+    targetToPush += '<select onchange="composeQuery()">';
+    targetToPush += '<option value="AND">AND</option>';
+    targetToPush += '<option value="OR">OR</option>';
+    targetToPush += '<option value="NOT">NOT</option>';
+    targetToPush += '</select>';  
+    targetToPush += '</div>';
+    targetToPush += '</div>';    
         targetToPush += '<div class="col-sm">';
         targetToPush += '<div id="criterialijst_1">';
         targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();"composeQuery()">';
@@ -191,14 +210,14 @@ function createStartDatumSearchBlock() {
         targetToPush += '</div>';
         targetToPush += '<div class="col-sm">';
         targetToPush += '<div id="operatorlijst_1">';
-        targetToPush += '<select onchange="criterialijst_change_1();composeQuery()">';
+        targetToPush += '<select onchange="composeQuery()">';
         targetToPush += '<option selected value="vanaf">vanaf</option>';
         targetToPush += '<option value="totmet">tot en met</option>';
         targetToPush += '<option value="exact">is exact</option>';
         targetToPush += '</select>';
         targetToPush += '</div>';
         targetToPush += '</div>';
-        targetToPush += '<div class="col-sm">';
+        targetToPush += '<div class="col-sm col-md-offset-0">';
         targetToPush += '<div>';
         targetToPush += '<input type="text" id="dp_1">';
         targetToPush += '</div>';
@@ -246,7 +265,7 @@ function createDatumSearchBlock(lijn) {
     targetToPush += '<div class="row">';
     targetToPush += '<div class="col-sm">';    
     targetToPush += '<div id="andOrNotlijst_'+itemNr+'">';
-    targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();composeQuery()">';
+    targetToPush += '<select onchange="composeQuery()">';
     targetToPush += '<option value="AND">AND</option>';
     targetToPush += '<option value="OR">OR</option>';
     targetToPush += '<option value="NOT">NOT</option>';
@@ -273,7 +292,7 @@ function createDatumSearchBlock(lijn) {
     targetToPush += '</select>';
     targetToPush += '</div>';
     targetToPush += '</div>';
-    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div class="col-sm col-md-offset-0">';
     targetToPush += '<div>';
     targetToPush += '<input type="text" id="dp_'+itemNr+'">';
     targetToPush += '</div>';
@@ -324,7 +343,7 @@ function createSearchBlock(lijn,crit) {
     var targetToPush = '';
    if (lijn==0) var targetToPush = '<div class="card" id="liSearchCrit_'+itemNr+'">';
     targetToPush += '<div class="row">';
-    targetToPush += '<div class="col-sm">';    
+    targetToPush += '<div class="col-sm col-md-offset-1">';    
     targetToPush += '<div id="andOrNotlijst_'+itemNr+'">';
     targetToPush += '<select onchange="composeQuery()">';
     targetToPush += '<option value="AND">AND</option>';
@@ -354,7 +373,8 @@ function createSearchBlock(lijn,crit) {
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm">';
-    targetToPush += '<textarea onkeyup="composeQuery()"; id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'"cols="20" rows="1"  ></textarea>';
+    targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery()"; value="Some text...">';
+    //targetToPush += '<textarea onkeyup="composeQuery()"; id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'"cols="20" rows="1"  ></textarea>';
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -398,25 +418,29 @@ function composeQuery() {
         
         if ($( "#criterialijst_"+i+" option:selected" ).text() == 'datum') {
             if ($( "#operatorlijst_"+i+" option:selected" ).text() == 'vanaf') {
-                li_val = vanafdatum;
+                li_val = $("#dp_"+i).datepicker().val();
             } else if ($( "#operatorlijst_"+i+" option:selected" ).text() == 'totmet') {
-                li_val = totdatum;
+                li_val = $("#dp_"+i).datepicker().val();
             } else {
-                li_val = exactdatum;
+                li_val = $("#dp_"+i).datepicker().val();
             }
-            li_val_fin = li_val.replace(/-/g, '')+'5';     
+            if (li_val != 0) {
+                li_val_fin = li_val.replace(/-/g, '')+'5';     
+            } else {
+                li_val_fin = 0;
+            }
         } else {
             li_val = li_val_fin = $( "#al_filter_"+i).val();
         }        
 
-        if (i>1) {
+//        if (i>1) {
             targetToPush +=  '> ' + $( "#andOrNotlijst_"+i+" option:selected" ).val();
             advSQLFieldsArray[i-1] = { 'poort':$( "#andOrNotlijst_"+i+" option:selected" ).val(), 
                                         'term':$( "#criterialijst_"+i+" option:selected" ).val(),
                                         'operator':$( "#operatorlijst_"+i+" option:selected" ).val(),
                                         'filter':li_val_fin
                                     }; 
-        } else {
+  /*      } else {
             targetToPush += ' > AND';
             advSQLFieldsArray[i-1] = { 'poort':'AND', 
                                         'term':$( "#criterialijst_"+i+" option:selected" ).val(),
@@ -424,6 +448,7 @@ function composeQuery() {
                                         'filter':li_val_fin
                                     }; 
         }
+*/        
         targetToPush += '</br>';
         targetToPush += '> ' + $( "#criterialijst_"+i+" option:selected" ).val();
         targetToPush += ' ' + $( "#operatorlijst_"+i+" option:selected" ).val();

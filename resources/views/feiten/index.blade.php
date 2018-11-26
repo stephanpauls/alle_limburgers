@@ -33,14 +33,20 @@
 </div>
 
 <div class="container">
-    <div id="alSearchCriterium" class="col-md-6 col-lg-6">
+    <div id="alSearchCriterium" class="col-md-8 col-lg-8">
 
     </div>
-</div>    
 <div class="col-lg-auto">
-    <input id="adv_start_search" type="button" onclick="createSearchBlock(0); return false;" size="12" readonly value="{{__('app.new_line')}}" >
+
+<!--    <input id="adv_start_search" type="button" onclick="createSearchBlock(0); return false;" size="12" readonly value="{{__('app.new_line')}}" >
+-->
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" id="liCreateSearchBlock" class="btn btn-secondary">{{__('app.new_line')}}</button>
+                    <button type="button" id="liCreateQuery" class="btn btn-secondary">Zoeken</button>
+                    <button type="button" id="liResetQuery" class="btn btn-secondary">Reset</button>
+                </div>        
 </div>
-  
+</div>
 <div class="container">
     <div class="query">
         <div class="row">
@@ -51,11 +57,8 @@
                 <div id= alQuery>
                 </div>
             </div>
+            
             <div class="col-sm">    
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" id="liCreateQuery" class="btn btn-secondary">Zoeken</button>
-                    <button type="button" id="liResetQuery" class="btn btn-secondary">Reset</button>
-                </div>    
             </div>
         </div>
     </div>
@@ -216,6 +219,9 @@ $(document).ready(function(){
         firstOpenSubtype = false;
     });
     
+    $('#liCreateSearchBlock').click(function(e){
+        createSearchBlock(0);
+    });
     
         $('#liCreateQuery').click(function(e){
            e.preventDefault();

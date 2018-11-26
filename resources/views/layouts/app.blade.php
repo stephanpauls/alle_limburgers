@@ -51,7 +51,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="nl"><img src="{{ asset ('public/img/nl.png')}}" alt=""> Nederlands</a>
+                                <a class="nav-link" href="nl"><img src="{{ asset ('public/img/nl.png')}}" alt="">Nederlands</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="en"><img src="{{ asset ('public/img/england.png')}}" alt="">English</a>
