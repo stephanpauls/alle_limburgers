@@ -7,8 +7,8 @@
   <div class="row">
     <div class="col-sm">
     <div class="button-group">
-        <input class="geotextbox feitenTextBox" name="feitenbox" placeholder="Zoek feit" onkeyup="limZoekFeit();" maxlength="20"/>
-        <button id="feiten_btn" type="button" onclick="feitBtn()" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">Feiten<span class="caret"></span></button>
+        <input class="geotextbox feitenTextBox" name="feitenbox" placeholder="{{__('app.search_fact')}}" onkeyup="limZoekFeit();" maxlength="20"/>
+        <button id="feiten_btn" type="button" onclick="feitBtn()" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">{{__('app.fact')}}<span class="caret"></span></button>
         <ul id=feitenbox class="dropdown-menu">
         @foreach($feiten as $feit)
             <li><a href="#" class="small" data-value="{{$feit->feittype}}" tabIndex="-1"><input type="checkbox" />{{$feit->feittype}}</a></li>              
@@ -18,8 +18,8 @@
     </div>
     <div class="col-sm">
     <div class="button-group">
-        <input class="geotextbox subtypesTextBox" name="subtypesbox" placeholder="Zoek feit" onkeyup="limZoekSubtype();" maxlength="20"/>
-        <button id="subtypes_btn" type="button" onclick="subtypeBtn()" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">Subtypes<span class="caret"></span></button>
+        <input class="geotextbox subtypesTextBox" name="subtypesbox" placeholder="{{__('app.search_subtype')}}" onkeyup="limZoekSubtype();" maxlength="20"/>
+        <button id="subtypes_btn" type="button" onclick="subtypeBtn()" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">{{__('app.subtype')}}<span class="caret"></span></button>
         <ul id=subtypesbox class="dropdown-menu">
         @foreach($subtypes as $subtype)
             <li><a href="#" class="small" data-value="{{$subtype->trefwoord}}" tabIndex="-1"><input type="checkbox" />{{$subtype->trefwoord}}</a></li>              
@@ -42,12 +42,9 @@
 -->
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" id="liCreateSearchBlock" class="btn btn-secondary">{{__('app.new_line')}}</button>
-                    <button type="button" id="liCreateQuery" class="btn btn-secondary">Zoeken</button>
+                    <button type="button" id="liCreateQuery"  class="btn btn-secondary">{{__('app.search')}}</button>
                     <button type="button" id="liResetQuery" class="btn btn-secondary">Reset</button>
                 </div>        
-</div>
-</div>
-<div class="container">
     <div class="query">
         <div class="row">
             <div class="col-sm">
@@ -63,52 +60,11 @@
         </div>
     </div>
 </div>
+</div>
+
 <div class="container" >
     <div id="li_navbar">
-<!--        
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-            <div class="col-lg-1">
-                <a class="navbar-brand" href="#">Pag. 1</a>    
-            </div>
-            <div class ="col-lg-5">
-                <span class="navbar-text">
-                    165 resultaten
-                </span>
-            </div>
-            <div class ="col-lg-auto">
-                <span class="navbar-text">
-                    Pag. 1/4 &nbsp;
-                </span>
-            </div>            
-            <div class="col-lg-auto">
-            <form class="form-inline">
-                <input class="form-control mr-sm-1" type="search" placeholder="Search" aria-label="Search">
-            </form>        
-            </div>
-            
-            <div class="col-lg-auto">
-                <nav aria-label="Page navigation example" style="padding-top: 15px; padding-bottom: 5px">
-              <ul class="pagination">
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                  </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                  </a>
-                </li>
-              </ul>
-            </nav> 
-                </div>
-        </nav>
--->        
+      
     </div>
     <div class="list-group" role="tablist" id="alResultList">
         <div class="list-group" id="al_resultList">
@@ -117,13 +73,33 @@
 
 </div>
 
-
-
 <script>
 $(document).ready(function(){
     firstOpenFeit = true;
     firstOpenSubtype = true;
     newwindow = null;
+
+    transtab = [];
+    transtab['name']='{{__('app.name')}}';
+    transtab['first_name']='{{__('app.first_name')}}';
+    transtab['role']='{{__('app.role')}}';
+    transtab['results']='{{__('app.results')}}';
+    transtab['dig_available']='{{__('app.dig_available')}}';
+    transtab['date']='{{__('app.date')}}';
+    transtab['contains']='{{__('app.contains')}}';
+    transtab['contains_exact']='{{__('app.contains_exact')}}';
+    transtab['starts_with']='{{__('app.starts_with')}}';
+    transtab['from']='{{__('app.from')}}';
+    transtab['until_with']='{{__('app.until_with')}}';
+    transtab['is_exactly']='{{__('app.is_exactly')}}';
+    transtab['authority_list']='{{__('app.authority_list')}}';
+    transtab['fact']='{{__('app.authority_list')}}';
+    transtab['subtype']='{{__('app.authority_list')}}';
+    transtab['fill_out']='{{__('app.fill_out')}}';
+    
+        
+    $('#liCreateQuery').hide();
+    
     $(document).on('click','#feitenbox a',function(event){
 
        var $target = $( event.currentTarget ),
@@ -142,18 +118,15 @@ $(document).ready(function(){
 
        $( event.target ).blur();
        if (selFeit.length == 0) {
-           $('.feitenTextBox').attr("placeholder","Alle feiten");
-           if (selSubtype.length == 0) {
-               createStartSearchBlock(0);
-           }
-           
+            $('.feitenTextBox').attr("placeholder",'{{__('app.all_facts')}}');
        } else {
-           $('.feitenTextBox').attr("placeholder","");
-           if (selSubtype.length > 0) {
-               createStartSearchBlock(0);
-           }
-       }
-       return false;
+            $('.feitenTextBox').attr("placeholder","");
+            if ((selFeit.length + selSubtype.length) < 2) {
+                $('#liCreateQuery').hide();
+            }
+        }
+        composeQuery();
+        return false;
     });        
 
     $(document).on('click','#subtypesbox a',function(event){
@@ -174,39 +147,20 @@ $(document).ready(function(){
 
         $( event.target ).blur();
         if (selSubtype.length == 0) {
-            $('.subtypesTextBox').attr("placeholder","Alle subtypes");
-             if (selFeit.length == 0) {
-                createStartSearchBlock(0);
-            }
+            $('.subtypesTextBox').attr("placeholder",'{{__('app.all_subtypes')}}');
         } else {
             $('.subtypesTextBox').attr("placeholder","");
-            if (selFeit.length > 0) {
-                createStartSearchBlock(0);
+            if ((selFeit.length + selSubtype.length) < 2) {
+                $('#liCreateQuery').hide();
             }
         }
+        composeQuery();
     });
     
-/*
-    $(document).on('click','#al_resultList',function(event){    
-      inhoud = $('#al_resultList').html();
-      $('#al_resultList').tab('show');
-    })
-  */  
+
     $('#al_resultList').on('shown.bs.tab', function (e) {
   e.preventDefault();
   window.open(e.target.href, "_self");
-  /*
-   
-   if (newwindow!=null)newwindow.close();
-  newwindow=window.open(e.target.href,'detail record','height=500,width=600');
-  */
-/*  
-  $('html').load(e.target.href, function() {
-   alert('load complete callback');
-   
-});
-  */
-  //e.relatedTarget // previous active tab
 })
 
     $(document).on('click','.feitenTextBox',function(event){
@@ -220,6 +174,10 @@ $(document).ready(function(){
     });
     
     $('#liCreateSearchBlock').click(function(e){
+       $('#feitenbox').slideUp();
+        firstOpenFeit = false;        
+        $('#subtypesbox').slideUp();
+        firstOpenSubtype = false;
         createSearchBlock(0);
     });
     
@@ -242,7 +200,7 @@ $(document).ready(function(){
                  other: advSQLFieldsArray
               },
               success: function(result){
-                  alResultTable(result);
+                  alResultTable(result,transtab);
               }});
            });
            
@@ -251,10 +209,13 @@ $(document).ready(function(){
             e.preventDefault();
            selSubtype.splice(0,selSubtype.length);           
            selFeit.splice(0,selFeit.length);
+           searchItemNr = 1;
            $('#alSearchCriterium').html('');
            $('#al_resultList').html('');
            $('#li_navbar').html('');
-           
+           $('#liCreateQuery').hide();
+           $('.feitenTextBox').attr("placeholder",'{{__('app.wait')}}');
+           $('.subtypesTextBox').attr("placeholder",'{{__('app.wait')}}');
             $.ajaxSetup({
                headers: {
                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -269,6 +230,7 @@ $(document).ready(function(){
               },              
               success: function(result){
                     alFeitenTable(result);
+                    $('.feitenTextBox').attr("placeholder",'{{__('app.search_fact')}}');
                     $.ajax({
                        url: "{{url('/feit/post')}}",
                        method: 'post',
@@ -278,71 +240,12 @@ $(document).ready(function(){
                        },              
                        success: function(result){
                            alSubtypesTable(result);
+                           $('.subtypesTextBox').attr("placeholder",'{{__('app.search_subtype')}}');
                        }});
 
                 }});
            });
            
-  /*         
-function limZoekFeit(){
-           $.ajaxSetup({
-              headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              }
-          });
-          
-           $.ajax({
-              url: "{{ url('/feit/post') }}",
-              method: 'post',
-              dataType: 'json',
-              data: {
-                lijst: 'zoekFeit',
-                filter: $(".feitenTextBox").val(),
-                feit: selFeit                  
-              },
-            success: function(result){
-            result = result.trim();
-            var poutput = [];
-            var targetToPush = '';  
-            i_count = 0;
-            i_count2 = 0;
-            while(i_count2<selGem.length)
-            {            
-                targetToPush += '<li><a href="#" class="small" data-value="';
-                targetToPush += i_count;//id
-                targetToPush += '" tabIndex="-1"><input type="checkbox" checked/>&nbsp;';
-                targetToPush += selFeit[i_count2] ;//Item
-                targetToPush += '</a></li>';                  
-
-                i_count++;                
-                i_count2++;                
-            }
-            if(result.length>0)
-            {
-                keyValueList = result.split("%%");
-
-                for(i_count2=0;i_count2<keyValueList.length;i_count2++)
-                {
-                    keyvaluearray=keyValueList[i_count2].split("##");
-
-                    targetToPush += '<li><a href="#" class="small" data-value="';
-                    targetToPush += i_count;//id
-
-                    targetToPush += '" tabIndex="-1"><input type="checkbox"/>&nbsp;';
-                    targetToPush += keyvaluearray[1]  ;//Item
-                    targetToPush += '</a></li>';      
-                    i_count++;
-                }
-                poutput.push(targetToPush);
-
-            }        
-            $('#feitenbox').html('');
-            $('#feitenbox').html(poutput.join(''));
-        }
-    });              
-        
-    }           
-        */   
 });
 
 

@@ -18,11 +18,39 @@ and open the template in the editor.
   padding-bottom: 10px
 }
 
+.navbar-laravel{
+    background-color:rgb(65,169,73);
+    height: 80px;
+}
+
+.navbar-light .navbar-brand, .navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
+    color:rgb(255,255,255);
+    height: 80px ;
+    font-size: 3rem;
+    font-weight: 600;
+    font-family: 'Lato', sans-serif;
+    line-height: normal;    
+}img{
+        height: 90%;
+        object-fit: contain;
+        
+    }
+
+.nav-link{
+    color:rgb(255,255,255) !important;
+}
+
 .navigation_header{
   padding-top: 30px;
   padding-bottom: 30px
 }
 
+.btn-secondary {
+    color: #fff;
+    background-color: rgb(65,169,73);
+    border-color: rgb(65,169,73);
+    }
+    
 #li_wrapper {
     width: 500px;
     border: 1px solid black;

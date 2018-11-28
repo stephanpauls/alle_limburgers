@@ -86,102 +86,103 @@ class Vw_feitcontroller extends Controller
         } else {
         
         $query = DB::table('vw_feit');
+        $query->join('vw_feit-pers','vw_feit.feit_id', '=','vw_feit-pers.feit_id');
 
         //$input = $request->all();
         $types = $request->input('feit');
         $subtypes = $request->input('subtype');
         $others = $request->input('other');
- 
-        foreach ($others as $other) {
-            if ((
-                ($other['term']) == 'naam') 
-                ||($other['term'] == 'voornamen') 
-                ||($other['term'] == 'datum') 
-                ||($other['term'] == 'rol')
-               ) {
-                if ($queryPers == false) {
-                    $query->join('vw_feit-pers','vw_feit.feit_id', '=','vw_feit-pers.feit_id');
-                    $queryPers = true;
+        if ($others != null) {
+            foreach ($others as $other) {
+                if ((
+                    ($other['term']) == 'naam') 
+                    ||($other['term'] == 'voornamen') 
+                    ||($other['term'] == 'datum') 
+                    ||($other['term'] == 'rol')
+                   ) {
+                    if ($queryPers == false) {
+                        $queryPers = true;
+                    }
+                } else if ($other['term'] == 'authoritylijst') {
+                    if ($queryAuthority == false) {
+                     $queryAuthority = true;
+                    }
                 }
-            } else if ($other['term'] == 'authoritylijst') {
-                if ($queryAuthority == false) {
-                 $query->join('vw_feit-pers','vw_feit.feit_id', '=','vw_feit-persd.feit_id');
-                 $queryAuthority = true;
-                }
-            }
-            if (($other['poort']) == 'AND') {
-                if (($other['operator']) == 'bevat') {
-                    $query->where($other['term'],'like','%'.$other['filter'].'%');
-                } else if (($other['operator']) == 'bevat_exact') {
-                    $query->where($other['term'],'like',$other['filter']);
-                } else if (($other['operator']) == 'begint') {
-                    $query->where($other['term'],'like',$other['filter'].'%');
-                } else if (($other['operator']) == 'vanaf') {
-                    $query->where($other['term'],'>',$other['filter']);
-                } else if (($other['operator']) == 'totmet') {
-                    $query->where($other['term'],'<',$other['filter']);
+                if (($other['poort']) == 'AND') {
+                    if (($other['operator']) == 'bevat') {
+                        $query->where($other['term'],'like','%'.$other['filter'].'%');
+                    } else if (($other['operator']) == 'bevat_exact') {
+                        $query->where($other['term'],'like',$other['filter']);
+                    } else if (($other['operator']) == 'begint') {
+                        $query->where($other['term'],'like',$other['filter'].'%');
+                    } else if (($other['operator']) == 'vanaf') {
+                        $query->where($other['term'],'>',$other['filter']);
+                    } else if (($other['operator']) == 'totmet') {
+                        $query->where($other['term'],'<',$other['filter']);
+                    } else {
+                        $query->where($other['term'],'=',$other['filter']);
+                    }
+                }  else if (($other['poort']) == 'OR') {
+                    if (($other['operator']) == 'bevat') {
+                        $query->orWhere($other['term'],'like','%'.$other['filter'].'%');
+                    } else if (($other['operator']) == 'bevat_exact') {
+                        $query->orWhere($other['term'],'like',$other['filter']);
+                    } else if (($other['operator']) == 'begint') {
+                        $query->orWhere($other['term'],'like',$other['filter'].'%');
+                    } else if (($other['operator']) == 'vanaf') {
+                        $query->orWhere($other['term'],'>',$other['filter']);
+                    } else if (($other['operator']) == 'totmet') {
+                        $query->orWhere($other['term'],'<',$other['filter']);
+                    } else {
+                        $query->orWhere($other['term'],'!=',$other['filter'].'%');
+                    }
                 } else {
-                    $query->where($other['term'],'=',$other['filter']);
+                    if (($other['operator']) == 'bevat') {
+                        $query->where($other['term'],'not like','%'.$other['filter'].'%');
+                    } else if (($other['operator']) == 'bevat_exact') {
+                        $query->where($other['term'],'not like',$other['filter']);
+                    } else if (($other['operator']) == 'begint') {
+                        $query->where($other['term'],'not like',$other['filter'].'%');
+                    } else if (($other['operator']) == 'vanaf') {
+                        $query->where($other['term'],'<=',$other['filter']);
+                    } else if (($other['operator']) == 'totmet') {
+                        $query->where($other['term'],'>=',$other['filter']);
+                    } else {
+                        $query->where($other['term'],'!=',$other['filter'].'%');
+                    }
                 }
-            }  else if (($other['poort']) == 'OR') {
-                if (($other['operator']) == 'bevat') {
-                    $query->orWhere($other['term'],'like','%'.$other['filter'].'%');
-                } else if (($other['operator']) == 'bevat_exact') {
-                    $query->orWhere($other['term'],'like',$other['filter']);
-                } else if (($other['operator']) == 'begint') {
-                    $query->orWhere($other['term'],'like',$other['filter'].'%');
-                } else if (($other['operator']) == 'vanaf') {
-                    $query->orWhere($other['term'],'>',$other['filter']);
-                } else if (($other['operator']) == 'totmet') {
-                    $query->orWhere($other['term'],'<',$other['filter']);
-                } else {
-                    $query->orWhere($other['term'],'!=',$other['filter'].'%');
-                }
-            } else {
-                if (($other['operator']) == 'bevat') {
-                    $query->where($other['term'],'not like','%'.$other['filter'].'%');
-                } else if (($other['operator']) == 'bevat_exact') {
-                    $query->where($other['term'],'not like',$other['filter']);
-                } else if (($other['operator']) == 'begint') {
-                    $query->where($other['term'],'not like',$other['filter'].'%');
-                } else if (($other['operator']) == 'vanaf') {
-                    $query->where($other['term'],'<=',$other['filter']);
-                } else if (($other['operator']) == 'totmet') {
-                    $query->where($other['term'],'>=',$other['filter']);
-                } else {
-                    $query->where($other['term'],'!=',$other['filter'].'%');
-                }
-            }
-            //$query->whereRaw('vw_feit.datum = 193205015');
-        }   
+            }   
+        }
         $index = 1; 
         $whereQuery = "";
-        
-        foreach ($types as $type){
-            if ($index == 1){
-               $whereQuery.=  ' (feittype = \''.$type.'\'';
-            } else {
-                $whereQuery.= ' or feittype = \''.$type.'\'';
-            }
-            $index++;
-        }
-        $whereQuery.= ')';
-        $query->whereRaw($whereQuery);
 
+        if ($types != null) {
+            foreach ($types as $type){
+                if ($index == 1){
+                   $whereQuery.=  ' (feittype = \''.$type.'\'';
+                } else {
+                    $whereQuery.= ' or feittype = \''.$type.'\'';
+                }
+                $index++;
+            }
+            $whereQuery.= ')';
+            $query->whereRaw($whereQuery);
+        }
         $index = 1;
         $whereQuery = "";
         
-        foreach ($subtypes as $type){
-            if ($index == 1){
-                $whereQuery.=' (trefwoord = \''.$type.'\'';
-            } else {
-                $whereQuery.=' or trefwoord = \''.$type.'\'';
+        if($subtypes != null) {
+            foreach ($subtypes as $type){
+                if ($index == 1){
+                    $whereQuery.=' (trefwoord = \''.$type.'\'';
+                } else {
+                    $whereQuery.=' or trefwoord = \''.$type.'\'';
+                }
+                $index++;            
             }
-            $index++;            
+            $whereQuery.= ')';
+            $query->whereRaw($whereQuery);
         }
-        $whereQuery.= ')';
-        $query->whereRaw($whereQuery);
-        
 
         $result = $query->select('vw_feit-pers.*','vw_feit.feittype')->limit(200)->get();
         

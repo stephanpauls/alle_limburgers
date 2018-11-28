@@ -1,15 +1,18 @@
 <?php
 
 return [
-    'home_menu' => 'home',
-    'about_menu' => 'about',
-    'message' => 'message',
+    'home_menu' => 'Home',
+    'about_menu' => 'About',
+    'message' => 'Message',
     'new_line'=> 'New line',
-    'fact' => 'fact',
-    'search' => 'search',
-    'search_fact' => 'search fact',
-    'name' => 'name',
-    'date' => 'date',
+    'fact' => 'Fact',
+    'subtype' => 'Subtype',
+    'search' => 'Search',
+    'search_fact' => 'Search fact',
+    'search_subtype' => 'Search subtype',
+    'name' => 'Name',
+    'date' => 'Date',
+    'authority_list' => 'Authority list',
     'contains' => 'contains', 
     'contains_exact' => 'contains exactly',
     'starts_with' => 'starts with',
@@ -21,7 +24,11 @@ return [
     'role' => 'Role',
     'dig_available' => 'Digital version available',
     'of' => 'of',
-    'back' => 'back',
-    
-    
+    'back' => 'Back',
+    'wait' => 'One moment...',
+    'results' => 'Results',
+    'all_facts' => 'All facts',
+    'all_subtypes' => 'All subtypes',
+    'fill_out' => 'Fill out here'    
+
 ];

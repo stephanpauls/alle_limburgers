@@ -142,26 +142,25 @@ function createStartSearchBlock(lijn,crit) {
         targetToPush += '<div class="col-sm">';
         targetToPush += '<div id="criterialijst_'+itemNr+'">';
         targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();composeQuery()">';
-        targetToPush += '<option selected value="naam">naam</option>';
-        targetToPush += '<option value="voornamen">voornaam</option>';
-        targetToPush += '<option value="datum">datum</option>';
-        targetToPush += '<option value="rol">rol</option>';
-        targetToPush += '<option value="authoritylijst">authoritylijst</option>';
+        targetToPush += '<option selected value="naam">'+transtab['name']+'</option>';
+        targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
+        targetToPush += '<option value="datum">'+transtab['date']+'</option>';
+        targetToPush += '<option value="rol">'+transtab['role']+'</option>';
+        targetToPush += '<option value="authoritylijst">'+transtab['authority_list']+'</option>';
         targetToPush += '</select>';
         targetToPush += '</div>';
         targetToPush += '</div>';
         targetToPush += '<div class="col-sm">';
         targetToPush += '<div id="operatorlijst_'+itemNr+'">';
         targetToPush += '<select onchange="composeQuery()">';
-        targetToPush += '<option selected value="bevat">bevat</option>';
-        targetToPush += '<option value="bevat_exact">bevat exact</option>';
-        targetToPush += '<option value="begint">begint met</option>';
+        targetToPush += '<option selected value="bevat">'+transtab['contains']+'</option>';
+        targetToPush += '<option value="bevat_exact">'+transtab['contains_exact']+'</option>';
+        targetToPush += '<option value="begint">'+transtab['starts_with']+'</option>';
         targetToPush += '</select>';
         targetToPush += '</div>';
         targetToPush += '</div>';
         targetToPush += '<div class="col-sm">';
-        targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery()"; value="Some text...">';
-        //targetToPush += '<textarea onkeyup="composeQuery()"; id="al_filter_'+itemNr+'" cols="20" rows="1"></textarea>';
+        targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery()"; placeholder="'+transtab['fill_out']+'">';
         targetToPush += '</div>';
         targetToPush += '</div>';
         if (lijn==0) targetToPush += '</div>';
@@ -200,26 +199,26 @@ function createStartDatumSearchBlock() {
         targetToPush += '<div class="col-sm">';
         targetToPush += '<div id="criterialijst_1">';
         targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();"composeQuery()">';
-        targetToPush += '<option selected value="datum">datum</option>';
-        targetToPush += '<option value="naam">naam</option>';
-        targetToPush += '<option value="voornamen">voornaam</option>';
-        targetToPush += '<option value="rol">rol</option>';
-        targetToPush += '<option value="authoritylijst">authoritylijst</option>';
+        targetToPush += '<option selected value="datum">'+transtab['date']+'</option>';
+        targetToPush += '<option value="naam">'+transtab['name']+'</option>';
+        targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
+        targetToPush += '<option value="rol">'+transtab['role']+'</option>';
+        targetToPush += '<option value="authoritylijst">'+transtab['authority_list']+'</option>';
         targetToPush += '</select>';
         targetToPush += '</div>';
         targetToPush += '</div>';
         targetToPush += '<div class="col-sm">';
         targetToPush += '<div id="operatorlijst_1">';
         targetToPush += '<select onchange="composeQuery()">';
-        targetToPush += '<option selected value="vanaf">vanaf</option>';
-        targetToPush += '<option value="totmet">tot en met</option>';
-        targetToPush += '<option value="exact">is exact</option>';
+        targetToPush += '<option selected value="vanaf">'+transtab['from']+'</option>';
+        targetToPush += '<option value="totmet">'+transtab['until_with']+'</option>';
+        targetToPush += '<option value="exact">'+transtab['is_exactly']+'</option>';
         targetToPush += '</select>';
         targetToPush += '</div>';
         targetToPush += '</div>';
         targetToPush += '<div class="col-sm col-md-offset-0">';
         targetToPush += '<div>';
-        targetToPush += '<input type="text" id="dp_1">';
+        targetToPush += '<input type="text" id="dp_1" placeholder="'+transtab['fill_out']+'">';
         targetToPush += '</div>';
         targetToPush += '</div>';
         targetToPush += '</div>';
@@ -275,26 +274,26 @@ function createDatumSearchBlock(lijn) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();composeQuery()">';
-    targetToPush += '<option selected value="datum">datum</option>';
-    targetToPush += '<option value="rol">rol</option>';
-    targetToPush += '<option value="naam">naam</option>';
-    targetToPush += '<option value="voornamen">voornaam</option>';
-    targetToPush += '<option value="authoritylijst">authoritylijst</option>';
+    targetToPush += '<option selected value="datum">'+transtab['date']+'</option>';
+    targetToPush += '<option value="rol">'+transtab['role']+'</option>';
+    targetToPush += '<option value="naam">'+transtab['name']+'</option>';
+    targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
+    targetToPush += '<option value="authoritylijst">'+transtab['authority_list']+'</option>';
     targetToPush += '</select>';
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="operatorlijst_'+itemNr+'">';
     targetToPush += '<select onchange="composeQuery()">';
-    targetToPush += '<option selected value="vanaf">vanaf</option>';
-    targetToPush += '<option value="totmet">tot en met</option>';
-    targetToPush += '<option value="exact">is exact</option>';
+    targetToPush += '<option selected value="vanaf">'+transtab['from']+'</option>';
+    targetToPush += '<option value="totmet">'+transtab['until_with']+'</option>';
+    targetToPush += '<option value="exact">'+transtab['is_exactly']+'</option>';
     targetToPush += '</select>';
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm col-md-offset-0">';
     targetToPush += '<div>';
-    targetToPush += '<input type="text" id="dp_'+itemNr+'">';
+    targetToPush += '<input type="text" id="dp_'+itemNr+'" placeholder="'+transtab['fill_out']+'">';
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -355,26 +354,25 @@ function createSearchBlock(lijn,crit) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();composeQuery()">';
-    targetToPush += '<option selected value="rol">rol</option>';
-    targetToPush += '<option value="naam">naam</option>';
-    targetToPush += '<option value="voornamen">voornaam</option>';
-    targetToPush += '<option value="datum">datum</option>';
-    targetToPush += '<option value="authoritylijst">authoritylijst</option>';
+    targetToPush += '<option selected value="rol">'+transtab['role']+'</option>';
+    targetToPush += '<option value="naam">'+transtab['name']+'</option>';
+    targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
+    targetToPush += '<option value="datum">'+transtab['date']+'</option>';
+    targetToPush += '<option value="authoritylijst">'+transtab['authority_list']+'</option>';
     targetToPush += '</select>';
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="operatorlijst_'+itemNr+'">';
     targetToPush += '<select onchange="composeQuery()">';
-    targetToPush += '<option selected value="bevat">bevat</option>';
-    targetToPush += '<option value="bevat_exact">bevat exact</option>';
-    targetToPush += '<option value="begint">begint met</option>';
+    targetToPush += '<option selected value="bevat">'+transtab['contains']+'</option>';
+    targetToPush += '<option value="bevat_exact">'+transtab['contains_exact']+'</option>';
+    targetToPush += '<option value="begint">'+transtab['starts_with']+'</option>';
     targetToPush += '</select>';
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm">';
-    targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery()"; value="Some text...">';
-    //targetToPush += '<textarea onkeyup="composeQuery()"; id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'"cols="20" rows="1"  ></textarea>';
+    targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery()"; placeholder="'+transtab['fill_out']+'">';
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -396,10 +394,36 @@ function createSearchBlock(lijn,crit) {
 
 function composeQuery() {
 
+        $('#liCreateQuery').show();
+        if (selFeit.length>0) {
+            if (selSubtype.length == 0) {
+                if (searchItemNr < 2) {
+                    $('#liCreateQuery').hide();
+                }
+            } 
+        } else {
+            if (selSubtype.length > 0) {
+                if (searchItemNr < 2) {
+                    $('#liCreateQuery').hide();
+                } 
+            } else {
+                return;
+            }
+        }
+        for (var i=1;i<searchItemNr;i++)
+        {
+            if ((!$.trim($("#al_filter_"+i).val())) && (!$.trim($("#dp_"+i).val()))) {
+                $('#liCreateQuery').hide();
+            }
+        }
+
+
     var poutput = [];
     advSQLFieldsArray = [];
+    
     var targetToPush = '<p>';
     var targetToPush = '> Feittype: ';
+    
     for (var i=0;i<selFeit.length;i++)
     {
         if (i>0) targetToPush += ' OR ';
@@ -434,7 +458,7 @@ function composeQuery() {
         }        
 
 //        if (i>1) {
-            targetToPush +=  '> ' + $( "#andOrNotlijst_"+i+" option:selected" ).val();
+            targetToPush +=  '> ' + $( "#andOrNotlijst_"+i+" option:selected" ).text();
             advSQLFieldsArray[i-1] = { 'poort':$( "#andOrNotlijst_"+i+" option:selected" ).val(), 
                                         'term':$( "#criterialijst_"+i+" option:selected" ).val(),
                                         'operator':$( "#operatorlijst_"+i+" option:selected" ).val(),
@@ -450,8 +474,8 @@ function composeQuery() {
         }
 */        
         targetToPush += '</br>';
-        targetToPush += '> ' + $( "#criterialijst_"+i+" option:selected" ).val();
-        targetToPush += ' ' + $( "#operatorlijst_"+i+" option:selected" ).val();
+        targetToPush += '> ' + $( "#criterialijst_"+i+" option:selected" ).text();
+        targetToPush += ' ' + $( "#operatorlijst_"+i+" option:selected" ).text();
         targetToPush += ' ' + li_val + '</br>';        
         
     }
@@ -469,7 +493,7 @@ function resetQuery() {
         
 }
 
-function alResultTable(result){
+function alResultTable(result,transtab){
     
     var poutput_bar= [];
     var poutput_list = [];
@@ -485,7 +509,8 @@ function alResultTable(result){
     } else {
         nrOfPages = result.length/pagelength;
     }
-    
+    if (maxNavBarNrs > nrOfPages) maxNavBarNrs = nrOfPages;
+
     for (var i = 0;i< result.length;i++){
         if (i==0) {
             
@@ -496,7 +521,7 @@ function alResultTable(result){
             targetToPush += '</div>';
             targetToPush += '<div class ="col-lg-5">';
             targetToPush += '<span class="navbar-text">';
-            targetToPush += result.length + ' resultaten';
+            targetToPush += result.length + ' '+transtab['results'];
             targetToPush += '</span>';
             targetToPush += '</div>';
             targetToPush += '<div class ="col-lg-auto">';
@@ -505,30 +530,23 @@ function alResultTable(result){
             targetToPush += '</span>';
             targetToPush += '</div>';
             targetToPush += '<div class="col-lg-auto">';
-            targetToPush += '<form class="form-inline">';
-            targetToPush += '<input class="form-control mr-sm-1" type="search" placeholder="Search" aria-label="Search">';
-            targetToPush += '</form>';
-            targetToPush += '</div>';
-            targetToPush += '<div class="col-lg-auto">';
             targetToPush += '<nav aria-label="Page navigation example" style="padding-top: 15px; padding-bottom: 5px">';
-            targetToPush += '<ul class="pagination"><li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
+            targetToPush += '<ul class="pagination">';
+            if (nrOfPages > 4) targetToPush += '<li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
             
             for (var k = 1;k < maxNavBarNrs+1;k++) {
                 targetToPush += '<li class="page-item"><a class="page-link" href="javascript:jumpToPage('+k+','+nrOfPages+');">'+k+'</a></li>';
             }
-            if (k<nrOfPages+1) targetToPush += '<li class="page-item"><a class="page-link" href="javascript:jumpToPage('+k+','+nrOfPages+');" aria-label="Next"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li></ul>';
-            
+            if (k<nrOfPages+1) targetToPush += '<li class="page-item"><a class="page-link" href="javascript:jumpToPage('+k+','+nrOfPages+');" aria-label="Next"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>';
+            targetToPush += '</ul>';
             targetToPush += '</nav></div></nav></div>';
             poutput_bar.push(targetToPush);
             targetToPush_list = '<div id=al_resultlist_'+(i+1)+'>';
         } else if ( j = (i%pagelength) == 0) {
 
-var pagina = ((i/pagelength)+1);
-
-    targetToPush_list += '</div>';
-    poutput_list.push(targetToPush_list);
-//    $('#al_resultList').empty();
-//    $('#al_resultList').append( poutput.join(''));       
+            var pagina = ((i/pagelength)+1);
+            targetToPush_list += '</div>';
+            poutput_list.push(targetToPush_list);
             
             targetToPush += '</div>';
             targetToPush = '<div id=al_navbar_'+((i/pagelength)+1)+' style="display: none;">';
@@ -547,11 +565,6 @@ var pagina = ((i/pagelength)+1);
             targetToPush += '</span>';
             targetToPush += '</div>';
             targetToPush += '<div class="col-lg-auto">';
-            targetToPush += '<form class="form-inline">';
-            targetToPush += '<input class="form-control mr-sm-1" type="search" placeholder="Search" aria-label="Search">';
-            targetToPush += '</form>';
-            targetToPush += '</div>';
-            targetToPush += '<div class="col-lg-auto">';
             targetToPush += '<nav aria-label="Page navigation example" style="padding-top: 15px; padding-bottom: 5px">';
             
             var startnavPage = nrOfPages - pagina - maxNavBarNrs;
@@ -568,15 +581,15 @@ var pagina = ((i/pagelength)+1);
             } else {
                 startIndex = 1;
             }
-        
-            if (k>1) targetToPush += '<ul class="pagination"><li class="page-item"><a class="page-link" href="javascript:jumpToPage('+startIndex+','+nrOfPages+');" aria-label="Previous"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
+            targetToPush += '<ul class="pagination">';        
+            if (k>1) targetToPush += '<li class="page-item"><a class="page-link" href="javascript:jumpToPage('+startIndex+','+nrOfPages+');" aria-label="Previous"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
             
             for (k;k < maxNavBarNrs+startnavPage;k++) {
                     targetToPush += '<li class="page-item"><a class="page-link" href="javascript:jumpToPage('+k+','+nrOfPages+');">'+k+'</a></li>';
             }
             
-            if (k<nrOfPages+1) targetToPush += '<li class="page-item"><a class="page-link" href="javascript:jumpToPage('+k+','+nrOfPages+');" aria-label="Next"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li></ul>';
-            
+            if (k<nrOfPages+1) targetToPush += '<li class="page-item"><a class="page-link" href="javascript:jumpToPage('+k+','+nrOfPages+');" aria-label="Next"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>';
+            targetToPush += '</ul>';
             targetToPush += '</nav></div></nav></div>';
             poutput_bar.push(targetToPush);
             targetToPush_list = '<div id=al_resultlist_'+((i/pagelength)+1)+' style="display: none;">';
@@ -586,10 +599,10 @@ var pagina = ((i/pagelength)+1);
         targetToPush_list += '<h5 class="mb-1">Type: '+result[i].feittype+'</h5>';
         targetToPush_list += '<small>'+(i+1)+'</small></div>';
         
-        targetToPush_list += '<p class="mb-1">Naam: '+result[i].naam+'</p>';
-        targetToPush_list += '<p class="mb-1">Voornaam: '+result[i].voornamen+'</p>';
-        targetToPush_list += '<p class="mb-1">Rol: '+result[i].rol+'</p>';
-        targetToPush_list += '<small>(Digitale versie beschikbaar)</small>';
+        targetToPush_list += '<p class="mb-1">'+transtab['name']+' : '+result[i].naam+'</p>';
+        targetToPush_list += '<p class="mb-1">'+transtab['first_name']+' :'+result[i].voornamen+'</p>';
+        targetToPush_list += '<p class="mb-1">'+transtab['role']+' : '+result[i].rol+'</p>';
+        targetToPush_list += '<small>('+transtab['dig_available']+')</small>';
         targetToPush_list += '</a>';
     }
     targetToPush_list += '</div>';
