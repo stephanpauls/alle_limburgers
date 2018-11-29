@@ -515,9 +515,9 @@ function alResultTable(result,transtab){
         if (i==0) {
             
             targetToPush = '<div id=al_navbar_'+(i+1)+'>';
-            targetToPush += '<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">';
+            targetToPush += '<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #9fd7a3;">';
             targetToPush += '<div class="col-lg-1">';
-            targetToPush += '<a class="navbar-brand" href="#">Pag. '+(i+1)+'</a>';
+            targetToPush += '<a class="navbar-text" href="#">Pag. '+(i+1)+'</a>';
             targetToPush += '</div>';
             targetToPush += '<div class ="col-lg-5">';
             targetToPush += '<span class="navbar-text">';
@@ -541,7 +541,7 @@ function alResultTable(result,transtab){
             targetToPush += '</ul>';
             targetToPush += '</nav></div></nav></div>';
             poutput_bar.push(targetToPush);
-            targetToPush_list = '<div id=al_resultlist_'+(i+1)+'>';
+            targetToPush_list = '<div id=al_resultlist_'+(i+1)+' class="list-group">';
         } else if ( j = (i%pagelength) == 0) {
 
             var pagina = ((i/pagelength)+1);
@@ -550,9 +550,9 @@ function alResultTable(result,transtab){
             
             targetToPush += '</div>';
             targetToPush = '<div id=al_navbar_'+((i/pagelength)+1)+' style="display: none;">';
-            targetToPush += '<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">';
+            targetToPush += '<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #9fd7a3;">';
             targetToPush += '<div class="col-lg-1">';
-            targetToPush += '<a class="navbar-brand" href="#">Pag. '+((i/pagelength)+1)+'</a>';
+            targetToPush += '<a class="navbar-text" href="#">Pag. '+((i/pagelength)+1)+'</a>';
             targetToPush += '</div>';
             targetToPush += '<div class ="col-lg-5">';
             targetToPush += '<span class="navbar-text">';
@@ -592,7 +592,7 @@ function alResultTable(result,transtab){
             targetToPush += '</ul>';
             targetToPush += '</nav></div></nav></div>';
             poutput_bar.push(targetToPush);
-            targetToPush_list = '<div id=al_resultlist_'+((i/pagelength)+1)+' style="display: none;">';
+            targetToPush_list = '<div id=al_resultlist_'+((i/pagelength)+1)+' class="list-group" style="display: none;">';
         }
         targetToPush_list +=  '<a href="/limburgers/feit/'+result[i].feit_id+'" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="list">';
         targetToPush_list += '<div class="d-flex w-100 justify-content-between">';

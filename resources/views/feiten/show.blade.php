@@ -3,32 +3,15 @@
        
 <div class="container">
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #9fd7a3;">
             <div class ="col-lg-8">
                 <span class="navbar-text">
-                    Record 1 van 4 &nbsp;
+                    {{__('app.fact')}}
                 </span>
             </div>            
-            <div class="col-lg-auto">    
-                <nav aria-label="Page navigation example" style="padding-top: 15px; padding-bottom: 5px">
-              <ul class="pagination">
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                  </a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>    
-            </div>
+
 <div class="col-lg-auto">
-    <input id="liToMainPage" type="button" onclick="liToMainPage(); return false;" size="12" readonly value="Terug naar zoekresultaten" >
+    <input id="liToMainPage" type="button" onclick="liToMainPage(); return false;" size="12" readonly value="{{__('app.back')}}" >
 </div>            
         </nav>
         
@@ -47,16 +30,14 @@
     <div class="card">
    <div class="card-body">
                @foreach($feiten as $feit)
-<p class="card-text">{{$feit->feittype}}</p>               
-<p class="card-text">{{$feit->tekst}}</p>               
-<p class="card-text">{{$feit->datum}}</p>               
-<p class="card-text">{{$feit->plaats}}</p>               
-<p class="card-text">{{$feit->trefwoord}}</p>               
-<p class="card-text">{{$feit->bronklasse}}</p>               
-<p class="card-text">{{$feit->archiefwet}}</p>               
+<p class="card-text">{{__('app.fact')}}: {{$feit->feittype}}</p>               
+<p class="card-text">{{__('app.text')}}: {{$feit->tekst}}</p>               
+<p class="card-text">{{__('app.date')}}: {{$feit->datum}}</p>               
+<p class="card-text">{{__('app.place')}}: {{$feit->plaats}}</p>               
+<p class="card-text">{{__('app.keyword')}}: {{$feit->trefwoord}}</p>               
+<p class="card-text">{{__('app.source_class')}}: {{$feit->bronklasse}}</p>               
+<p class="card-text">{{__('app.archive_law')}}: {{$feit->archiefwet}}</p>               
         @endforeach
-       
-    
   </div>
 </div>
     </div>
@@ -69,7 +50,7 @@ $(document).ready(function(){
             $('#liToMainPage').click(function(e){
             e.preventDefault();    
              //window.history.back();
-             window.history.go(-1);
+             return window.history.go(-1);
         });
 });
 </script>    

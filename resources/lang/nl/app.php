@@ -29,7 +29,13 @@ return [
     'results' => 'Resultaten',
     'all_facts' => 'Alle feiten',
     'all_subtypes' => 'Alle subtypes',
-    'fill_out' => 'Vul hier in'
+    'fill_out' => 'Vul hier in',
+    'text' => 'tekst',
+    'place' => 'plaats',
+    'keyword' => 'trefwoord', 
+    'source_class' => 'bronklasse',
+    'archive_law' => 'archefwet',
+    
     
 
 ];
