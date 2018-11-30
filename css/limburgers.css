@@ -30,10 +30,11 @@ and open the template in the editor.
     font-weight: 600;
     font-family: 'Lato', sans-serif;
     line-height: normal;    
-}img{
+}
+
+img{
         height: 90%;
         object-fit: contain;
-        
     }
 
 .nav-link{
@@ -45,12 +46,36 @@ and open the template in the editor.
   padding-bottom: 30px
 }
 
+.navbar-italic {
+    color:rgb(255,255,255);
+    font-size: 1.8rem; 
+    font-style: italic;
+    font-weight: 500;
+    font-family: 'Lato', sans-serif;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-transform: none;
+    vertical-align: middle;
+}
+.img_italic{
+    height : 50%;
+        object-fit: contain;
+}    
 .btn-secondary {
     color: #fff;
     background-color: rgb(65,169,73);
     border-color: rgb(65,169,73);
     }
-    
+
+    .li_key {
+    float:left;
+        margin-left: 0px  !important;
+}
+.li_span {
+   overflow: left;
+        margin-left: 50px  !important;
+        font-style: oblique;
+}    
 #li_wrapper {
     width: 500px;
     border: 1px solid black;

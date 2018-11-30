@@ -30,11 +30,10 @@ return [
     'all_facts' => 'All facts',
     'all_subtypes' => 'All subtypes',
     'fill_out' => 'Fill out here',
-    'text' => 'text',
-    'place' => 'place',
-    'keyword' => 'keyword',
-    'source_class' => 'source class',
-    'archive_law' => 'archive_law',
-    
+    'text' => 'Text',
+    'place' => 'Place',
+    'keyword' => 'Keyword',
+    'source_class' => 'Source class',
+    'archive_law' => 'Archive_law',
 
 ];

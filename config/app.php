@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Alle Limburgers'),
+    'proj' => env('APP_PROJ_NAME', 'Aezel'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

@@ -236,7 +236,7 @@ function createStartDatumSearchBlock() {
         showOtherMonths: true,
         selectOtherMonths: true
     }).on( "change", function() {
-        li_datum( this.value,$( "#operatorlijst_1 option:selected" ).text());
+        li_datum( this.value,$( "#operatorlijst_1 option:selected" ).val());
     });
 
 
@@ -317,7 +317,7 @@ function createDatumSearchBlock(lijn) {
         showOtherMonths: true,
         selectOtherMonths: true
     }).on( "change", function() {
-        li_datum( this.value,$( "#operatorlijst_"+itemNr+" option:selected" ).text());
+        li_datum( this.value,$( "#operatorlijst_"+itemNr+" option:selected" ).val());
     });
     if (lijn==0) searchItemNr++;
 
@@ -440,10 +440,10 @@ function composeQuery() {
 
     for (var i =1;i<searchItemNr;i++) {
         
-        if ($( "#criterialijst_"+i+" option:selected" ).text() == 'datum') {
-            if ($( "#operatorlijst_"+i+" option:selected" ).text() == 'vanaf') {
+        if ($( "#criterialijst_"+i+" option:selected" ).val() == 'datum') {
+            if ($( "#operatorlijst_"+i+" option:selected" ).val() == 'vanaf') {
                 li_val = $("#dp_"+i).datepicker().val();
-            } else if ($( "#operatorlijst_"+i+" option:selected" ).text() == 'totmet') {
+            } else if ($( "#operatorlijst_"+i+" option:selected" ).val() == 'totmet') {
                 li_val = $("#dp_"+i).datepicker().val();
             } else {
                 li_val = $("#dp_"+i).datepicker().val();
@@ -602,7 +602,7 @@ function alResultTable(result,transtab){
         targetToPush_list += '<p class="mb-1">'+transtab['name']+' : '+result[i].naam+'</p>';
         targetToPush_list += '<p class="mb-1">'+transtab['first_name']+' :'+result[i].voornamen+'</p>';
         targetToPush_list += '<p class="mb-1">'+transtab['role']+' : '+result[i].rol+'</p>';
-        targetToPush_list += '<small>('+transtab['dig_available']+')</small>';
+//        targetToPush_list += '<small>('+transtab['dig_available']+')</small>';
         targetToPush_list += '</a>';
     }
     targetToPush_list += '</div>';

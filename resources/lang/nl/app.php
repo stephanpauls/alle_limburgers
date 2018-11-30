@@ -30,12 +30,9 @@ return [
     'all_facts' => 'Alle feiten',
     'all_subtypes' => 'Alle subtypes',
     'fill_out' => 'Vul hier in',
-    'text' => 'tekst',
-    'place' => 'plaats',
-    'keyword' => 'trefwoord', 
-    'source_class' => 'bronklasse',
-    'archive_law' => 'archefwet',
-    
-    
-
+    'text' => 'Tekst',
+    'place' => 'Plaats',
+    'keyword' => 'Trefwoord', 
+    'source_class' => 'Bronklasse',
+    'archive_law' => 'Archiefwet',
 ];

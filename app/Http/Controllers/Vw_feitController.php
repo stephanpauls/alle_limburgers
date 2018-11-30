@@ -206,14 +206,10 @@ class Vw_feitcontroller extends Controller
      */
     public function show(Vw_feit $feit)
     {
-        //        $feiten = Feit::all();
-
-//        $feiten = Vw_feit::find($feit->feit_id);
         $feiten = DB::table('vw_feit')->where('feit_id',$feit->feit_id)->limit(100)->get();
         foreach ($feiten as $value) {
                $naam =  $value;
-    }
-        
+        }
         return view('feiten.show',['feiten'=>$feiten]);        
     }
 

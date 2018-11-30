@@ -17,7 +17,7 @@
         
     </div>
     <div style="overflow: auto;">
-    <div class="card" style="width: 300px;float:left;">
+    <div style="width: 200px;float:left;background-color: #f2f2f2">
         <p class="card-text">Scans</p>  
         <a href="https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjHiL7Fn6TeAhVL3KQKHYwYBUQQjRx6BAgBEAU&url=https%3A%2F%2Fwww.voertuigkosten.be%2Fauto%2Fpk-cc-omrekenen%2F&psig=AOvVaw3tHTnxBiSgOBvJtQdzz6gS&ust=1540648093602313" target="_blank">
             image1
@@ -26,31 +26,43 @@
             image2
         </a>    
     </div>
+        
+        <div style="width:50px;float:left;">
+            &nbsp;
+        </div>
     
-    <div class="card">
-   <div class="card-body">
+    <div style="width: 100px;float:left;">
+               <p>@lang('app.fact')</p> 
+<p>{{__('app.text')}}</p>               
+<p>{{__('app.date')}}</p>               
+<p>{{__('app.place')}}</p>               
+<p>{{__('app.keyword')}}</p>               
+<p>{{__('app.source_class')}}</p>               
+<p>{{__('app.archive_law')}}</p>               
+    </div>
+   <div >
                @foreach($feiten as $feit)
-<p class="card-text">{{__('app.fact')}}: {{$feit->feittype}}</p>               
-<p class="card-text">{{__('app.text')}}: {{$feit->tekst}}</p>               
-<p class="card-text">{{__('app.date')}}: {{$feit->datum}}</p>               
-<p class="card-text">{{__('app.place')}}: {{$feit->plaats}}</p>               
-<p class="card-text">{{__('app.keyword')}}: {{$feit->trefwoord}}</p>               
-<p class="card-text">{{__('app.source_class')}}: {{$feit->bronklasse}}</p>               
-<p class="card-text">{{__('app.archive_law')}}: {{$feit->archiefwet}}</p>               
+               <p><span class="li_span">{{$feit->feittype}}</span></p> 
+<p><span class="li_span">{{$feit->tekst}}</span></p>               
+<p><span class="li_span">{{$feit->datum}}</span></p>               
+<p><span class="li_span">{{$feit->plaats}}</span></p>               
+<p><span class="li_span">{{$feit->trefwoord}}</span></p>               
+<p><span class="li_span">{{$feit->bronklasse}}</span></p>               
+<p><span class="li_span">{{$feit->archiefwet}}</span></p>               
         @endforeach
-  </div>
-</div>
+  
+    </div>
     </div>
     
 
 </div>
-<input type="submit" value="" />
 <script>
 $(document).ready(function(){
             $('#liToMainPage').click(function(e){
             e.preventDefault();    
              //window.history.back();
-             return window.history.go(-1);
+             //return window.history.go(-1);
+             window.close();
         });
 });
 </script>    

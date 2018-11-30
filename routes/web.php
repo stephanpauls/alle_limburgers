@@ -20,7 +20,6 @@ Route::get('/','Vw_feitController@index');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('bron/{id}', 'Vw_feit_bronController@show');
-//Route::get('feit/{id}', 'Vw_feitController@show');
 Route::get('/{locale}',function($locale) {
     App::setLocale($locale);
     return App::call('App\Http\Controllers\Vw_feitController@index');
@@ -31,7 +30,6 @@ Route::get('/{locale}',function($locale) {
 });
 
 Route::post('/feit/post', 'Vw_feitcontroller@store');
-Route::post('/feit/reset', 'Vw_feitcontroller@reset');
 
 Route::resource('feit', 'Vw_feitController');
 Route::resource('users', 'UsersController');

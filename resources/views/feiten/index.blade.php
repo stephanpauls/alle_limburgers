@@ -160,7 +160,7 @@ $(document).ready(function(){
 
     $('#al_resultList').on('shown.bs.tab', function (e) {
   e.preventDefault();
-  window.open(e.target.href, "_self");
+  window.open(e.target.href, "_blank");
 })
 
     $(document).on('click','.feitenTextBox',function(event){

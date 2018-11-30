@@ -29,7 +29,10 @@
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand"  href="{{ url('/') }}">
-                    <img src="{{ asset ('public/img/tree_logo.png')}}" alt="" class="img_navbar"> {{ config('app.name', 'Laravel') }} 
+                    <img src="{{ asset ('public/img/tree_logo.png')}}" alt="" class="img_navbar"> {{ config('app.proj', 'Laravel') }} 
+                </a>
+                <a class="navbar-italic"  href="{{ url('/') }}">
+                    {{ config('app.name', 'Laravel') }} 
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -37,12 +40,9 @@
 @yield('menu')
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">@lang('app.home_menu')</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">@lang('app.about_menu')</a>
+                            <a class="nav-link" href="#"><img src="{{ asset ('public/img/info.png')}}" class="img_italic"></a>
                         </li>
                     </ul>
 
@@ -51,10 +51,10 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="nl"><img src="{{ asset ('public/img/nl.png')}}" alt="">Nederlands</a>
+                                <a class="nav-link" href="nl"><img src="{{ asset ('public/img/nl.png')}}" alt="">&nbsp;Nl</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="en"><img src="{{ asset ('public/img/england.png')}}" alt="">English</a>
+                                <a class="nav-link" href="en">&nbsp;<img src="{{ asset ('public/img/england.png')}}" alt="">&nbsp;En</a>
                             </li>
                         @else
                             <li class="nav-item dropdown">
