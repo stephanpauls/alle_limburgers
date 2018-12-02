@@ -35,4 +35,5 @@ return [
     'keyword' => 'Trefwoord', 
     'source_class' => 'Bronklasse',
     'archive_law' => 'Archiefwet',
+    'detail' => 'Detailkaart'
 ];

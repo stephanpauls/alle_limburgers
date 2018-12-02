@@ -12,6 +12,8 @@ vanafdatum = 0;
 totdatum = 0;
 exactdatum = 0;
 
+resultlijst = [];
+currentIndex = 1;
 
 function limZoekFeit()
 {
@@ -495,6 +497,8 @@ function resetQuery() {
 
 function alResultTable(result,transtab){
     
+    resultlijst = result;
+    
     var poutput_bar= [];
     var poutput_list = [];
     var targetToPush = '';
@@ -594,9 +598,10 @@ function alResultTable(result,transtab){
             poutput_bar.push(targetToPush);
             targetToPush_list = '<div id=al_resultlist_'+((i/pagelength)+1)+' class="list-group" style="display: none;">';
         }
-        targetToPush_list +=  '<a href="/limburgers/feit/'+result[i].feit_id+'" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="list">';
+        targetToPush_list += '<a id="'+result[i].feit_id+'" href="/limburgers/feit/'+result[i].feit_id+'" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="list">';
         targetToPush_list += '<div class="d-flex w-100 justify-content-between">';
         targetToPush_list += '<h5 class="mb-1">Type: '+result[i].feittype+'</h5>';
+        targetToPush_list += '<input id="invisible_id" name="invisible" type="hidden" value="'+i+'">';
         targetToPush_list += '<small>'+(i+1)+'</small></div>';
         
         targetToPush_list += '<p class="mb-1">'+transtab['name']+' : '+result[i].naam+'</p>';
@@ -667,4 +672,48 @@ function jumpToPage(pg,nrOfPages) {
         }
     }
     
+}
+
+function alResultDetailTable(result,transtab) {
+    
+    var poutput = [];
+    var targetToPush = '';
+    
+        targetToPush = '<div style="width: 200px;float:left;background-color: #f2f2f2">';
+        targetToPush += '<p class="card-text">Scans</p>';  
+        targetToPush += '<a href="https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjHiL7Fn6TeAhVL3KQKHYwYBUQQjRx6BAgBEAU&url=https%3A%2F%2Fwww.voertuigkosten.be%2Fauto%2Fpk-cc-omrekenen%2F&psig=AOvVaw3tHTnxBiSgOBvJtQdzz6gS&ust=1540648093602313" target="_blank">image1</a>';
+        targetToPush += '<a href="https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwi7qJfcn6TeAhVO2qQKHdk2A9sQjRx6BAgBEAU&url=https%3A%2F%2Fwww.autowereld.com%2Fmultimedia%2Ffotogalleries%2Fid%2F10519&psig=AOvVaw3tHTnxBiSgOBvJtQdzz6gS&ust=1540648093602313" target="_blank">image2</a>';
+        targetToPush += '</div>';
+        targetToPush += '<div style="width:50px;float:left;">&nbsp;</div>';
+        targetToPush += '<div style="width: 100px;float:left;">';
+        targetToPush += '<p>'+transtab['name']+'</p>';
+        targetToPush += '<p>'+transtab['first_name']+'</p>';
+        targetToPush += '<p>'+transtab['fact']+'</p>';
+        targetToPush += '<p>'+transtab['text']+'</p>';
+        targetToPush += '<p>'+transtab['date']+'</p>';
+        targetToPush += '<p>'+transtab['place']+'</p>';
+        targetToPush += '<p>'+transtab['keyword']+'</p>';
+        targetToPush += '<p>'+transtab['source_class']+'</p>';
+        targetToPush += '<p>'+transtab['archive_law']+'</p>';
+        targetToPush += '</div>';
+        targetToPush += '<div>';
+        for (var i = 0;i< result.length;i++) {
+            targetToPush += '<p><span class="li_span">'+result[i].naam+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+result[i].voornamen+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+result[i].feittype+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+result[i].tekst+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+result[i].datum+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+result[i].plaats+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+result[i].trefwoord+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+result[i].bronklasse+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+result[i].archiefwet+'</span></p>';
+        }
+        targetToPush += '</div>';
+        poutput.push(targetToPush);
+        $('#al_detailResultList').empty();
+        $('#al_detailResultList').append(poutput.join(''));
+        $('#al_resultList').hide();
+        $('#li_navbar').hide();
+        $('#li_navbar_detail').show();
+        $('#al_detailResultList').show();
 }

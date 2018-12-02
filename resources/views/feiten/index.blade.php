@@ -62,15 +62,40 @@
 </div>
 </div>
 
-<div class="container" >
+<div id="al_resultlist_cont" class="container">
     <div id="li_navbar">
-      
     </div>
     <div class="list-group" role="tablist" id="alResultList">
         <div class="list-group" id="al_resultList">
         </div>
     </div>        
+</div>
 
+<div id="al_resultlist_detail_cont" class="container">
+    <div id="li_navbar_detail" style="display: none;">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #9fd7a3;">
+            <div class ="col-lg-10">
+                <span class="navbar-text">
+                    {{__('app.detail')}}
+                </span>
+            </div>            
+            <div class="col-lg-auto">
+                <nav aria-label="Page navigation example" style="padding-top: 15px; padding-bottom: 5px">
+                <ul class="pagination">
+                <li id="li_prev" class="page-item"><a class="page-link" href="javascript:jumpToPreviousDetailPage();"  aria-label="Previous"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
+                <li id="li_next" class="page-item"><a class="page-link" href="javascript:jumpToNextDetailPage();" aria-label="Next"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
+                </ul>
+                </nav>
+            </div>            
+            <div class="col-lg-auto">
+                <input id="liToMainPage" type="button" onclick="liToMainPage(); return false;" size="12" readonly value="{{__('app.back')}}" >
+            </div>            
+        </nav>        
+    </div>
+    <div id="alDetailResultList" style="overflow: auto;">
+        <div id="al_detailResultList">
+        </div>
+    </div>        
 </div>
 
 <script>
@@ -95,8 +120,13 @@ $(document).ready(function(){
     transtab['authority_list']='{{__('app.authority_list')}}';
     transtab['fact']='{{__('app.authority_list')}}';
     transtab['subtype']='{{__('app.authority_list')}}';
-    transtab['fill_out']='{{__('app.fill_out')}}';
-    
+    transtab['text']='{{__('app.text')}}';
+    transtab['date']='{{__('app.date')}}';
+    transtab['place']='{{__('app.place')}}';
+    transtab['keyword']='{{__('app.keyword')}}';
+    transtab['source_class']='{{__('app.source_class')}}';
+    transtab['archive_law']='{{__('app.archive_law')}}';
+    transtab['detail']='{{__('app.detail')}}';
         
     $('#liCreateQuery').hide();
     
@@ -159,9 +189,28 @@ $(document).ready(function(){
     
 
     $('#al_resultList').on('shown.bs.tab', function (e) {
-  e.preventDefault();
-  window.open(e.target.href, "_blank");
-})
+        e.preventDefault();
+        //window.open(e.target.href, "_blank");
+        currentIndex = $('#invisible_id').val();
+        $.ajaxSetup({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           }
+        });
+
+        $.ajax({
+           url: "{{ url('/feit/post') }}",
+           method: 'post',
+           dataType: 'json',
+           data: {
+               lijst: 'detail',
+               feit_id: e.target.id,
+           },
+           success: function(result){
+               alResultDetailTable(result,transtab);
+           }
+       });
+    })
 
     $(document).on('click','.feitenTextBox',function(event){
         $('#feitenbox').slideToggle();
@@ -180,6 +229,14 @@ $(document).ready(function(){
         firstOpenSubtype = false;
         createSearchBlock(0);
     });
+    
+    $('#liToMainPage').click(function(e){
+        $('#li_navbar_detail').hide();
+        $('#al_detailResultList').hide();
+        $('#al_resultList').show();
+        $('#li_navbar').show();
+    });
+    
     
         $('#liCreateQuery').click(function(e){
            e.preventDefault();
@@ -248,6 +305,59 @@ $(document).ready(function(){
            
 });
 
+function jumpToPreviousDetailPage()
+{
+        if (currentIndex != 0) {
+            currentIndex--;
+        }
+        if (currentIndex == 0) $('#li_prev').prop('disabled', true);
+        if (currentIndex == (resultlijst.length-2)) $('#li_next').prop('disabled', false);
+        $.ajaxSetup({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           }
+        });
+
+        $.ajax({
+           url: "{{ url('/feit/post') }}",
+           method: 'post',
+           dataType: 'json',
+           data: {
+               lijst: 'detail',
+               feit_id: resultlijst[currentIndex].feit_id,
+           },
+           success: function(result){
+               alResultDetailTable(result,transtab);
+           }
+       });
+}
+
+function jumpToNextDetailPage()
+{
+        if (currentIndex != (resultlijst.length-1)) {
+            currentIndex++;
+        }
+        if (currentIndex == (resultlijst.length-1)) $('#li_next').prop('disabled', true);
+        if (currentIndex == 1) $('#li_prev').prop('disabled', false);
+        $.ajaxSetup({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           }
+        });
+
+        $.ajax({
+           url: "{{ url('/feit/post') }}",
+           method: 'post',
+           dataType: 'json',
+           data: {
+               lijst: 'detail',
+               feit_id: resultlijst[currentIndex].feit_id,
+           },
+           success: function(result){
+               alResultDetailTable(result,transtab);
+           }
+       });    
+}
 
 function feitBtn() {
     if (firstOpenFeit == false) {
