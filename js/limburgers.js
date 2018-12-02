@@ -676,6 +676,7 @@ function jumpToPage(pg,nrOfPages) {
 
 function alResultDetailTable(result,transtab) {
     
+    $('#al_detailResultList').empty();
     var poutput = [];
     var targetToPush = '';
     

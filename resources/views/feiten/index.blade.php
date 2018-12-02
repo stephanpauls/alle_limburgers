@@ -270,6 +270,8 @@ $(document).ready(function(){
            $('#alSearchCriterium').html('');
            $('#al_resultList').html('');
            $('#li_navbar').html('');
+        $('#li_navbar_detail').hide('');
+        $('#al_detailResultList').html('');           
            $('#liCreateQuery').hide();
            $('.feitenTextBox').attr("placeholder",'{{__('app.wait')}}');
            $('.subtypesTextBox').attr("placeholder",'{{__('app.wait')}}');
