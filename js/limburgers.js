@@ -130,10 +130,10 @@ function createStartSearchBlock(lijn,crit) {
         var poutput = [];// voorbereiding
 
         if (lijn==0) targetToPush = '<div class="card" id="liSearchCrit_'+itemNr+'">';
-        targetToPush += '<div class="card" id="liSearchCrit_'+itemNr+'">';
-        targetToPush += '<div class="row">';
+        targetToPush += '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
+        targetToPush += '<div class="row li_align_center">';
         targetToPush += '<div class="col-sm">';
-    targetToPush += '<div id="andOrNotlijst_'+itemNr+'">';
+    targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
     targetToPush += '<select onchange="composeQuery()">';
     targetToPush += '<option value="AND">AND</option>';
     targetToPush += '<option value="OR">OR</option>';
@@ -162,7 +162,7 @@ function createStartSearchBlock(lijn,crit) {
         targetToPush += '</div>';
         targetToPush += '</div>';
         targetToPush += '<div class="col-sm">';
-        targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery()"; placeholder="'+transtab['fill_out']+'">';
+        targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery();" placeholder="'+transtab['fill_out']+'">';
         targetToPush += '</div>';
         targetToPush += '</div>';
         if (lijn==0) targetToPush += '</div>';
@@ -188,9 +188,9 @@ function createStartDatumSearchBlock() {
             
     var poutput = [];// voorbereiding
      var targetToPush = '';
-        targetToPush = '<div class="row">';
+        targetToPush = '<div class="row li_align_center" style="background-color:#eaecef;">';
     targetToPush += '<div class="col-sm col-md-offset-1">';    
-    targetToPush += '<div id="andOrNotlijst_1">';
+    targetToPush += '<div id="andOrNotlijst_1" style="margin-left:10px">';
     targetToPush += '<select onchange="composeQuery()">';
     targetToPush += '<option value="AND">AND</option>';
     targetToPush += '<option value="OR">OR</option>';
@@ -261,11 +261,11 @@ function createDatumSearchBlock(lijn) {
 
     var poutput = [];// voorbereiding
     var targetToPush = '';
-    if (lijn==0) var targetToPush = '<div class="card" id="liSearchCrit_'+itemNr+'">';
+    if (lijn==0) var targetToPush = '<div class="card" id="liSearchCrit_'+itemNr+'" style="background-color:#eaecef;">';
     
-    targetToPush += '<div class="row">';
+    targetToPush += '<div class="row li_align_center">';
     targetToPush += '<div class="col-sm">';    
-    targetToPush += '<div id="andOrNotlijst_'+itemNr+'">';
+    targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
     targetToPush += '<select onchange="composeQuery()">';
     targetToPush += '<option value="AND">AND</option>';
     targetToPush += '<option value="OR">OR</option>';
@@ -342,10 +342,10 @@ function createSearchBlock(lijn,crit) {
 
     var poutput = [];// voorbereiding
     var targetToPush = '';
-   if (lijn==0) var targetToPush = '<div class="card" id="liSearchCrit_'+itemNr+'">';
-    targetToPush += '<div class="row">';
+   if (lijn==0) var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
+    targetToPush += '<div class="row li_align_center" >';
     targetToPush += '<div class="col-sm col-md-offset-1">';    
-    targetToPush += '<div id="andOrNotlijst_'+itemNr+'">';
+    targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
     targetToPush += '<select onchange="composeQuery()">';
     targetToPush += '<option value="AND">AND</option>';
     targetToPush += '<option value="OR">OR</option>';
@@ -374,7 +374,7 @@ function createSearchBlock(lijn,crit) {
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm">';
-    targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery()"; placeholder="'+transtab['fill_out']+'">';
+    targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery();" placeholder="'+transtab['fill_out']+'">';
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -497,6 +497,7 @@ function resetQuery() {
 
 function alResultTable(result,transtab){
     
+    resultlijst = [];
     resultlijst = result;
     
     var poutput_bar= [];
@@ -600,13 +601,13 @@ function alResultTable(result,transtab){
         }
         targetToPush_list += '<a id="'+result[i].feit_id+'" href="/limburgers/feit/'+result[i].feit_id+'" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="list">';
         targetToPush_list += '<div class="d-flex w-100 justify-content-between">';
-        targetToPush_list += '<h5 class="mb-1">Type: '+result[i].feittype+'</h5>';
+        targetToPush_list += '<h5 class="mb-1">'+result[i].feittype+'</h5>';
         targetToPush_list += '<input id="invisible_id" name="invisible" type="hidden" value="'+i+'">';
         targetToPush_list += '<small>'+(i+1)+'</small></div>';
         
-        targetToPush_list += '<p class="mb-1">'+transtab['name']+' : '+result[i].naam+'</p>';
-        targetToPush_list += '<p class="mb-1">'+transtab['first_name']+' :'+result[i].voornamen+'</p>';
-        targetToPush_list += '<p class="mb-1">'+transtab['role']+' : '+result[i].rol+'</p>';
+        targetToPush_list += '<p><h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result[i].naam+'</h4></p>';
+        targetToPush_list += '<p><h3 class="li_keyList">'+transtab['first_name']+'</h3><h4 class="li_valueList">'+result[i].voornamen+'</h4></p>';
+        targetToPush_list += '<p><h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result[i].rol+'</h4></p>';
 //        targetToPush_list += '<small>('+transtab['dig_available']+')</small>';
         targetToPush_list += '</a>';
     }
@@ -674,7 +675,7 @@ function jumpToPage(pg,nrOfPages) {
     
 }
 
-function alResultDetailTable(result,transtab) {
+function alResultDetailTable(resultaat,transtab) {
     
     $('#al_detailResultList').empty();
     var poutput = [];
@@ -687,27 +688,29 @@ function alResultDetailTable(result,transtab) {
         targetToPush += '</div>';
         targetToPush += '<div style="width:50px;float:left;">&nbsp;</div>';
         targetToPush += '<div style="width: 100px;float:left;">';
-        targetToPush += '<p>'+transtab['name']+'</p>';
-        targetToPush += '<p>'+transtab['first_name']+'</p>';
+        targetToPush += '<p>'+transtab['fact']+'</p>';
+        targetToPush += '<p>'+transtab['municipality']+'</p>';
+        targetToPush += '<p>'+transtab['place']+'</p>';
+        targetToPush += '<p>'+transtab['description']+'</p>';
         targetToPush += '<p>'+transtab['fact']+'</p>';
         targetToPush += '<p>'+transtab['text']+'</p>';
         targetToPush += '<p>'+transtab['date']+'</p>';
-        targetToPush += '<p>'+transtab['place']+'</p>';
         targetToPush += '<p>'+transtab['keyword']+'</p>';
         targetToPush += '<p>'+transtab['source_class']+'</p>';
         targetToPush += '<p>'+transtab['archive_law']+'</p>';
         targetToPush += '</div>';
         targetToPush += '<div>';
-        for (var i = 0;i< result.length;i++) {
-            targetToPush += '<p><span class="li_span">'+result[i].naam+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+result[i].voornamen+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+result[i].feittype+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+result[i].tekst+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+result[i].datum+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+result[i].plaats+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+result[i].trefwoord+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+result[i].bronklasse+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+result[i].archiefwet+'</span></p>';
+        for (var i = 0;i< resultaat.length;i++) {
+            targetToPush += '<p><span class="li_span">'+resultaat[i].feit_id+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+resultaat[i].gemeente+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+resultaat[i].plaats+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+resultaat[i].omschrijving+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+resultaat[i].feittype+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+resultaat[i].tekst+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+resultaat[i].datum+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+resultaat[i].trefwoord+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+resultaat[i].bronklasse+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+resultaat[i].archiefwet+'</span></p>';
         }
         targetToPush += '</div>';
         poutput.push(targetToPush);

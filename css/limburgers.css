@@ -61,6 +61,16 @@ img{
     height : 50%;
         object-fit: contain;
 }    
+
+.li_bold_info {
+    font-size: 1.5rem; 
+    font-weight: bold;
+    font-family: 'Lato', sans-serif;
+    padding-left: 10px;
+    padding-right: 5px;
+    text-align: center;    
+    margin-bottom: 0
+}
 .btn-secondary {
     color: #fff;
     background-color: rgb(65,169,73);
@@ -89,4 +99,23 @@ img{
 #li_second {
     border: 1px solid green;
      
+}
+.li_align_center{
+    align-items:center; 
+    justify-content: center;
+}
+
+.li_keyList{
+    
+    float: left;
+    clear: left;
+    width: 150px;
+    font-size: 1rem;
+     margin-bottom: 0;
+}
+
+.li_valueList{
+    overflow: hidden;
+    font-size: 1rem;
+    margin-bottom: 0;
 }

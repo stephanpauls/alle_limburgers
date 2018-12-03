@@ -86,9 +86,9 @@ class Vw_feitcontroller extends Controller
         } else if ($lijst == 'detail') {
             $feit_id = $request->input('feit_id');
             $query = DB::table('vw_feit');
-            $query->join('vw_feit-pers','vw_feit.feit_id', '=','vw_feit-pers.feit_id');            
+            $query->join('vw_feit-bron','vw_feit.bron_id', '=','vw_feit-bron.bron_id');            
             $query->where('vw_feit.feit_id',$feit_id);
-            $result = $query->select('vw_feit-pers.*','vw_feit.*')->limit(200)->get();
+            $result = $query->select('vw_feit-bron.gemeente','vw_feit-bron.plaats','vw_feit-bron.omschrijving','vw_feit.*')->limit(1)->get();
         } else {
         
         $query = DB::table('vw_feit');

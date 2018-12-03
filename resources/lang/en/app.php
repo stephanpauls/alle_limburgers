@@ -35,5 +35,8 @@ return [
     'keyword' => 'Keyword',
     'source_class' => 'Source class',
     'archive_law' => 'Archive_law',
-    'detail' => 'Detailed card'
+    'detail' => 'Detailed card',
+    'search_on' => 'Search on:',
+    'municipality' => 'Municipality',
+    'description' => 'Description'
 ];

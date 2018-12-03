@@ -2,11 +2,16 @@
 @extends('layouts.app')
 @section('content')
 
+<div class="container" style="background-color:#ffffff; border-color: rgb(65,169,73); border-style: groove; border-width: 2px;" >
+    
 <div class="container">
-<div class="col-md-7 col-lg-7">
-  <div class="row">
+<div  style="background-color:#eaecef; border-style: groove; border-width: 1px; margin-top: 20px;">
+    <div class="row li_align_center" >
     <div class="col-sm">
-    <div class="button-group">
+        <p class="li_bold_info">{{__('app.search_on')}}</p>
+    </div>
+    <div class="col-sm">
+    <div class="button-group"  style="margin: 10px">
         <input class="geotextbox feitenTextBox" name="feitenbox" placeholder="{{__('app.search_fact')}}" onkeyup="limZoekFeit();" maxlength="20"/>
         <button id="feiten_btn" type="button" onclick="feitBtn()" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">{{__('app.fact')}}<span class="caret"></span></button>
         <ul id=feitenbox class="dropdown-menu">
@@ -25,44 +30,46 @@
             <li><a href="#" class="small" data-value="{{$subtype->trefwoord}}" tabIndex="-1"><input type="checkbox" />{{$subtype->trefwoord}}</a></li>              
         @endforeach                    
         </ul>
-    </div>
+    </div
   </div>
 </div>
-<h1 class="spacer"></h1>    
 </div>
+    </div>
 </div>
-
 <div class="container">
-    <div id="alSearchCriterium" class="col-md-8 col-lg-8">
+    <div id="alSearchCriterium" style="margin-left:20px;margin-top:10px;margin-bottom:10px;margin-right:200px;">
 
     </div>
-<div class="col-lg-auto">
-
-<!--    <input id="adv_start_search" type="button" onclick="createSearchBlock(0); return false;" size="12" readonly value="{{__('app.new_line')}}" >
--->
-                <div class="btn-group" role="group" aria-label="Basic example">
+</div>
+    <div class="container" >
+    <div class="btn-group" style="margin:10px" role="group" aria-label="Basic example">
                     <button type="button" id="liCreateSearchBlock" class="btn btn-secondary">{{__('app.new_line')}}</button>
-                    <button type="button" id="liCreateQuery"  class="btn btn-secondary">{{__('app.search')}}</button>
                     <button type="button" id="liResetQuery" class="btn btn-secondary">Reset</button>
-                </div>        
+                </div>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" id="liCreateQuery"  class="btn btn-secondary">{{__('app.search')}}</button>                    
+                </div>   
+    </div>
+<div class="container"  style="margin-bottom: 20px;">
+<div style="background-color:#eaecef; border-style: groove; border-width: 1px;">
+
     <div class="query">
         <div class="row">
             <div class="col-sm">
                 <div>
-                    <p>Query:</p>
+                    <p style="margin-left: 10px">Query:</p>
                 </div>
                 <div id= alQuery>
                 </div>
             </div>
             
-            <div class="col-sm">    
-            </div>
         </div>
     </div>
 </div>
 </div>
+</div>
 
-<div id="al_resultlist_cont" class="container">
+<div id="al_resultlist_cont" class="container" style="margin-top: 2px">
     <div id="li_navbar">
     </div>
     <div class="list-group" role="tablist" id="alResultList">
@@ -71,9 +78,9 @@
     </div>        
 </div>
 
-<div id="al_resultlist_detail_cont" class="container">
+<div id="al_resultlist_detail_cont" class="container" style="margin-top: 2px">
     <div id="li_navbar_detail" style="display: none;">
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #9fd7a3;">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #9fd7a3; margin-top:2px">
             <div class ="col-lg-10">
                 <span class="navbar-text">
                     {{__('app.detail')}}
@@ -127,6 +134,10 @@ $(document).ready(function(){
     transtab['source_class']='{{__('app.source_class')}}';
     transtab['archive_law']='{{__('app.archive_law')}}';
     transtab['detail']='{{__('app.detail')}}';
+    transtab['fill_out']='{{__('app.fill_out')}}';
+    transtab['municipality']='{{__('app.municipality')}}';
+    transtab['description']='{{__('app.description')}}';
+    transtab['fact']='{{__('app.fact')}}';
         
     $('#liCreateQuery').hide();
     
@@ -206,8 +217,8 @@ $(document).ready(function(){
                lijst: 'detail',
                feit_id: e.target.id,
            },
-           success: function(result){
-               alResultDetailTable(result,transtab);
+           success: function(resultaat){
+               alResultDetailTable(resultaat,transtab);
            }
        });
     })
@@ -227,6 +238,10 @@ $(document).ready(function(){
         firstOpenFeit = false;        
         $('#subtypesbox').slideUp();
         firstOpenSubtype = false;
+        $('#al_resultList').empty();
+        $('#al_detailResultList').empty();
+        $('#li_navbar').empty();
+        $('#li_navbar_detail').hide();
         createSearchBlock(0);
     });
     
@@ -267,11 +282,11 @@ $(document).ready(function(){
            selSubtype.splice(0,selSubtype.length);           
            selFeit.splice(0,selFeit.length);
            searchItemNr = 1;
-           $('#alSearchCriterium').html('');
            $('#al_resultList').html('');
            $('#li_navbar').html('');
         $('#li_navbar_detail').hide('');
-        $('#al_detailResultList').html('');           
+        $('#alSearchCriterium').html('');
+        $('#al_detailResultList').empty();
            $('#liCreateQuery').hide();
            $('.feitenTextBox').attr("placeholder",'{{__('app.wait')}}');
            $('.subtypesTextBox').attr("placeholder",'{{__('app.wait')}}');

@@ -35,5 +35,8 @@ return [
     'keyword' => 'Trefwoord', 
     'source_class' => 'Bronklasse',
     'archive_law' => 'Archiefwet',
-    'detail' => 'Detailkaart'
+    'detail' => 'Detailkaart',
+    'search_on' => 'Zoek op:',
+    'municipality' => 'Gemeente',
+    'description' => 'Beschrijving'    
 ];
