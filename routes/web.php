@@ -29,7 +29,7 @@ Route::get('/{locale}',function($locale) {
     /*this link will add seson of language wen they click to change language*/
 });
 
-Route::post('/feit/post', 'Vw_feitcontroller@store');
+Route::post('/feit/post', 'Vw_feitController@store');
 
 Route::resource('feit', 'Vw_feitController');
 Route::resource('users', 'UsersController');

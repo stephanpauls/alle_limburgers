@@ -138,6 +138,7 @@ $(document).ready(function(){
     transtab['municipality']='{{__('app.municipality')}}';
     transtab['description']='{{__('app.description')}}';
     transtab['fact']='{{__('app.fact')}}';
+    transtab['authority']='{{__('app.authority')}}';
         
     $('#liCreateQuery').hide();
     
@@ -202,7 +203,8 @@ $(document).ready(function(){
     $('#al_resultList').on('shown.bs.tab', function (e) {
         e.preventDefault();
         //window.open(e.target.href, "_blank");
-        currentIndex = $('#invisible_id').val();
+        var persId = e.target.href.substring(e.target.href.lastIndexOf('/')+1);
+        currentIndex = e.target.type;
         $.ajaxSetup({
            headers: {
                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -216,6 +218,7 @@ $(document).ready(function(){
            data: {
                lijst: 'detail',
                feit_id: e.target.id,
+               pers_id: persId
            },
            success: function(resultaat){
                alResultDetailTable(resultaat,transtab);
@@ -342,6 +345,7 @@ function jumpToPreviousDetailPage()
            data: {
                lijst: 'detail',
                feit_id: resultlijst[currentIndex].feit_id,
+               pers_id: resultlijst[currentIndex].pers_id,
            },
            success: function(result){
                alResultDetailTable(result,transtab);
@@ -369,6 +373,7 @@ function jumpToNextDetailPage()
            data: {
                lijst: 'detail',
                feit_id: resultlijst[currentIndex].feit_id,
+               pers_id: resultlijst[currentIndex].pers_id,
            },
            success: function(result){
                alResultDetailTable(result,transtab);

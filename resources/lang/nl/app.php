@@ -38,5 +38,6 @@ return [
     'detail' => 'Detailkaart',
     'search_on' => 'Zoek op:',
     'municipality' => 'Gemeente',
-    'description' => 'Beschrijving'    
+    'description' => 'Beschrijving',
+    'authority' => 'bevoegdheid'
 ];

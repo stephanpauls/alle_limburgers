@@ -84,11 +84,16 @@ class Vw_feitcontroller extends Controller
             $query->where('trefwoord','like','%'.$filter.'%');
             $result = $query->select('vw_feit.trefwoord')->distinct()->limit(200)->get();
         } else if ($lijst == 'detail') {
+            $pers_id = $request->input('pers_id');
             $feit_id = $request->input('feit_id');
-            $query = DB::table('vw_feit');
+            $query = DB::table('vw_feit-pers');
+            $query->join('vw_feit','vw_feit.feit_id', '=','vw_feit-pers.feit_id');            
+            $query->join('vw_feit-persd','vw_feit.feit_id', '=','vw_feit-pers.feit_id');            
             $query->join('vw_feit-bron','vw_feit.bron_id', '=','vw_feit-bron.bron_id');            
-            $query->where('vw_feit.feit_id',$feit_id);
-            $result = $query->select('vw_feit-bron.gemeente','vw_feit-bron.plaats','vw_feit-bron.omschrijving','vw_feit.*')->limit(1)->get();
+            $query->where('vw_feit-pers.pers_id',$pers_id);
+            $query->where('vw_feit-pers.feit_id',$feit_id);
+            $query->where('vw_feit-persd.feit_id',$feit_id);
+            $result = $query->select('vw_feit-bron.gemeente','vw_feit-bron.plaats','vw_feit-bron.omschrijving','vw_feit-pers.naam','vw_feit-pers.voornamen','vw_feit.*')->limit(1)->get();
         } else {
         
         $query = DB::table('vw_feit');
@@ -109,9 +114,10 @@ class Vw_feitcontroller extends Controller
                     if ($queryPers == false) {
                         $queryPers = true;
                     }
-                } else if ($other['term'] == 'authoritylijst') {
+                } else if ($other['term'] == 'authority') {
                     if ($queryAuthority == false) {
                      $queryAuthority = true;
+                     $query->join('vw_feit-persd','vw_feit.feit_id', '=','vw_feit-persd.feit_id');
                     }
                 }
                 if (($other['poort']) == 'AND') {
@@ -187,6 +193,11 @@ class Vw_feitcontroller extends Controller
                 $index++;            
             }
             $whereQuery.= ')';
+            $query->whereRaw($whereQuery);
+        }
+        if ($queryAuthority == true) {
+            $whereQuery = "";
+            $whereQuery.='("vw_feit-persd"."pers_id" = "vw_feit-pers"."pers_id")';
             $query->whereRaw($whereQuery);
         }
 

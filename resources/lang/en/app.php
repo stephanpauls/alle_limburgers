@@ -38,5 +38,6 @@ return [
     'detail' => 'Detailed card',
     'search_on' => 'Search on:',
     'municipality' => 'Municipality',
-    'description' => 'Description'
+    'description' => 'Description',
+    'authority' => 'authority'
 ];

@@ -148,7 +148,7 @@ function createStartSearchBlock(lijn,crit) {
         targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
         targetToPush += '<option value="datum">'+transtab['date']+'</option>';
         targetToPush += '<option value="rol">'+transtab['role']+'</option>';
-        targetToPush += '<option value="authoritylijst">'+transtab['authority_list']+'</option>';
+        targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
         targetToPush += '</select>';
         targetToPush += '</div>';
         targetToPush += '</div>';
@@ -205,7 +205,7 @@ function createStartDatumSearchBlock() {
         targetToPush += '<option value="naam">'+transtab['name']+'</option>';
         targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
         targetToPush += '<option value="rol">'+transtab['role']+'</option>';
-        targetToPush += '<option value="authoritylijst">'+transtab['authority_list']+'</option>';
+        targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
         targetToPush += '</select>';
         targetToPush += '</div>';
         targetToPush += '</div>';
@@ -280,7 +280,7 @@ function createDatumSearchBlock(lijn) {
     targetToPush += '<option value="rol">'+transtab['role']+'</option>';
     targetToPush += '<option value="naam">'+transtab['name']+'</option>';
     targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
-    targetToPush += '<option value="authoritylijst">'+transtab['authority_list']+'</option>';
+    targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
     targetToPush += '</select>';
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -360,7 +360,7 @@ function createSearchBlock(lijn,crit) {
     targetToPush += '<option value="naam">'+transtab['name']+'</option>';
     targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
     targetToPush += '<option value="datum">'+transtab['date']+'</option>';
-    targetToPush += '<option value="authoritylijst">'+transtab['authority_list']+'</option>';
+    targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
     targetToPush += '</select>';
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -599,15 +599,16 @@ function alResultTable(result,transtab){
             poutput_bar.push(targetToPush);
             targetToPush_list = '<div id=al_resultlist_'+((i/pagelength)+1)+' class="list-group" style="display: none;">';
         }
-        targetToPush_list += '<a id="'+result[i].feit_id+'" href="/limburgers/feit/'+result[i].feit_id+'" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="list">';
+        targetToPush_list += '<a type="'+i+'" id="'+result[i].feit_id+'" href="'+result[i].pers_id+'" class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="list">';
         targetToPush_list += '<div class="d-flex w-100 justify-content-between">';
         targetToPush_list += '<h5 class="mb-1">'+result[i].feittype+'</h5>';
-        targetToPush_list += '<input id="invisible_id" name="invisible" type="hidden" value="'+i+'">';
         targetToPush_list += '<small>'+(i+1)+'</small></div>';
         
         targetToPush_list += '<p><h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result[i].naam+'</h4></p>';
         targetToPush_list += '<p><h3 class="li_keyList">'+transtab['first_name']+'</h3><h4 class="li_valueList">'+result[i].voornamen+'</h4></p>';
         targetToPush_list += '<p><h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result[i].rol+'</h4></p>';
+        
+        style="display: none;"
 //        targetToPush_list += '<small>('+transtab['dig_available']+')</small>';
         targetToPush_list += '</a>';
     }
@@ -688,7 +689,8 @@ function alResultDetailTable(resultaat,transtab) {
         targetToPush += '</div>';
         targetToPush += '<div style="width:50px;float:left;">&nbsp;</div>';
         targetToPush += '<div style="width: 100px;float:left;">';
-        targetToPush += '<p>'+transtab['fact']+'</p>';
+        targetToPush += '<p>'+transtab['name']+'</p>';
+        targetToPush += '<p>'+transtab['first_name']+'</p>';
         targetToPush += '<p>'+transtab['municipality']+'</p>';
         targetToPush += '<p>'+transtab['place']+'</p>';
         targetToPush += '<p>'+transtab['description']+'</p>';
@@ -701,7 +703,8 @@ function alResultDetailTable(resultaat,transtab) {
         targetToPush += '</div>';
         targetToPush += '<div>';
         for (var i = 0;i< resultaat.length;i++) {
-            targetToPush += '<p><span class="li_span">'+resultaat[i].feit_id+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+resultaat[i].naam+'</span></p>';
+            targetToPush += '<p><span class="li_span">'+resultaat[i].voornamen+'</span></p>';
             targetToPush += '<p><span class="li_span">'+resultaat[i].gemeente+'</span></p>';
             targetToPush += '<p><span class="li_span">'+resultaat[i].plaats+'</span></p>';
             targetToPush += '<p><span class="li_span">'+resultaat[i].omschrijving+'</span></p>';
@@ -711,6 +714,7 @@ function alResultDetailTable(resultaat,transtab) {
             targetToPush += '<p><span class="li_span">'+resultaat[i].trefwoord+'</span></p>';
             targetToPush += '<p><span class="li_span">'+resultaat[i].bronklasse+'</span></p>';
             targetToPush += '<p><span class="li_span">'+resultaat[i].archiefwet+'</span></p>';
+            
         }
         targetToPush += '</div>';
         poutput.push(targetToPush);
