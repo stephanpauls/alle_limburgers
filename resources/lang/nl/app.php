@@ -39,5 +39,9 @@ return [
     'search_on' => 'Zoek op:',
     'municipality' => 'Gemeente',
     'description' => 'Beschrijving',
-    'authority' => 'bevoegdheid'
+    'authority' => 'bevoegdheid',
+    'query' => 'Toggle query',
+    'reset' => 'Reset',
+    'wait' => 'Een ogenblik aub...'
+    
 ];

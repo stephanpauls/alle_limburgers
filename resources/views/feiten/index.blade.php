@@ -22,7 +22,7 @@
     </div>
     </div>
     <div class="col-sm">
-    <div class="button-group">
+    <div class="button-group" style="margin: 10px">
         <input class="geotextbox subtypesTextBox" name="subtypesbox" placeholder="{{__('app.search_subtype')}}" onkeyup="limZoekSubtype();" maxlength="20"/>
         <button id="subtypes_btn" type="button" onclick="subtypeBtn()" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">{{__('app.subtype')}}<span class="caret"></span></button>
         <ul id=subtypesbox class="dropdown-menu">
@@ -41,24 +41,32 @@
 
     </div>
 </div>
-    <div class="container" >
-    <div class="btn-group" style="margin:10px" role="group" aria-label="Basic example">
-                    <button type="button" id="liCreateSearchBlock" class="btn btn-secondary">{{__('app.new_line')}}</button>
-                    <button type="button" id="liResetQuery" class="btn btn-secondary">Reset</button>
-                </div>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" id="liCreateQuery"  class="btn btn-secondary">{{__('app.search')}}</button>                    
-                </div>   
+<div class="container" >
+    <div class="btn-group" style="margin-bottom: 20px;" role="group" aria-label="Basic example">
+        <button type="button" id="liCreateSearchBlock" class="btn btn-secondary">{{__('app.new_line')}}</button>
     </div>
-<div class="container"  style="margin-bottom: 20px;">
+    <div class="btn-group" style="margin-left:5px;margin-bottom: 20px;" role="group" aria-label="Basic example">
+        <button type="button" id="liResetQuery" class="btn btn-secondary">{{__('app.reset')}}</button>
+    </div>
+    <div class="btn-group" style="margin-left:5px;margin-bottom: 20px;" role="group" aria-label="Basic example">
+        <button type="button" id="liShowQuery"  class="btn btn-secondary">{{__('app.query')}}</button>                    
+    </div>                     
+    <div class="btn-group" style="margin-left:5px;margin-bottom: 20px;" role="group" aria-label="Basic example">
+        <button type="button" id="liCreateQuery"  class="btn btn-secondary">{{__('app.search')}}</button>                    
+    </div>   
+        
+</div>
+<div class="container" id=al_loading style="display: none;margin-top:10px;margin-bottom: 20px;">
+    <p class="li_bold_info">{{__('app.wait')}}</p>
+</div>
+
+<div class="container" id=alQueryBox style="display: none;margin-top:10px;margin-bottom: 20px;">
 <div style="background-color:#eaecef; border-style: groove; border-width: 1px;">
 
-    <div class="query">
+    <div id=alQueryBox class="query">
         <div class="row">
             <div class="col-sm">
-                <div>
-                    <p style="margin-left: 10px">Query:</p>
-                </div>
+                <p  style="margin:10px">query: </p>
                 <div id= alQuery>
                 </div>
             </div>
@@ -107,6 +115,7 @@
 
 <script>
 $(document).ready(function(){
+    
     firstOpenFeit = true;
     firstOpenSubtype = true;
     newwindow = null;
@@ -139,6 +148,13 @@ $(document).ready(function(){
     transtab['description']='{{__('app.description')}}';
     transtab['fact']='{{__('app.fact')}}';
     transtab['authority']='{{__('app.authority')}}';
+    
+    $( document ).ajaxStart(function() {
+          $( "#al_loading" ).show();
+    });
+    $( document ).ajaxStop(function() {
+          $( "#al_loading" ).hide();
+    });
         
     $('#liCreateQuery').hide();
     
@@ -254,7 +270,15 @@ $(document).ready(function(){
         $('#al_resultList').show();
         $('#li_navbar').show();
     });
-    
+
+        $('#liShowQuery').click(function(e){
+           e.preventDefault();    
+           if ($('#alQueryBox').css('display') == 'none') {
+                $('#alQueryBox').show();
+            } else {
+                $('#alQueryBox').hide();
+            }
+        });
     
         $('#liCreateQuery').click(function(e){
            e.preventDefault();
@@ -290,6 +314,7 @@ $(document).ready(function(){
         $('#li_navbar_detail').hide('');
         $('#alSearchCriterium').html('');
         $('#al_detailResultList').empty();
+        $('#alQueryBox').hide();
            $('#liCreateQuery').hide();
            $('.feitenTextBox').attr("placeholder",'{{__('app.wait')}}');
            $('.subtypesTextBox').attr("placeholder",'{{__('app.wait')}}');
@@ -396,46 +421,54 @@ function subtypeBtn(){
 
 function criterialijst_change_1() {
         var val1 = $('#criterialijst_1 option:selected').val();
+        var andOrNot = $('#andOrNotlijst_1 option:selected').val();
         if (val1 == 'datum') {
-            createStartDatumSearchBlock(1);
+            createStartDatumSearchBlock(1,andOrNot);
         } else {
-            createStartSearchBlock(1,val1);
+            createStartSearchBlock(1,val1,andOrNot);
         }
     }
 
 function criterialijst_change_2() {
         var val1 = $('#criterialijst_2 option:selected').val();
+        var andOrNot = $('#andOrNotlijst_2 option:selected').val();
         if (val1 == 'datum') {
-            createDatumSearchBlock(2);
+            createDatumSearchBlock(2,andOrNot);
         } else {
-            createSearchBlock(2,val1);
+            createSearchBlock(2,val1,andOrNot);
         }
     }
 
 function criterialijst_change_3() {
         var val1 = $('#criterialijst_3 option:selected').val();
+        var andOrNot = $('#andOrNotlijst_3 option:selected').val();
+        
         if (val1 == 'datum') {
-            createDatumSearchBlock(3);
+            createDatumSearchBlock(3,andOrNot);
         } else {
-            createSearchBlock(3,val1);
+            createSearchBlock(3,val1,andOrNot);
         }
     }
 
 function criterialijst_change_4() {
         var val1 = $('#criterialijst_4 option:selected').val();
+        var andOrNot = $('#andOrNotlijst_4 option:selected').val();
+        
         if (val1 == 'datum') {
-            createDatumSearchBlock(4);
+            createDatumSearchBlock(4,andOrNot);
         } else {
-            createSearchBlock(4,val1);
+            createSearchBlock(4,val1,andOrNot);
         }
     }
 
 function criterialijst_change_5() {
         var val1 = $('#criterialijst_5 option:selected').val();
+        var andOrNot = $('#andOrNotlijst_5 option:selected').val();
+        
         if (val1 == 'datum') {
-            createDatumSearchBlock(5);
+            createDatumSearchBlock(5,andOrNot);
         } else {
-            createSearchBlock(5,val1);
+            createSearchBlock(5,val1,andOrNot);
         }
     }
 </script>

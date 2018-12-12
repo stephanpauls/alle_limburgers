@@ -76,12 +76,12 @@ class Vw_feitcontroller extends Controller
         } else if ($lijst == 'zoekFeit') {
             $query = DB::table('vw_feit');
             $filter = $request->input('filter');
-            $query->where('feittype','like','%'.$filter.'%');
+            $query->where('feittype','ilike','%'.$filter.'%');
             $result = $query->select('vw_feit.feittype')->distinct()->limit(200)->get();
         } else if ($lijst == 'zoekSubtype') {
             $query = DB::table('vw_feit');
             $filter = $request->input('filter');
-            $query->where('trefwoord','like','%'.$filter.'%');
+            $query->where('trefwoord','ilike','%'.$filter.'%');
             $result = $query->select('vw_feit.trefwoord')->distinct()->limit(200)->get();
         } else if ($lijst == 'detail') {
             $pers_id = $request->input('pers_id');
@@ -122,11 +122,11 @@ class Vw_feitcontroller extends Controller
                 }
                 if (($other['poort']) == 'AND') {
                     if (($other['operator']) == 'bevat') {
-                        $query->where($other['term'],'like','%'.$other['filter'].'%');
+                        $query->where($other['term'],'ilike','%'.$other['filter'].'%');
                     } else if (($other['operator']) == 'bevat_exact') {
-                        $query->where($other['term'],'like',$other['filter']);
+                        $query->where($other['term'],'ilike',$other['filter']);
                     } else if (($other['operator']) == 'begint') {
-                        $query->where($other['term'],'like',$other['filter'].'%');
+                        $query->where($other['term'],'ilike',$other['filter'].'%');
                     } else if (($other['operator']) == 'vanaf') {
                         $query->where($other['term'],'>',$other['filter']);
                     } else if (($other['operator']) == 'totmet') {
@@ -136,11 +136,11 @@ class Vw_feitcontroller extends Controller
                     }
                 }  else if (($other['poort']) == 'OR') {
                     if (($other['operator']) == 'bevat') {
-                        $query->orWhere($other['term'],'like','%'.$other['filter'].'%');
+                        $query->orWhere($other['term'],'ilike','%'.$other['filter'].'%');
                     } else if (($other['operator']) == 'bevat_exact') {
-                        $query->orWhere($other['term'],'like',$other['filter']);
+                        $query->orWhere($other['term'],'ilike',$other['filter']);
                     } else if (($other['operator']) == 'begint') {
-                        $query->orWhere($other['term'],'like',$other['filter'].'%');
+                        $query->orWhere($other['term'],'ilike',$other['filter'].'%');
                     } else if (($other['operator']) == 'vanaf') {
                         $query->orWhere($other['term'],'>',$other['filter']);
                     } else if (($other['operator']) == 'totmet') {
@@ -150,11 +150,11 @@ class Vw_feitcontroller extends Controller
                     }
                 } else {
                     if (($other['operator']) == 'bevat') {
-                        $query->where($other['term'],'not like','%'.$other['filter'].'%');
+                        $query->where($other['term'],'not ilike','%'.$other['filter'].'%');
                     } else if (($other['operator']) == 'bevat_exact') {
-                        $query->where($other['term'],'not like',$other['filter']);
+                        $query->where($other['term'],'not ilike',$other['filter']);
                     } else if (($other['operator']) == 'begint') {
-                        $query->where($other['term'],'not like',$other['filter'].'%');
+                        $query->where($other['term'],'not ilike',$other['filter'].'%');
                     } else if (($other['operator']) == 'vanaf') {
                         $query->where($other['term'],'<=',$other['filter']);
                     } else if (($other['operator']) == 'totmet') {

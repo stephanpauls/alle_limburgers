@@ -39,5 +39,8 @@ return [
     'search_on' => 'Search on:',
     'municipality' => 'Municipality',
     'description' => 'Description',
-    'authority' => 'authority'
+    'authority' => 'authority',
+    'query' => 'Toggle Query',
+    'reset' => 'Reset',
+    'wait' => 'One moment please...'
 ];

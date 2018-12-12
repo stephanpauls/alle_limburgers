@@ -27,16 +27,18 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand"  href="{{ url('/') }}">
                     <img src="{{ asset ('public/img/tree_logo.png')}}" alt="" class="img_navbar"> {{ config('app.proj', 'Laravel') }} 
                 </a>
                 <a class="navbar-italic"  href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }} 
                 </a>
+<!--                
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+-->
 @yield('menu')
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->

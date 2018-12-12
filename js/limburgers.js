@@ -113,7 +113,7 @@ function limZoekSubtype() {
 }
 
 
-function createStartSearchBlock(lijn,crit) {
+function createStartSearchBlock(lijn,crit,andOrNot) {
     
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
@@ -176,25 +176,28 @@ function createStartSearchBlock(lijn,crit) {
             $('#liSearchCrit_'+lijn).html('');
             $('#liSearchCrit_'+lijn).html( poutput.join(''));
             $('#criterialijst_'+itemNr+' select').val(crit);
+            $('#andOrNotlijst_'+itemNr+' select').val(andOrNot);                
         }
         if (lijn==0) {
             searchItemNr++;
         }
 }
 
-function createStartDatumSearchBlock() {
+function createStartDatumSearchBlock(andOrNot) {
     
     var targetToPush = '';
             
     var poutput = [];// voorbereiding
-     var targetToPush = '';
-        targetToPush = '<div class="row li_align_center" style="background-color:#eaecef;">';
+    var targetToPush = '';
+    targetToPush = '<div class="row li_align_center" style="background-color:#eaecef;">';
     targetToPush += '<div class="col-sm col-md-offset-1">';    
     targetToPush += '<div id="andOrNotlijst_1" style="margin-left:10px">';
     targetToPush += '<select onchange="composeQuery()">';
-    targetToPush += '<option value="AND">AND</option>';
-    targetToPush += '<option value="OR">OR</option>';
-    targetToPush += '<option value="NOT">NOT</option>';
+    targetToPush += '<option value="AND">'+transtab['and']+'</option>';
+    targetToPush += '<option value="OR">'+transtab['or']+'</option>';
+    targetToPush += '<option value="NOT">'+transtab['not']+'</option>';
+    targetToPush += '<option value="(">(</option>';
+    targetToPush += '<option value=")">)</option>';
     targetToPush += '</select>';  
     targetToPush += '</div>';
     targetToPush += '</div>';    
@@ -228,6 +231,7 @@ function createStartDatumSearchBlock() {
 
         $('#liSearchCrit_1').html('');
         $('#liSearchCrit_1').html( poutput.join(''));
+        $('#andOrNotlijst_'+itemNr+' select').val(andOrNot);            
         
     tijd = $( "#dp_1" ).datepicker({
         defaultDate: "+1w",
@@ -245,7 +249,7 @@ function createStartDatumSearchBlock() {
 }
 
 
-function createDatumSearchBlock(lijn) {
+function createDatumSearchBlock(lijn,andOrNot) {
 
     if (lijn == 0) {
         itemNr = searchItemNr;
@@ -308,6 +312,7 @@ function createDatumSearchBlock(lijn) {
     else {
         $('#liSearchCrit_'+lijn).html('');
         $('#liSearchCrit_'+lijn).html( poutput.join(''));
+        $('#andOrNotlijst_'+itemNr+' select').val(andOrNot);            
     } 
         
     tijd = $( "#dp_"+itemNr ).datepicker({
@@ -325,7 +330,7 @@ function createDatumSearchBlock(lijn) {
 
 }    
 
-function createSearchBlock(lijn,crit) {
+function createSearchBlock(lijn,crit,andOrNot) {
 
 
     if (lijn == 0) {
@@ -388,6 +393,7 @@ function createSearchBlock(lijn,crit) {
     else {
         $('#liSearchCrit_'+lijn).html('');
         $('#liSearchCrit_'+lijn).html( poutput.join(''));
+        $('#andOrNotlijst_'+itemNr+' select').val(andOrNot);    
         $('#criterialijst_'+itemNr+' select').val(crit);    
     } 
     if (lijn==0) searchItemNr++;
@@ -604,9 +610,9 @@ function alResultTable(result,transtab){
         targetToPush_list += '<h5 class="mb-1">'+result[i].feittype+'</h5>';
         targetToPush_list += '<small>'+(i+1)+'</small></div>';
         
-        targetToPush_list += '<p><h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result[i].naam+'</h4></p>';
-        targetToPush_list += '<p><h3 class="li_keyList">'+transtab['first_name']+'</h3><h4 class="li_valueList">'+result[i].voornamen+'</h4></p>';
-        targetToPush_list += '<p><h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result[i].rol+'</h4></p>';
+        targetToPush_list += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result[i].naam+'</h4>';
+        targetToPush_list += '<h3 class="li_keyList">'+transtab['first_name']+'</h3><h4 class="li_valueList">'+result[i].voornamen+'</h4>';
+        targetToPush_list += '<h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result[i].rol+'</h4>';
         
         style="display: none;"
 //        targetToPush_list += '<small>('+transtab['dig_available']+')</small>';
