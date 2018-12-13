@@ -15,101 +15,63 @@ exactdatum = 0;
 resultlijst = [];
 currentIndex = 1;
 
-function limZoekFeit()
-{
-    var filter = $(".feitenTextBox").val();
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-    });
-          
-    $.ajax({
-        url: "http://localhost/limburgers/feit/post",
-        method: 'post',
-        dataType: 'json',
-        data: {
-           lijst: 'zoekFeit',
-           filter: filter,
-        },
-        success: function(result){
-            var poutput = [];
-            var targetToPush = '';  
-            i_count = 0;
-            i_count2 = 0;
-            while(i_count2<selFeit.length)
-            {            
-                targetToPush += '<li><a href="#" class="small" data-value="';
-                targetToPush += i_count;//id
-                targetToPush += '" tabIndex="-1"><input type="checkbox" checked/>&nbsp;';
-                targetToPush += selFeit[i_count2] ;//Item
-                targetToPush += '</a></li>';                  
+function alResultFeiten(result){
+    
+    var poutput = [];
+    var targetToPush = '';  
+    i_count = 0;
+    i_count2 = 0;
+    while(i_count2<selFeit.length)
+    {            
+        targetToPush += '<li><a href="#" class="small" data-value="';
+        targetToPush += i_count;//id
+        targetToPush += '" tabIndex="-1"><input type="checkbox" checked/>&nbsp;';
+        targetToPush += selFeit[i_count2] ;//Item
+        targetToPush += '</a></li>';                  
 
-                i_count++;                
-                i_count2++;                
-            }
-            if(result.length>0)
-            {
-                for(i_count2=0;i_count2<result.length;i_count2++)
-                {
-                    targetToPush +=  '<li><a href="#" class="small" data-value="'+i_count2+'" tabIndex="-1"><input type="checkbox" />'+result[i_count2].feittype+'</a></li>';              
-                }                
-                poutput.push(targetToPush);
-            }        
-            $('#feitenbox').html('');
-            $('#feitenbox').html(poutput.join(''));
-        }
-    });
+        i_count++;                
+        i_count2++;                
+    }
+    if(result.length>0)
+    {
+        for(i_count2=0;i_count2<result.length;i_count2++)
+        {
+            targetToPush +=  '<li><a href="#" class="small" data-value="'+i_count2+'" tabIndex="-1"><input type="checkbox" />'+result[i_count2].feittype+'</a></li>';              
+        }                
+        poutput.push(targetToPush);
+    }        
+    $('#feitenbox').html('');
+    $('#feitenbox').html(poutput.join(''));
 }
 
 
-function limZoekSubtype() {
+function alResultSubtypes(result){
     
-   var filter = $(".subtypesTextBox").val();
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-    });
-          
-    $.ajax({
-        url: "http://localhost/limburgers/feit/post",
-        method: 'post',
-        dataType: 'json',
-        data: {
-           lijst: 'zoekSubtype',
-           filter: filter,
-        },
-        success: function(result){
-            var poutput = [];
-            var targetToPush = '';  
-            i_count = 0;
-            i_count2 = 0;
-            while(i_count2<selSubtype.length)
-            {            
-                targetToPush += '<li><a href="#" class="small" data-value="';
-                targetToPush += i_count;//id
-                targetToPush += '" tabIndex="-1"><input type="checkbox" checked/>&nbsp;';
-                targetToPush += selSubtype[i_count2] ;//Item
-                targetToPush += '</a></li>';                  
+    var poutput = [];
+    var targetToPush = '';  
+    i_count = 0;
+    i_count2 = 0;
+    while(i_count2<selSubtype.length)
+    {            
+        targetToPush += '<li><a href="#" class="small" data-value="';
+        targetToPush += i_count;//id
+        targetToPush += '" tabIndex="-1"><input type="checkbox" checked/>&nbsp;';
+        targetToPush += selSubtype[i_count2] ;//Item
+        targetToPush += '</a></li>';                  
 
-                i_count++;                
-                i_count2++;                
-            }
-            if(result.length>0)
-            {
-                for(i_count2=0;i_count2<result.length;i_count2++)
-                {
-                    targetToPush +=  '<li><a href="#" class="small" data-value="'+i_count2+'" tabIndex="-1"><input type="checkbox" />'+result[i_count2].trefwoord+'</a></li>';              
-                }                
-                poutput.push(targetToPush);
-            }        
-            $('#subtypesbox').html('');
-            $('#subtypesbox').html(poutput.join(''));
-        }
-    });
-    
-    
+        i_count++;                
+        i_count2++;                
+    }
+    if(result.length>0)
+    {
+        for(i_count2=0;i_count2<result.length;i_count2++)
+        {
+            targetToPush +=  '<li><a href="#" class="small" data-value="'+i_count2+'" tabIndex="-1"><input type="checkbox" />'+result[i_count2].trefwoord+'</a></li>';              
+        }                
+        poutput.push(targetToPush);
+    }        
+    $('#subtypesbox').html('');
+    $('#subtypesbox').html(poutput.join(''));
 }
 
 
@@ -127,12 +89,14 @@ function createStartSearchBlock(lijn,crit,andOrNot) {
     }
     var targetToPush = '';
             
-        var poutput = [];// voorbereiding
+    var poutput = [];// voorbereiding
 
-        if (lijn==0) targetToPush = '<div class="card" id="liSearchCrit_'+itemNr+'">';
-        targetToPush += '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
-        targetToPush += '<div class="row li_align_center">';
-        targetToPush += '<div class="col-sm">';
+
+
+    if (lijn==0) targetToPush = '<div class="card" id="liSearchCrit_'+itemNr+'">';
+    targetToPush += '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
+    targetToPush += '<div class="row li_align_center">';
+    targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
     targetToPush += '<select onchange="composeQuery()">';
     targetToPush += '<option value="AND">AND</option>';
@@ -141,46 +105,68 @@ function createStartSearchBlock(lijn,crit,andOrNot) {
     targetToPush += '</select>';  
     targetToPush += '</div>';          
     targetToPush += '</div>';          
-        targetToPush += '<div class="col-sm">';
-        targetToPush += '<div id="criterialijst_'+itemNr+'">';
-        targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();composeQuery()">';
-        targetToPush += '<option selected value="naam">'+transtab['name']+'</option>';
-        targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
-        targetToPush += '<option value="datum">'+transtab['date']+'</option>';
-        targetToPush += '<option value="rol">'+transtab['role']+'</option>';
-        targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
-        targetToPush += '</select>';
-        targetToPush += '</div>';
-        targetToPush += '</div>';
-        targetToPush += '<div class="col-sm">';
-        targetToPush += '<div id="operatorlijst_'+itemNr+'">';
-        targetToPush += '<select onchange="composeQuery()">';
-        targetToPush += '<option selected value="bevat">'+transtab['contains']+'</option>';
-        targetToPush += '<option value="bevat_exact">'+transtab['contains_exact']+'</option>';
-        targetToPush += '<option value="begint">'+transtab['starts_with']+'</option>';
-        targetToPush += '</select>';
-        targetToPush += '</div>';
-        targetToPush += '</div>';
-        targetToPush += '<div class="col-sm">';
-        targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery();" placeholder="'+transtab['fill_out']+'">';
-        targetToPush += '</div>';
-        targetToPush += '</div>';
-        if (lijn==0) targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="criterialijst_'+itemNr+'">';
+    targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();composeQuery()">';
+    targetToPush += '<option selected value="naam">'+transtab['name']+'</option>';
+    targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
+    targetToPush += '<option value="datum">'+transtab['date']+'</option>';
+    targetToPush += '<option value="rol">'+transtab['role']+'</option>';
+    targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="operatorlijst_'+itemNr+'">';
+    targetToPush += '<select onchange="composeQuery()">';
+    targetToPush += '<option selected value="bevat">'+transtab['contains']+'</option>';
+    targetToPush += '<option value="bevat_exact">'+transtab['contains_exact']+'</option>';
+    targetToPush += '<option value="begint">'+transtab['starts_with']+'</option>';
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery();" placeholder="'+transtab['fill_out']+'">';
+    targetToPush += '</div>';
+    
 
-        poutput.push(targetToPush);
+    targetToPush += '<div class="col-sm">';
+     targetToPush += '<div class="searchConditionActions width10" style="margin-top:5px;">';
+ targetToPush += '<a id="DeleteCondition1" title="Delete Condition" style="text-decoration: none;" class="remove-red cursor-pointer" onclick="return submitByButtonAjax(this.id);" value="DeleteCondition1">';
+ targetToPush += '<span class="uxf-icon uxf-minus-circle"></span>';
+ targetToPush += '</a>';
+ targetToPush += '<a id="addNewCondition1" title="Add New Condition" style="text-decoration: none;" class="add-green cursor-pointer" onclick="return submitByButtonAjax(this.id);" value="addNewCondition1">';
+ targetToPush += '<span class="uxf-icon uxf-plus-circle"></span>';
+ targetToPush += '</a>';
+ targetToPush += '<a id="addNewConditionWithOperator1" title=" Add New Condition With Operator" style="text-decoration: none;" class="add-green cursor-pointer" onclick="return submitByButtonAjax(this.id);" value="addNewConditionWithOperator1">';
+ targetToPush += '<span class="uxf-icon uxf-code"></span>';
+ targetToPush += '</a>';
+ targetToPush += '<noscript>';
+ targetToPush += '<input type="hidden" name="noJS" value="true" />';
+ targetToPush += '<input name="operation" value="addNewCondition1" class="add" type="submit"/>';
+ targetToPush += '<input name="operation" value="addConditionsWithOperator1" class="addConditionOperator" type="submit"/>';
+ targetToPush += '</noscript>';
+ targetToPush += '</div>';
+ targetToPush += '</div>';
+    
+    
+    targetToPush += '</div>';
+    if (lijn==0) targetToPush += '</div>';
 
-        if (lijn==0) { 
-            $('#alSearchCriterium').html('');
-            $('#alSearchCriterium').html( poutput.join(''));
-        } else {
-            $('#liSearchCrit_'+lijn).html('');
-            $('#liSearchCrit_'+lijn).html( poutput.join(''));
-            $('#criterialijst_'+itemNr+' select').val(crit);
-            $('#andOrNotlijst_'+itemNr+' select').val(andOrNot);                
-        }
-        if (lijn==0) {
-            searchItemNr++;
-        }
+    poutput.push(targetToPush);
+
+    if (lijn==0) { 
+        $('#alSearchCriterium').html('');
+        $('#alSearchCriterium').html( poutput.join(''));
+    } else {
+        $('#liSearchCrit_'+lijn).html('');
+        $('#liSearchCrit_'+lijn).html( poutput.join(''));
+        $('#criterialijst_'+itemNr+' select').val(crit);
+        $('#andOrNotlijst_'+itemNr+' select').val(andOrNot);                
+    }
+    if (lijn==0) {
+        searchItemNr++;
+    }
 }
 
 function createStartDatumSearchBlock(andOrNot) {
@@ -201,37 +187,37 @@ function createStartDatumSearchBlock(andOrNot) {
     targetToPush += '</select>';  
     targetToPush += '</div>';
     targetToPush += '</div>';    
-        targetToPush += '<div class="col-sm">';
-        targetToPush += '<div id="criterialijst_1">';
-        targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();"composeQuery()">';
-        targetToPush += '<option selected value="datum">'+transtab['date']+'</option>';
-        targetToPush += '<option value="naam">'+transtab['name']+'</option>';
-        targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
-        targetToPush += '<option value="rol">'+transtab['role']+'</option>';
-        targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
-        targetToPush += '</select>';
-        targetToPush += '</div>';
-        targetToPush += '</div>';
-        targetToPush += '<div class="col-sm">';
-        targetToPush += '<div id="operatorlijst_1">';
-        targetToPush += '<select onchange="composeQuery()">';
-        targetToPush += '<option selected value="vanaf">'+transtab['from']+'</option>';
-        targetToPush += '<option value="totmet">'+transtab['until_with']+'</option>';
-        targetToPush += '<option value="exact">'+transtab['is_exactly']+'</option>';
-        targetToPush += '</select>';
-        targetToPush += '</div>';
-        targetToPush += '</div>';
-        targetToPush += '<div class="col-sm col-md-offset-0">';
-        targetToPush += '<div>';
-        targetToPush += '<input type="text" id="dp_1" placeholder="'+transtab['fill_out']+'">';
-        targetToPush += '</div>';
-        targetToPush += '</div>';
-        targetToPush += '</div>';
-        poutput.push(targetToPush);
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="criterialijst_1">';
+    targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();"composeQuery()">';
+    targetToPush += '<option selected value="datum">'+transtab['date']+'</option>';
+    targetToPush += '<option value="naam">'+transtab['name']+'</option>';
+    targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
+    targetToPush += '<option value="rol">'+transtab['role']+'</option>';
+    targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="operatorlijst_1">';
+    targetToPush += '<select onchange="composeQuery()">';
+    targetToPush += '<option selected value="vanaf">'+transtab['from']+'</option>';
+    targetToPush += '<option value="totmet">'+transtab['until_with']+'</option>';
+    targetToPush += '<option value="exact">'+transtab['is_exactly']+'</option>';
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm col-md-offset-0">';
+    targetToPush += '<div>';
+    targetToPush += '<input type="text" id="dp_1" placeholder="'+transtab['fill_out']+'">';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    poutput.push(targetToPush);
 
-        $('#liSearchCrit_1').html('');
-        $('#liSearchCrit_1').html( poutput.join(''));
-        $('#andOrNotlijst_'+itemNr+' select').val(andOrNot);            
+    $('#liSearchCrit_1').html('');
+    $('#liSearchCrit_1').html( poutput.join(''));
+    $('#andOrNotlijst_'+itemNr+' select').val(andOrNot);            
         
     tijd = $( "#dp_1" ).datepicker({
         defaultDate: "+1w",
@@ -381,6 +367,15 @@ function createSearchBlock(lijn,crit,andOrNot) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery();" placeholder="'+transtab['fill_out']+'">';
     targetToPush += '</div>';
+    
+
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<a href="" title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="http://localhost/limburgers/public/img/remove.png" alt=""></a>';
+    targetToPush += '<a href=""  title="'+transtab['add']+'" onclick="addSearchBlock('+itemNr+')";><img class="li_img" src="http://localhost/limburgers/public/img/add.png" alt=""></a>';
+    targetToPush += '<a href=""  title="'+transtab['bracket']+'" onclick="addNewCondition('+itemNr+')";><img class="li_img" src="http://localhost/limburgers/public/img/brackets.png" alt=""></a>';
+    targetToPush += '</div>';
+        
+    
     targetToPush += '</div>';
     targetToPush += '</div>';
     if (lijn==0) targetToPush += '</div>';

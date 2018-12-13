@@ -35,6 +35,11 @@ img{
         height: 90%;
         object-fit: contain;
     }
+.li_img{
+        height: 50%;
+        object-fit: contain;
+        margin: 5px
+    }
 
 .nav-link{
     color:rgb(255,255,255) !important;
@@ -117,4 +122,16 @@ img{
     overflow: hidden;
     font-size: 1rem;
     margin-bottom: 0;
+}
+
+a.remove-red {
+    color: #c75353;
+}
+
+.cursor-pointer, a .ui-icon {
+    cursor: pointer;
+}
+a.add-green {
+    color: #63c481;
+    padding-left: 5px;
 }

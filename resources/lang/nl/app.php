@@ -42,6 +42,9 @@ return [
     'authority' => 'bevoegdheid',
     'query' => 'Toggle query',
     'reset' => 'Reset',
+    'add' => 'Nieuwe lijn',
+    'remove' => 'Verwijder lijn',
+    'bracket' => 'Voeg haakjes toe',    
     'wait' => 'Een ogenblik aub...'
     
 ];

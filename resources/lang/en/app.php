@@ -42,5 +42,8 @@ return [
     'authority' => 'authority',
     'query' => 'Toggle Query',
     'reset' => 'Reset',
+    'add' => 'Add line',
+    'remove' => 'Remove line',
+    'bracket' => 'Add brackets',
     'wait' => 'One moment please...'
 ];

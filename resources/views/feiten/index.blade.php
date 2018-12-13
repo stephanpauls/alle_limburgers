@@ -52,7 +52,7 @@
         <button type="button" id="liShowQuery"  class="btn btn-secondary">{{__('app.query')}}</button>                    
     </div>                     
     <div class="btn-group" style="margin-left:5px;margin-bottom: 20px;" role="group" aria-label="Basic example">
-        <button type="button" id="liCreateQuery"  class="btn btn-secondary">{{__('app.search')}}</button>                    
+        <button type="button" id="liCreateQuery"  style="display: none;" class="btn btn-secondary">{{__('app.search')}} </button>                    
     </div>   
         
 </div>
@@ -148,6 +148,9 @@ $(document).ready(function(){
     transtab['description']='{{__('app.description')}}';
     transtab['fact']='{{__('app.fact')}}';
     transtab['authority']='{{__('app.authority')}}';
+    transtab['add']='{{__('app.add')}}';
+    transtab['remove']='{{__('app.remove')}}';
+    transtab['bracket']='{{__('app.bracket')}}';
     
     $( document ).ajaxStart(function() {
           $( "#al_loading" ).show();
@@ -156,8 +159,6 @@ $(document).ready(function(){
           $( "#al_loading" ).hide();
     });
         
-    $('#liCreateQuery').hide();
-    
     $(document).on('click','#feitenbox a',function(event){
 
        var $target = $( event.currentTarget ),
@@ -305,16 +306,16 @@ $(document).ready(function(){
            
 
         $('#liResetQuery').click(function(e){
-            e.preventDefault();
+           e.preventDefault();
            selSubtype.splice(0,selSubtype.length);           
            selFeit.splice(0,selFeit.length);
            searchItemNr = 1;
            $('#al_resultList').html('');
            $('#li_navbar').html('');
-        $('#li_navbar_detail').hide('');
-        $('#alSearchCriterium').html('');
-        $('#al_detailResultList').empty();
-        $('#alQueryBox').hide();
+            $('#li_navbar_detail').hide('');
+            $('#alSearchCriterium').html('');
+            $('#al_detailResultList').empty();
+            $('#alQueryBox').hide();
            $('#liCreateQuery').hide();
            $('.feitenTextBox').attr("placeholder",'{{__('app.wait')}}');
            $('.subtypesTextBox').attr("placeholder",'{{__('app.wait')}}');
@@ -349,6 +350,60 @@ $(document).ready(function(){
            });
            
 });
+
+
+function limZoekFeit()
+{
+    var filter = $(".feitenTextBox").val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+    });
+          
+    $.ajax({
+        url: "{{ url('/feit/post') }}",
+        method: 'post',
+        dataType: 'json',
+        data: {
+           lijst: 'zoekFeit',
+           filter: filter,
+        },
+        success: function(result){
+            alResultFeiten(result);
+        }
+    });
+}
+
+
+function limZoekSubtype() {
+    
+   var filter = $(".subtypesTextBox").val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+    });
+          
+    $.ajax({
+        url: "{{ url('/feit/post') }}",
+        method: 'post',
+        dataType: 'json',
+        data: {
+           lijst: 'zoekSubtype',
+           filter: filter,
+        },
+        success: function(result){
+            alResultSubtypes(result);
+        }
+    });
+}
+
+
+
+
+
+
 
 function jumpToPreviousDetailPage()
 {
