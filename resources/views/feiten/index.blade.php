@@ -121,6 +121,7 @@ $(document).ready(function(){
     newwindow = null;
 
     transtab = [];
+    transtab['url']='{{ url('') }}';
     transtab['name']='{{__('app.name')}}';
     transtab['first_name']='{{__('app.first_name')}}';
     transtab['role']='{{__('app.role')}}';
@@ -184,7 +185,7 @@ $(document).ready(function(){
                 $('#liCreateQuery').hide();
             }
         }
-        composeQuery();
+        composeQuery(0);
         return false;
     });        
 
@@ -213,7 +214,7 @@ $(document).ready(function(){
                 $('#liCreateQuery').hide();
             }
         }
-        composeQuery();
+        composeQuery(0);
     });
     
 
