@@ -310,6 +310,7 @@ $(document).ready(function(){
            e.preventDefault();
            selSubtype.splice(0,selSubtype.length);           
            selFeit.splice(0,selFeit.length);
+           searchArr.splice(0,searchArr.length);
            searchItemNr = 1;
            $('#al_resultList').html('');
            $('#li_navbar').html('');

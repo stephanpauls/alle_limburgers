@@ -348,14 +348,14 @@ function addSearchBlock(arrIndex) {
     
     var itemNr = searchItemNr;
     if (arrIndex == 0) arrIndex = itemNr;
-    
-    for (var i=1;i<itemNr;i++)
+/*    
+    for (var i=1;i<arrIndex;i++)
     {
         if ((!$.trim($("#al_filter_"+i).val())) && (!$.trim($("#dp_"+i).val()))) {
         return;
         }
     }        
-
+*/
     var poutput = [];// voorbereiding
     var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
     targetToPush += '<div class="row li_align_center" >';
@@ -404,16 +404,18 @@ function addSearchBlock(arrIndex) {
                 'orgindex':itemNr};
        
     if (searchArr.length ==  0) searchArr[itemNr] = item;
-    else searchArr.splice(arrIndex,0,item);
+    else searchArr.splice(arrIndex+1,0,item);
     
     $('#alSearchCriterium').html('');
-    for (ind=1;ind<itemNr+1;ind++)
+    for (ind=1;ind<searchArr.length+1;ind++)
     {
-        poutput.push(searchArr[ind]['html']);
+        if (null != searchArr[ind]) {
+            poutput.push(searchArr[ind]['html']);
+        }
     }
     $('#alSearchCriterium').append( poutput.join(''));
 
-    for (ind=1;ind<itemNr;ind++)
+    for (ind=1;ind<searchArr.length+1;ind++)
     {
         if (null != searchArr[ind]) {
             var orgindex = searchArr[ind]['orgindex'];
