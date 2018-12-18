@@ -263,7 +263,7 @@ $(document).ready(function(){
         $('#al_detailResultList').empty();
         $('#li_navbar').empty();
         $('#li_navbar_detail').hide();
-        createSearchBlock(0);
+        addSearchBlock(0);
     });
     
     $('#liToMainPage').click(function(e){
@@ -481,7 +481,7 @@ function criterialijst_change_1() {
         if (val1 == 'datum') {
             createStartDatumSearchBlock(1,andOrNot);
         } else {
-            createStartSearchBlock(1,val1,andOrNot);
+            updateSearchBlock(1,val1,andOrNot);
         }
     }
 
@@ -491,7 +491,7 @@ function criterialijst_change_2() {
         if (val1 == 'datum') {
             createDatumSearchBlock(2,andOrNot);
         } else {
-            createSearchBlock(2,val1,andOrNot);
+            updateSearchBlock(2,val1,andOrNot);
         }
     }
 
@@ -502,7 +502,7 @@ function criterialijst_change_3() {
         if (val1 == 'datum') {
             createDatumSearchBlock(3,andOrNot);
         } else {
-            createSearchBlock(3,val1,andOrNot);
+            updateSearchBlock(3,val1,andOrNot);
         }
     }
 
@@ -513,7 +513,7 @@ function criterialijst_change_4() {
         if (val1 == 'datum') {
             createDatumSearchBlock(4,andOrNot);
         } else {
-            createSearchBlock(4,val1,andOrNot);
+            updateSearchBlock(4,val1,andOrNot);
         }
     }
 
@@ -524,7 +524,7 @@ function criterialijst_change_5() {
         if (val1 == 'datum') {
             createDatumSearchBlock(5,andOrNot);
         } else {
-            createSearchBlock(5,val1,andOrNot);
+            updateSearchBlock(5,val1,andOrNot);
         }
     }
 </script>

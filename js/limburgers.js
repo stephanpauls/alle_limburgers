@@ -5,14 +5,6 @@ firstOpenFeit = false;
 firstOpenSubtype = false;
 searchItemNr = 1;
 searchArr = new Array();
-
-/*
-searchArr[1] = {html:"<div id=al_1></div>"};
-searchArr[2][1] = {html:'<div id="al_2-1" name = "2-1"></div>'};
-searchArr[2][2] = {html:'<div id="al_2-2" name = "2-2"></div>'};
-searchArr[3] = {html:'<div id="al_3" name = "3"></div>'};
-searchArr[3][1] = {html:'<div id="al_3-1" name = "3-1"></div>'};
- */
 fieldTypeArray  = new Array();
 subtypeArray  = new Array();
 advSQLFieldsArray  = new Array();
@@ -110,7 +102,7 @@ function createStartSearchBlock(lijn,crit,andOrNot) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
     targetToPush += '<select onchange="composeQuery('+itemNr+')">';
-    targetToPush += '<option value="AND">AND</option>';
+    targetToPush += '<option selected value="AND">AND</option>';
     targetToPush += '<option value="OR">OR</option>';
     targetToPush += '<option value="NOT">NOT</option>';
     targetToPush += '</select>';  
@@ -156,7 +148,8 @@ function createStartSearchBlock(lijn,crit,andOrNot) {
                          'poort':$( "#andOrNotlijst_"+itemNr+" option:selected" ).val(), 
                          'term':$( "#criterialijst_"+itemNr+" option:selected" ).val(),
                          'operator':$( "#operatorlijst_"+itemNr+" option:selected" ).val(),
-                         'filter':$( "#al_filter_"+itemNr).val()    
+                         'filter':$( "#al_filter_"+itemNr).val(),
+                         'orgindex':itemNr
                      };
     
     $('#alSearchCriterium').html('');
@@ -170,12 +163,14 @@ function createStartSearchBlock(lijn,crit,andOrNot) {
 
     for (ind=1;ind<itemNr;ind++)
     {
-        $( "#andOrNotlijst_"+ind+" option:selected" ).val(searchArr[ind]['poort']);
-        $( "#criterialijst_"+ind+" option:selected" ).val(searchArr[ind]['term']);
-        $( "#operatorlijst_"+ind+" option:selected" ).val(searchArr[ind]['operator']);
-        $( "#al_filter_"+ind).val(searchArr[ind]['filter']);
-        
-    }
+        if (null != searchArr[ind]) {
+            var orgindex = searchArr[ind]['orgindex'];
+            $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
+            $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
+            $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
+            $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
+        }
+    } 
  
     if (lijn==0) {
         searchItemNr++;
@@ -348,29 +343,26 @@ function createDatumSearchBlock(lijn,andOrNot) {
 
 }    
 
-function createSearchBlock(lijn,crit,andOrNot) {
+function addSearchBlock(arrIndex) {
 
-
-    if (lijn == 0) {
-        itemNr = searchItemNr;
-        for (var i=1;i<itemNr;i++)
-        {
-            if ((!$.trim($("#al_filter_"+i).val())) && (!$.trim($("#dp_"+i).val()))) {
-            return;
-            }
-        }        
-    } else {
-        itemNr = lijn;
-    }
+    
+    var itemNr = searchItemNr;
+    if (arrIndex == 0) arrIndex = itemNr;
+    
+    for (var i=1;i<itemNr;i++)
+    {
+        if ((!$.trim($("#al_filter_"+i).val())) && (!$.trim($("#dp_"+i).val()))) {
+        return;
+        }
+    }        
 
     var poutput = [];// voorbereiding
-    var targetToPush = '';
-   if (lijn==0) var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
+    var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
     targetToPush += '<div class="row li_align_center" >';
     targetToPush += '<div class="col-sm col-md-offset-1">';    
     targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
     targetToPush += '<select onchange="composeQuery('+itemNr+')">';
-    targetToPush += '<option value="AND">AND</option>';
+    targetToPush += '<option selected value="AND">AND</option>';
     targetToPush += '<option value="OR">OR</option>';
     targetToPush += '<option value="NOT">NOT</option>';
     targetToPush += '</select>';  
@@ -399,64 +391,61 @@ function createSearchBlock(lijn,crit,andOrNot) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<input type="text" id="al_filter_'+itemNr+'" name="al_filter_'+itemNr+'" onkeyup="composeQuery('+itemNr+');" placeholder="'+transtab['fill_out']+'">';
     targetToPush += '</div>';
-    
     targetToPush += '<div class="col-sm">';
     targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
     targetToPush += '<a title="'+transtab['add']+'" onclick="addSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
     targetToPush += '<a title="'+transtab['bracket']+'" onclick="addNewCondition('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
     targetToPush += '</div>';
-    
     targetToPush += '</div>';
     targetToPush += '</div>';
-    if (lijn==0) targetToPush += '</div>';
+    targetToPush += '</div>';
 
-//    poutput.push(targetToPush);
-    searchArr[itemNr] = {'html':targetToPush,
-                         'poort':$( "#andOrNotlijst_"+itemNr+" option:selected" ).val(), 
-                         'term':$( "#criterialijst_"+itemNr+" option:selected" ).val(),
-                         'operator':$( "#operatorlijst_"+itemNr+" option:selected" ).val(),
-                         'filter':$( "#al_filter_"+itemNr).val()    
-                     };
+    var item = {'html':targetToPush,
+                'orgindex':itemNr};
+       
+    if (searchArr.length ==  0) searchArr[itemNr] = item;
+    else searchArr.splice(arrIndex,0,item);
     
     $('#alSearchCriterium').html('');
-    for (ind=1;ind<itemNr;ind++)
+    for (ind=1;ind<itemNr+1;ind++)
     {
         poutput.push(searchArr[ind]['html']);
     }
-    //LAATSTE LIJN IS AL INGEVULD
-    poutput.push(searchArr[ind]['html']);
     $('#alSearchCriterium').append( poutput.join(''));
 
     for (ind=1;ind<itemNr;ind++)
     {
-        $( "#andOrNotlijst_"+ind+" option:selected" ).val(searchArr[ind]['poort']);
-        $( "#criterialijst_"+ind+" option:selected" ).val(searchArr[ind]['term']);
-        $( "#operatorlijst_"+ind+" option:selected" ).val(searchArr[ind]['operator']);
-        $( "#al_filter_"+ind ).val(searchArr[ind]['filter']);
-        
-    }
-
-
-/*
-    if (lijn==0) {
-        $('#alSearchCriterium').append( poutput.join(''));
-    }
-    else {
-        $('#liSearchCrit_'+lijn).html('');
-        $('#liSearchCrit_'+lijn).html( poutput.join(''));
-        $('#andOrNotlijst_'+itemNr+' select').val(andOrNot);    
-        $('#criterialijst_'+itemNr+' select').val(crit);    
+        if (null != searchArr[ind]) {
+            var orgindex = searchArr[ind]['orgindex'];
+            $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
+            $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
+            $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
+            $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
+        }
     } 
-*/    
-    if (lijn==0) searchItemNr++;
+    searchItemNr++;
 
 }    
+function updateSearchBlock(lijn,crit,andOrNot) {
+    
+    for (ind=1;ind<searchArr.length+1;ind++)
+    {
+        if (null != searchArr[ind]) {
+            var orgindex = searchArr[ind]['orgindex'];
+            if (orgindex == lijn ) {
+                searchArr[ind]['poort']= andOrNot;
+                searchArr[ind]['term']= crit;
+                break;
+            }
+        } 
+    }
+}
+
 
 function removeSearchBlock(itemNr){
 
     var poutput = [];
 
-//    searchArr.splice(itemNr, 1);
     delete searchArr[itemNr];
     
     $('#alSearchCriterium').html('');
@@ -469,12 +458,14 @@ function removeSearchBlock(itemNr){
     for (ind=1;ind<searchArr.length+1;ind++)
     {
         if (null != searchArr[ind]) {
-            $( "#andOrNotlijst_"+ind+" option:selected" ).val(searchArr[ind]['poort']);
-            $( "#criterialijst_"+ind+" option:selected" ).val(searchArr[ind]['term']);
-            $( "#operatorlijst_"+ind+" option:selected" ).val(searchArr[ind]['operator']);
-            $( "#al_filter_"+ind ).val(searchArr[ind]['filter']);
+            var orgindex = searchArr[ind]['orgindex'];
+            $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
+            $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
+            $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
+            $( "#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
         }
     }    
+    composeQuery(0);
 }
 
 function composeQuery(itemNr) {
@@ -482,11 +473,12 @@ function composeQuery(itemNr) {
     var tmpArr=[];
     if (itemNr > 0){
         tmpArr = {
-        'poort':$( "#andOrNotlijst_"+itemNr+" option:selected" ).val(),
-        'term':$( "#criterialijst_"+itemNr+" option:selected" ).val(),
-        'operator':$( "#operatorlijst_"+itemNr+" option:selected" ).val(),
-        'filter':$( "#al_filter_"+itemNr).val()};
-         jQuery.extend(searchArr[itemNr],tmpArr);
+            'poort':$( "#andOrNotlijst_"+itemNr+" option:selected" ).val(),
+            'term':$( "#criterialijst_"+itemNr+" option:selected" ).val(),
+            'operator':$( "#operatorlijst_"+itemNr+" option:selected" ).val(),
+            'filter':$( "#al_filter_"+itemNr).val()
+        };
+        jQuery.extend(searchArr[itemNr],tmpArr);
     }
 
         $('#liCreateQuery').show();
@@ -533,24 +525,25 @@ function composeQuery(itemNr) {
     }
     targetToPush += '</br>';
 
-    for (var i =1;i<searchItemNr;i++) {
-        
-        if ($( "#criterialijst_"+i+" option:selected" ).val() == 'datum') {
-            if ($( "#operatorlijst_"+i+" option:selected" ).val() == 'vanaf') {
-                li_val = $("#dp_"+i).datepicker().val();
-            } else if ($( "#operatorlijst_"+i+" option:selected" ).val() == 'totmet') {
-                li_val = $("#dp_"+i).datepicker().val();
+    for (j=1;j<searchArr.length+1;j++) {
+        if (null != searchArr[j]) {
+            i = searchArr[j]['orgindex'];
+            if ($( "#criterialijst_"+i+" option:selected" ).val() == 'datum') {
+                if ($( "#operatorlijst_"+i+" option:selected" ).val() == 'vanaf') {
+                    li_val = $("#dp_"+i).datepicker().val();
+                } else if ($( "#operatorlijst_"+i+" option:selected" ).val() == 'totmet') {
+                    li_val = $("#dp_"+i).datepicker().val();
+                } else {
+                    li_val = $("#dp_"+i).datepicker().val();
+                }
+                if (li_val != 0) {
+                    li_val_fin = li_val.replace(/-/g, '')+'5';     
+                } else {
+                    li_val_fin = 0;
+                }
             } else {
-                li_val = $("#dp_"+i).datepicker().val();
-            }
-            if (li_val != 0) {
-                li_val_fin = li_val.replace(/-/g, '')+'5';     
-            } else {
-                li_val_fin = 0;
-            }
-        } else {
-            li_val = li_val_fin = $( "#al_filter_"+i).val();
-        }        
+                li_val = li_val_fin = $( "#al_filter_"+i).val();
+            }        
 
 //        if (i>1) {
             targetToPush +=  '> ' + $( "#andOrNotlijst_"+i+" option:selected" ).text();
@@ -572,7 +565,7 @@ function composeQuery(itemNr) {
         targetToPush += '> ' + $( "#criterialijst_"+i+" option:selected" ).text();
         targetToPush += ' ' + $( "#operatorlijst_"+i+" option:selected" ).text();
         targetToPush += ' ' + li_val + '</br>';        
-        
+        }
     }
     targetToPush += '</p>';
     poutput.push(targetToPush);
