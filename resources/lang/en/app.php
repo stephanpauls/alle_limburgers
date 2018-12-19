@@ -30,6 +30,7 @@ return [
     'all_facts' => 'All facts',
     'all_subtypes' => 'All subtypes',
     'fill_out' => 'Fill out here',
+    'fill_out_date' => 'Date ex.: 2001-01-01',
     'text' => 'Text',
     'place' => 'Place',
     'keyword' => 'Keyword',
@@ -40,10 +41,15 @@ return [
     'municipality' => 'Municipality',
     'description' => 'Description',
     'authority' => 'authority',
-    'query' => 'Toggle Query',
+    'hide_query' => 'Hide Query',
+    'show_query' => 'Show Query',
     'reset' => 'Reset',
     'add' => 'Add line',
     'remove' => 'Remove line',
     'bracket' => 'Add brackets',
-    'wait' => 'One moment please...'
+    'wait' => 'One moment please...',
+    'or' => 'Or',
+    'and' => 'And',
+    'not' => 'Not',
+    
 ];

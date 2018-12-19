@@ -49,12 +49,11 @@
         <button type="button" id="liResetQuery" class="btn btn-secondary">{{__('app.reset')}}</button>
     </div>
     <div class="btn-group" style="margin-left:5px;margin-bottom: 20px;" role="group" aria-label="Basic example">
-        <button type="button" id="liShowQuery"  class="btn btn-secondary">{{__('app.query')}}</button>                    
+        <button type="button" id="liShowQuery"  class="btn btn-secondary">{{__('app.show_query')}}</button>                    
     </div>                     
     <div class="btn-group" style="margin-left:5px;margin-bottom: 20px;" role="group" aria-label="Basic example">
         <button type="button" id="liCreateQuery"  style="display: none;" class="btn btn-secondary">{{__('app.search')}} </button>                    
     </div>   
-        
 </div>
 <div class="container" id=al_loading style="display: none;margin-top:10px;margin-bottom: 20px;">
     <p class="li_bold_info">{{__('app.wait')}}</p>
@@ -145,6 +144,7 @@ $(document).ready(function(){
     transtab['archive_law']='{{__('app.archive_law')}}';
     transtab['detail']='{{__('app.detail')}}';
     transtab['fill_out']='{{__('app.fill_out')}}';
+    transtab['fill_out_date']='{{__('app.fill_out')}}';
     transtab['municipality']='{{__('app.municipality')}}';
     transtab['description']='{{__('app.description')}}';
     transtab['fact']='{{__('app.fact')}}';
@@ -152,6 +152,9 @@ $(document).ready(function(){
     transtab['add']='{{__('app.add')}}';
     transtab['remove']='{{__('app.remove')}}';
     transtab['bracket']='{{__('app.bracket')}}';
+    transtab['and']='{{__('app.and')}}';
+    transtab['or']='{{__('app.or')}}';
+    transtab['not']='{{__('app.not')}}';
     
     $( document ).ajaxStart(function() {
           $( "#al_loading" ).show();
@@ -273,84 +276,87 @@ $(document).ready(function(){
         $('#li_navbar').show();
     });
 
-        $('#liShowQuery').click(function(e){
-           e.preventDefault();    
-           if ($('#alQueryBox').css('display') == 'none') {
-                $('#alQueryBox').show();
-            } else {
-                $('#alQueryBox').hide();
+    $('#liShowQuery').click(function(e){
+       e.preventDefault();    
+       if ($('#alQueryBox').css('display') == 'none') {
+            $('#alQueryBox').show();
+            $('#liShowQuery').text('{{__('app.hide_query')}}');
+        } else {
+            $('#alQueryBox').hide();
+            $('#liShowQuery').text('{{__('app.show_query')}}');
+        }
+    });
+
+    $('#liCreateQuery').click(function(e){
+       e.preventDefault();
+       $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+
+       $.ajax({
+          url: "{{ url('/feit/post') }}",
+          method: 'post',
+          dataType: 'json',
+          data: {
+              lijst: 'none',
+             feit: selFeit,
+             subtype: selSubtype,
+             other: advSQLFieldsArray
+          },
+          success: function(result){
+              alResultTable(result,transtab);
+          }});
+       });
+           
+
+    $('#liResetQuery').click(function(e){
+        e.preventDefault();
+        selSubtype.splice(0,selSubtype.length);           
+        selFeit.splice(0,selFeit.length);
+        searchArr.splice(0,searchArr.length);
+        advSQLFieldsArray.splice(0,searchArr.length);
+        searchItemNr = 1;
+        $('#al_resultList').html('');
+        $('#li_navbar').html('');
+        $('#li_navbar_detail').hide('');
+        $('#alSearchCriterium').html('');
+        $('#al_detailResultList').empty();
+        $('#alQueryBox').hide();
+        $('#liCreateQuery').hide();
+        $('.feitenTextBox').attr("placeholder",'{{__('app.wait')}}');
+        $('.subtypesTextBox').attr("placeholder",'{{__('app.wait')}}');
+        $.ajaxSetup({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           }
+        });
+        $.ajax({
+            url: "{{ url('/feit/post') }}",
+            method: 'post',
+            dataType: 'json',
+            data: {
+               lijst: 'feittype',
+            },              
+            success: function(result){
+                alFeitenTable(result);
+                $('.feitenTextBox').attr("placeholder",'{{__('app.search_fact')}}');
+                $.ajax({
+                    url: "{{url('/feit/post')}}",
+                    method: 'post',
+                    dataType: 'json',
+                    data: {
+                       lijst: 'subtype',
+                    },              
+                    success: function(result){
+                        alSubtypesTable(result);
+                        $('.subtypesTextBox').attr("placeholder",'{{__('app.search_subtype')}}');
+                    }
+                });
             }
         });
-    
-        $('#liCreateQuery').click(function(e){
-           e.preventDefault();
-           $.ajaxSetup({
-              headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              }
-          });
-          
-           $.ajax({
-              url: "{{ url('/feit/post') }}",
-              method: 'post',
-              dataType: 'json',
-              data: {
-                  lijst: 'none',
-                 feit: selFeit,
-                 subtype: selSubtype,
-                 other: advSQLFieldsArray
-              },
-              success: function(result){
-                  alResultTable(result,transtab);
-              }});
-           });
-           
-
-        $('#liResetQuery').click(function(e){
-           e.preventDefault();
-           selSubtype.splice(0,selSubtype.length);           
-           selFeit.splice(0,selFeit.length);
-           searchArr.splice(0,searchArr.length);
-           searchItemNr = 1;
-           $('#al_resultList').html('');
-           $('#li_navbar').html('');
-            $('#li_navbar_detail').hide('');
-            $('#alSearchCriterium').html('');
-            $('#al_detailResultList').empty();
-            $('#alQueryBox').hide();
-           $('#liCreateQuery').hide();
-           $('.feitenTextBox').attr("placeholder",'{{__('app.wait')}}');
-           $('.subtypesTextBox').attr("placeholder",'{{__('app.wait')}}');
-            $.ajaxSetup({
-               headers: {
-                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-               }
-           });
-           $.ajax({
-              url: "{{ url('/feit/post') }}",
-              method: 'post',
-              dataType: 'json',
-              data: {
-                 lijst: 'feittype',
-              },              
-              success: function(result){
-                    alFeitenTable(result);
-                    $('.feitenTextBox').attr("placeholder",'{{__('app.search_fact')}}');
-                    $.ajax({
-                       url: "{{url('/feit/post')}}",
-                       method: 'post',
-                       dataType: 'json',
-                       data: {
-                          lijst: 'subtype',
-                       },              
-                       success: function(result){
-                           alSubtypesTable(result);
-                           $('.subtypesTextBox').attr("placeholder",'{{__('app.search_subtype')}}');
-                       }});
-
-                }});
-           });
-           
+    });
 });
 
 
@@ -480,7 +486,7 @@ function criterialijst_change_1() {
         var val1 = $('#criterialijst_1 option:selected').val();
         var andOrNot = $('#andOrNotlijst_1 option:selected').val();
         if (val1 == 'datum') {
-            createStartDatumSearchBlock(1,andOrNot);
+            createDatumSearchBlock(1);
         } else {
             updateSearchBlock(1,val1,andOrNot);
         }
@@ -490,7 +496,7 @@ function criterialijst_change_2() {
         var val1 = $('#criterialijst_2 option:selected').val();
         var andOrNot = $('#andOrNotlijst_2 option:selected').val();
         if (val1 == 'datum') {
-            createDatumSearchBlock(2,andOrNot);
+            createDatumSearchBlock(2);
         } else {
             updateSearchBlock(2,val1,andOrNot);
         }
@@ -501,7 +507,7 @@ function criterialijst_change_3() {
         var andOrNot = $('#andOrNotlijst_3 option:selected').val();
         
         if (val1 == 'datum') {
-            createDatumSearchBlock(3,andOrNot);
+            createDatumSearchBlock(3);
         } else {
             updateSearchBlock(3,val1,andOrNot);
         }
@@ -512,7 +518,7 @@ function criterialijst_change_4() {
         var andOrNot = $('#andOrNotlijst_4 option:selected').val();
         
         if (val1 == 'datum') {
-            createDatumSearchBlock(4,andOrNot);
+            createDatumSearchBlock(4);
         } else {
             updateSearchBlock(4,val1,andOrNot);
         }
@@ -523,7 +529,7 @@ function criterialijst_change_5() {
         var andOrNot = $('#andOrNotlijst_5 option:selected').val();
         
         if (val1 == 'datum') {
-            createDatumSearchBlock(5,andOrNot);
+            createDatumSearchBlock(5);
         } else {
             updateSearchBlock(5,val1,andOrNot);
         }

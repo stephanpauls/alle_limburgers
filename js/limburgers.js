@@ -82,7 +82,7 @@ function createStartSearchBlock(lijn,crit,andOrNot) {
     
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
-    
+    $('#liCreateQuery').hide();
     
     if (lijn==0) {
         searchItemNr = 1;
@@ -102,9 +102,9 @@ function createStartSearchBlock(lijn,crit,andOrNot) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
     targetToPush += '<select onchange="composeQuery('+itemNr+')">';
-    targetToPush += '<option selected value="AND">AND</option>';
-    targetToPush += '<option value="OR">OR</option>';
-    targetToPush += '<option value="NOT">NOT</option>';
+    targetToPush += '<option value="AND">'+transtab['and']+'</option>';
+    targetToPush += '<option value="OR">'+transtab['or']+'</option>';
+    targetToPush += '<option value="NOT">'+transtab['not']+'</option>';
     targetToPush += '</select>';  
     targetToPush += '</div>';          
     targetToPush += '</div>';          
@@ -217,7 +217,7 @@ function createStartDatumSearchBlock(andOrNot) {
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm col-md-offset-0">';
     targetToPush += '<div>';
-    targetToPush += '<input type="text" id="dp_1" placeholder="'+transtab['fill_out']+'">';
+    targetToPush += '<input type="text" id="dp_1" onkeyup="checkDate(1);" placeholder="'+transtab['fill_out']+'">';
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -231,52 +231,42 @@ function createStartDatumSearchBlock(andOrNot) {
     }
     $('#alSearchCriterium').append( poutput.join(''));
     
-/*
-    $('#liSearchCrit_1').html('');
-    $('#liSearchCrit_1').html( poutput.join(''));
-    $('#andOrNotlijst_'+itemNr+' select').val(andOrNot);            
-  */      
-    tijd = $( "#dp_1" ).datepicker({
-        defaultDate: "+1w",
-        dateFormat: "yy-mm-dd",
-        changeMonth: true,
-        changeYear: true,
-        numberOfMonths: 1,
-        showOtherMonths: true,
-        selectOtherMonths: true
-    }).on( "change", function() {
-        li_datum( this.value,$( "#operatorlijst_1 option:selected" ).val());
-    });
-
 
 }
 
 
-function createDatumSearchBlock(lijn,andOrNot) {
+function createDatumSearchBlock(arrIndex,andOrNot) {
 
-    if (lijn == 0) {
-        itemNr = searchItemNr;
-        for (var i=1;i<itemNr;i++)
-        {
-            if ((!$.trim($("#al_filter_"+i).val())) && (!$.trim($("#dp_"+i).val()))) {
-            return;
-            }
-        }        
+    $('#feitenbox').hide();
+    $('#subtypesbox').hide();
+    $('#liCreateQuery').hide();
+        
+    var itemNr = searchItemNr;
+    if (arrIndex == 0) {
+        arrIndex = itemNr;
     } else {
-        itemNr = lijn;
-    }
-
+        for (ind=1;ind<searchArr.length+1;ind++)
+        {
+            if (null != searchArr[ind]) {
+                var orgindex = searchArr[ind]['orgindex'];
+                if (orgindex == arrIndex ) {
+                    arrIndex = ind;
+                    break;
+                }
+            } 
+        }  
+    }  
     var poutput = [];// voorbereiding
     var targetToPush = '';
-    if (lijn==0) var targetToPush = '<div class="card" id="liSearchCrit_'+itemNr+'" style="background-color:#eaecef;">';
+    var targetToPush = '<div class="card" id="liSearchCrit_'+itemNr+'" style="background-color:#eaecef;">';
     
     targetToPush += '<div class="row li_align_center">';
     targetToPush += '<div class="col-sm">';    
     targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
     targetToPush += '<select onchange="composeQuery('+itemNr+')">';
-    targetToPush += '<option value="AND">AND</option>';
-    targetToPush += '<option value="OR">OR</option>';
-    targetToPush += '<option value="NOT">NOT</option>';
+    targetToPush += '<option value="AND">'+transtab['and']+'</option>';
+    targetToPush += '<option value="OR">'+transtab['or']+'</option>';
+    targetToPush += '<option value="NOT">'+transtab['not']+'</option>';
     targetToPush += '</select>';  
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -302,69 +292,70 @@ function createDatumSearchBlock(lijn,andOrNot) {
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm col-md-offset-0">';
     targetToPush += '<div>';
-    targetToPush += '<input type="text" id="dp_'+itemNr+'" placeholder="'+transtab['fill_out']+'">';
+    targetToPush += '<input type="text" id="dp_'+itemNr+'" onkeyup="checkDate('+itemNr+');" placeholder="'+transtab['fill_out_date']+'">';
     targetToPush += '</div>';
     targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['add']+'" onclick="addSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['bracket']+'" onclick="addNewCondition('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
+    targetToPush += '</div>';    
     targetToPush += '</div>';
-    if (lijn==0) targetToPush += '</div>';
+    targetToPush += '</div>';
 
-    //poutput.push(targetToPush);
-    searchArr[itemNr] = {'html':targetToPush};
+    var item = {'html':targetToPush,
+                'orgindex':itemNr};
+       
+    if (searchArr.length ==  0) searchArr[itemNr] = item;
+    
+    else {
+        searchArr.splice(arrIndex,1);
+        searchArr.splice(arrIndex,0,item);
+    }
+    
     $('#alSearchCriterium').html('');
-
-    for (ind=1;ind<itemNr+1;ind++)
+    for (ind=1;ind<searchArr.length+1;ind++)
     {
-      poutput.push(searchArr[ind]['html']);
+        if (null != searchArr[ind]) {
+            poutput.push(searchArr[ind]['html']);
+        }
     }
     $('#alSearchCriterium').append( poutput.join(''));
 
-    /*
-    if (lijn==0) {
-        $('#alSearchCriterium').append( poutput.join(''));
-    }
-    else {
-        $('#liSearchCrit_'+lijn).html('');
-        $('#liSearchCrit_'+lijn).html( poutput.join(''));
-        $('#andOrNotlijst_'+itemNr+' select').val(andOrNot);            
-    } 
-      */  
-    tijd = $( "#dp_"+itemNr ).datepicker({
-        defaultDate: "+1w",
-        dateFormat: "yy-mm-dd",
-        changeMonth: true,
-        changeYear: true,
-        numberOfMonths: 1,
-        showOtherMonths: true,
-        selectOtherMonths: true
-    }).on( "change", function() {
-        li_datum( this.value,$( "#operatorlijst_"+itemNr+" option:selected" ).val());
-    });
-    if (lijn==0) searchItemNr++;
-
+    searchItemNr++;
 }    
 
 function addSearchBlock(arrIndex) {
 
-    
+    $('#feitenbox').hide();
+    $('#subtypesbox').hide();
+    $('#liCreateQuery').hide();
+        
     var itemNr = searchItemNr;
-    if (arrIndex == 0) arrIndex = itemNr;
-/*    
-    for (var i=1;i<arrIndex;i++)
-    {
-        if ((!$.trim($("#al_filter_"+i).val())) && (!$.trim($("#dp_"+i).val()))) {
-        return;
-        }
-    }        
-*/
+    if (arrIndex == 0) {
+        arrIndex = itemNr;
+    } else {
+        for (ind=1;ind<searchArr.length+1;ind++)
+        {
+            if (null != searchArr[ind]) {
+                var orgindex = searchArr[ind]['orgindex'];
+                if (orgindex == arrIndex ) {
+                    arrIndex = ind;
+                    break;
+                }
+            } 
+        }  
+    }    
+    
     var poutput = [];// voorbereiding
     var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
     targetToPush += '<div class="row li_align_center" >';
     targetToPush += '<div class="col-sm col-md-offset-1">';    
     targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
     targetToPush += '<select onchange="composeQuery('+itemNr+')">';
-    targetToPush += '<option selected value="AND">AND</option>';
-    targetToPush += '<option value="OR">OR</option>';
-    targetToPush += '<option value="NOT">NOT</option>';
+    targetToPush += '<option value="AND">'+transtab['and']+'</option>';
+    targetToPush += '<option value="OR">'+transtab['or']+'</option>';
+    targetToPush += '<option value="NOT">'+transtab['not']+'</option>';
     targetToPush += '</select>';  
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -428,6 +419,55 @@ function addSearchBlock(arrIndex) {
     searchItemNr++;
 
 }    
+
+function checkDate(itemNr) {
+    
+        for (var ind=1;ind<searchArr.length+1;ind++)
+    {
+        if (null != searchArr[ind]) {
+            var orgindex = searchArr[ind]['orgindex'];
+            if (orgindex == itemNr ) {
+                break;
+            }
+        } 
+    }
+    
+    var dat = $('#dp_'+itemNr).val();
+    
+    if (dat.length < 4 ) { 
+        return;
+    } else if (dat.length == 4){
+        if (parseInt(dat) != 'NaN') {
+            searchArr[ind]['date'] = dat+'-01-01';
+        } else 
+            $('#dp_'+itemNr).val('');
+    } else if (dat.length == 7) {
+            if (dat.indexOf('-') == 4) {
+                var jaar = dat.substr(0,4);
+                var maand = dat.substr(5,2);
+                if (parseInt(maand) == 'NaN') {
+                    searchArr[ind]['date'] = jaar;
+                } else {
+                    searchArr[ind]['date'] = dat+'-01';
+                }
+                    
+            }
+    } else if (dat.length == 10) {
+                var jaar = dat.substr(0,4);
+                var maand = dat.substr(5,2);
+                var dag = dat.substr(8,2);
+                if (parseInt(dag) == 'NaN') {
+                   searchArr[ind]['date'] = jaar+'-'+maand;
+                } else {
+                   searchArr[ind]['date'] = dat;
+                }
+                    
+            } 
+    }
+    
+
+
+
 function updateSearchBlock(lijn,crit,andOrNot) {
     
     for (ind=1;ind<searchArr.length+1;ind++)
@@ -443,12 +483,24 @@ function updateSearchBlock(lijn,crit,andOrNot) {
     }
 }
 
-
 function removeSearchBlock(itemNr){
 
     var poutput = [];
-
-    delete searchArr[itemNr];
+    $('#li_navbar').html('');
+    $('#li_navbar_detail').hide('');
+    $('#al_resultList').html('');
+    $('#al_detailResultList').empty();    
+    for (ind=1;ind<searchArr.length+1;ind++)
+    {
+        if (null != searchArr[ind]) {
+            var orgindex = searchArr[ind]['orgindex'];
+            if (orgindex == itemNr ) {
+                itemNr = ind;
+                break;
+            }
+        } 
+    }     
+    searchArr.splice(itemNr,1);
     
     $('#alSearchCriterium').html('');
     for (ind=1;ind<searchArr.length+1;ind++)
@@ -480,31 +532,45 @@ function composeQuery(itemNr) {
             'operator':$( "#operatorlijst_"+itemNr+" option:selected" ).val(),
             'filter':$( "#al_filter_"+itemNr).val()
         };
-        jQuery.extend(searchArr[itemNr],tmpArr);
-    }
-
-        $('#liCreateQuery').show();
-        if (selFeit.length>0) {
-            if (selSubtype.length == 0) {
-                if (searchItemNr < 2) {
-                    $('#liCreateQuery').hide();
+        for (ind=1;ind<searchArr.length+1;ind++)
+        {
+            if (null != searchArr[ind]) {
+                var orgindex = searchArr[ind]['orgindex'];
+                if (orgindex == itemNr ) {
+                    jQuery.extend(searchArr[ind],tmpArr);
+                    break;
                 }
             } 
-        } else {
-            if (selSubtype.length > 0) {
-                if (searchItemNr < 2) {
-                    $('#liCreateQuery').hide();
-                } 
-            } else {
-                return;
+        }    
+    }
+
+
+    $('#liCreateQuery').show();
+    if (selFeit.length>0) {
+        if (selSubtype.length == 0) {
+            if (searchItemNr < 2) {
+                $('#liCreateQuery').hide();
             }
+        } 
+    } else {
+        if (selSubtype.length > 0) {
+            if (searchItemNr < 2) {
+                $('#liCreateQuery').hide();
+            } 
+        } else {
+            return;
         }
-        for (var i=1;i<searchItemNr;i++)
-        {
-            if ((!$.trim($("#al_filter_"+i).val())) && (!$.trim($("#dp_"+i).val()))) {
+    }
+    for (var i=1;i<searchItemNr;i++)
+    {
+        if (null != searchArr[i]) {
+            var orgindex = searchArr[i]['orgindex'];
+            if ((!$.trim($("#al_filter_"+orgindex).val())) || (($.trim($("#al_filter_"+orgindex).val())) === (transtab['fill_out']))) {
+            //if ((!$.trim($("#al_filter_"+i).val())) && (!$.trim($("#dp_"+i).val()))) {
                 $('#liCreateQuery').hide();
             }
         }
+    }
 
 
     var poutput = [];
@@ -532,11 +598,11 @@ function composeQuery(itemNr) {
             i = searchArr[j]['orgindex'];
             if ($( "#criterialijst_"+i+" option:selected" ).val() == 'datum') {
                 if ($( "#operatorlijst_"+i+" option:selected" ).val() == 'vanaf') {
-                    li_val = $("#dp_"+i).datepicker().val();
+                    li_val = $("#dp_"+i).val();
                 } else if ($( "#operatorlijst_"+i+" option:selected" ).val() == 'totmet') {
-                    li_val = $("#dp_"+i).datepicker().val();
+                    li_val = $("#dp_"+i).val();
                 } else {
-                    li_val = $("#dp_"+i).datepicker().val();
+                    li_val = $("#dp_"+i).val();
                 }
                 if (li_val != 0) {
                     li_val_fin = li_val.replace(/-/g, '')+'5';     

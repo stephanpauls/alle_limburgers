@@ -30,6 +30,7 @@ return [
     'all_facts' => 'Alle feiten',
     'all_subtypes' => 'Alle subtypes',
     'fill_out' => 'Vul hier in',
+    'fill_out_date' => 'Datum vb: 2001-01-01',
     'text' => 'Tekst',
     'place' => 'Plaats',
     'keyword' => 'Trefwoord', 
@@ -40,11 +41,15 @@ return [
     'municipality' => 'Gemeente',
     'description' => 'Beschrijving',
     'authority' => 'bevoegdheid',
-    'query' => 'Toggle query',
+    'hide_query' => 'Verberg Query',
+    'show_query' => 'Toon Query',
     'reset' => 'Reset',
     'add' => 'Nieuwe lijn',
     'remove' => 'Verwijder lijn',
     'bracket' => 'Voeg haakjes toe',    
-    'wait' => 'Een ogenblik aub...'
+    'wait' => 'Een ogenblik aub...',
+    'or' => 'Of',
+    'and' => 'En',
+    'not' => 'Niet',
     
 ];
