@@ -110,7 +110,7 @@ function createStartSearchBlock(lijn,crit,andOrNot) {
     targetToPush += '</div>';          
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
-    targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();composeQuery('+itemNr+')">';
+    targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
     targetToPush += '<option selected value="naam">'+transtab['name']+'</option>';
     targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
     targetToPush += '<option value="datum">'+transtab['date']+'</option>';
@@ -197,7 +197,7 @@ function createStartDatumSearchBlock(andOrNot) {
     targetToPush += '</div>';    
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="criterialijst_1">';
-    targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();"composeQuery('+itemNr+')">';
+    targetToPush += '<select onchange="criterialijst_change_('+itemNr+');">';
     targetToPush += '<option selected value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option value="naam">'+transtab['name']+'</option>';
     targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
@@ -235,7 +235,7 @@ function createStartDatumSearchBlock(andOrNot) {
 }
 
 
-function createDatumSearchBlock(arrIndex,andOrNot) {
+function createDatumSearchBlock(arrIndex) {
 
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
@@ -255,7 +255,7 @@ function createDatumSearchBlock(arrIndex,andOrNot) {
                 }
             } 
         }  
-    }  
+    } 
     var poutput = [];// voorbereiding
     var targetToPush = '';
     var targetToPush = '<div class="card" id="liSearchCrit_'+itemNr+'" style="background-color:#eaecef;">';
@@ -272,7 +272,7 @@ function createDatumSearchBlock(arrIndex,andOrNot) {
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
-    targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();composeQuery('+itemNr+')">';
+    targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
     targetToPush += '<option selected value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option value="rol">'+transtab['role']+'</option>';
     targetToPush += '<option value="naam">'+transtab['name']+'</option>';
@@ -307,11 +307,7 @@ function createDatumSearchBlock(arrIndex,andOrNot) {
                 'orgindex':itemNr};
        
     if (searchArr.length ==  0) searchArr[itemNr] = item;
-    
-    else {
-        searchArr.splice(arrIndex,1);
-        searchArr.splice(arrIndex,0,item);
-    }
+    else searchArr.splice(arrIndex+1,0,item);
     
     $('#alSearchCriterium').html('');
     for (ind=1;ind<searchArr.length+1;ind++)
@@ -321,7 +317,20 @@ function createDatumSearchBlock(arrIndex,andOrNot) {
         }
     }
     $('#alSearchCriterium').append( poutput.join(''));
-
+    for (ind=1;ind<searchArr.length+1;ind++)
+    {
+        if (null != searchArr[ind]) {
+            var orgindex = searchArr[ind]['orgindex'];
+            $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
+            $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
+            $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
+            if (searchArr[ind]['date']) {
+                $("#dp_"+orgindex ).val(searchArr[ind]['date']);
+            } else {
+                $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
+            }
+        }
+    } 
     searchItemNr++;
 }    
 
@@ -361,7 +370,7 @@ function addSearchBlock(arrIndex) {
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
-    targetToPush += '<select onchange="criterialijst_change_'+itemNr+'();composeQuery('+itemNr+')">';
+    targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
     targetToPush += '<option selected value="rol">'+transtab['role']+'</option>';
     targetToPush += '<option value="naam">'+transtab['name']+'</option>';
     targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';
@@ -413,16 +422,19 @@ function addSearchBlock(arrIndex) {
             $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
             $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
             $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
-            $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
+            if (searchArr[ind]['date']) {
+                $("#dp_"+orgindex ).val(searchArr[ind]['date']);
+            } else {
+                $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
+            }
         }
     } 
     searchItemNr++;
-
 }    
 
 function checkDate(itemNr) {
     
-        for (var ind=1;ind<searchArr.length+1;ind++)
+    for (var ind=1;ind<searchArr.length+1;ind++)
     {
         if (null != searchArr[ind]) {
             var orgindex = searchArr[ind]['orgindex'];
@@ -433,37 +445,44 @@ function checkDate(itemNr) {
     }
     
     var dat = $('#dp_'+itemNr).val();
-    
     if (dat.length < 4 ) { 
+        $('#dp_'+itemNr).css("background-color","yellow");
         return;
     } else if (dat.length == 4){
         if (parseInt(dat) != 'NaN') {
             searchArr[ind]['date'] = dat+'-01-01';
-        } else 
+            $('#dp_'+itemNr).css("background-color","white");
+        } else {
+            $('#dp_'+itemNr).css("background-color","yellow");
             $('#dp_'+itemNr).val('');
+        }
     } else if (dat.length == 7) {
-            if (dat.indexOf('-') == 4) {
-                var jaar = dat.substr(0,4);
-                var maand = dat.substr(5,2);
-                if (parseInt(maand) == 'NaN') {
-                    searchArr[ind]['date'] = jaar;
-                } else {
-                    searchArr[ind]['date'] = dat+'-01';
-                }
-                    
+        if (dat.indexOf('-') == 4) {
+            var jaar = dat.substr(0,4);
+            var maand = dat.substr(5,2);
+            if (parseInt(maand) == 'NaN') {
+                searchArr[ind]['date'] = jaar;
+            } else {
+                searchArr[ind]['date'] = dat+'-01';
             }
+            $('#dp_'+itemNr).css("background-color","white");
+        }
     } else if (dat.length == 10) {
-                var jaar = dat.substr(0,4);
-                var maand = dat.substr(5,2);
-                var dag = dat.substr(8,2);
-                if (parseInt(dag) == 'NaN') {
-                   searchArr[ind]['date'] = jaar+'-'+maand;
-                } else {
-                   searchArr[ind]['date'] = dat;
-                }
-                    
-            } 
+        var jaar = dat.substr(0,4);
+        var maand = dat.substr(5,2);
+        var dag = dat.substr(8,2);
+        if (parseInt(dag) == 'NaN') {
+           searchArr[ind]['date'] = jaar+'-'+maand;
+        } else {
+           searchArr[ind]['date'] = dat;
+        }
+        $('#dp_'+itemNr).css("background-color","white");
+    } else {
+        $('#dp_'+itemNr).css("background-color","yellow");
+        searchArr[ind]['date'] ="";
     }
+    composeQuery(itemNr);
+}
     
 
 
@@ -477,6 +496,8 @@ function updateSearchBlock(lijn,crit,andOrNot) {
             if (orgindex == lijn ) {
                 searchArr[ind]['poort']= andOrNot;
                 searchArr[ind]['term']= crit;
+                $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
+                $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
                 break;
             }
         } 
@@ -516,7 +537,11 @@ function removeSearchBlock(itemNr){
             $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
             $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
             $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
-            $( "#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
+            if (searchArr[ind]['date']) {
+                $("#dp_"+orgindex ).val(searchArr[ind]['date']);
+            } else {
+                $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
+            }
         }
     }    
     composeQuery(0);
@@ -525,12 +550,13 @@ function removeSearchBlock(itemNr){
 function composeQuery(itemNr) {
 
     var tmpArr=[];
+    var li_val = '0';
     if (itemNr > 0){
         tmpArr = {
             'poort':$( "#andOrNotlijst_"+itemNr+" option:selected" ).val(),
             'term':$( "#criterialijst_"+itemNr+" option:selected" ).val(),
             'operator':$( "#operatorlijst_"+itemNr+" option:selected" ).val(),
-            'filter':$( "#al_filter_"+itemNr).val()
+            'filter':$( "#al_filter_"+itemNr).val(),
         };
         for (ind=1;ind<searchArr.length+1;ind++)
         {
@@ -561,6 +587,7 @@ function composeQuery(itemNr) {
             return;
         }
     }
+    /*
     for (var i=1;i<searchItemNr;i++)
     {
         if (null != searchArr[i]) {
@@ -571,7 +598,7 @@ function composeQuery(itemNr) {
             }
         }
     }
-
+*/
 
     var poutput = [];
     advSQLFieldsArray = [];
@@ -592,30 +619,32 @@ function composeQuery(itemNr) {
         targetToPush += selSubtype[i];
     }
     targetToPush += '</br>';
-
+    var advInd = 0;
     for (j=1;j<searchArr.length+1;j++) {
+        
         if (null != searchArr[j]) {
             i = searchArr[j]['orgindex'];
             if ($( "#criterialijst_"+i+" option:selected" ).val() == 'datum') {
-                if ($( "#operatorlijst_"+i+" option:selected" ).val() == 'vanaf') {
-                    li_val = $("#dp_"+i).val();
-                } else if ($( "#operatorlijst_"+i+" option:selected" ).val() == 'totmet') {
-                    li_val = $("#dp_"+i).val();
-                } else {
-                    li_val = $("#dp_"+i).val();
-                }
-                if (li_val != 0) {
+                if ($( "#dp_"+i).val().length >= 4){
+                    li_val = searchArr[j]['date'];
                     li_val_fin = li_val.replace(/-/g, '')+'5';     
                 } else {
-                    li_val_fin = 0;
+                    li_val_fin = li_val ="";
+                }
+                if ((!li_val) || ((li_val) === (transtab['fill_out_date']))) {
+                    $('#liCreateQuery').hide();
                 }
             } else {
                 li_val = li_val_fin = $( "#al_filter_"+i).val();
+                if ((!li_val) || ((li_val) === (transtab['fill_out']))) {
+                    $('#liCreateQuery').hide();
+                }
+                
             }        
 
 //        if (i>1) {
             targetToPush +=  '> ' + $( "#andOrNotlijst_"+i+" option:selected" ).text();
-            advSQLFieldsArray[i-1] = { 'poort':$( "#andOrNotlijst_"+i+" option:selected" ).val(), 
+            advSQLFieldsArray[advInd] = { 'poort':$( "#andOrNotlijst_"+i+" option:selected" ).val(), 
                                         'term':$( "#criterialijst_"+i+" option:selected" ).val(),
                                         'operator':$( "#operatorlijst_"+i+" option:selected" ).val(),
                                         'filter':li_val_fin
@@ -633,6 +662,7 @@ function composeQuery(itemNr) {
         targetToPush += '> ' + $( "#criterialijst_"+i+" option:selected" ).text();
         targetToPush += ' ' + $( "#operatorlijst_"+i+" option:selected" ).text();
         targetToPush += ' ' + li_val + '</br>';        
+        advInd++;
         }
     }
     targetToPush += '</p>';

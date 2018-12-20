@@ -144,7 +144,7 @@ $(document).ready(function(){
     transtab['archive_law']='{{__('app.archive_law')}}';
     transtab['detail']='{{__('app.detail')}}';
     transtab['fill_out']='{{__('app.fill_out')}}';
-    transtab['fill_out_date']='{{__('app.fill_out')}}';
+    transtab['fill_out_date']='{{__('app.fill_out_date')}}';
     transtab['municipality']='{{__('app.municipality')}}';
     transtab['description']='{{__('app.description')}}';
     transtab['fact']='{{__('app.fact')}}';
@@ -482,56 +482,28 @@ function subtypeBtn(){
 };
 
 
-function criterialijst_change_1() {
-        var val1 = $('#criterialijst_1 option:selected').val();
-        var andOrNot = $('#andOrNotlijst_1 option:selected').val();
-        if (val1 == 'datum') {
-            createDatumSearchBlock(1);
-        } else {
-            updateSearchBlock(1,val1,andOrNot);
-        }
-    }
+function criterialijst_change(itemNr) {
+        var val1 = $('#criterialijst_'+itemNr+' option:selected').val();
+        var andOrNot = $('#andOrNotlijst_'+itemNr+' option:selected').val();
 
-function criterialijst_change_2() {
-        var val1 = $('#criterialijst_2 option:selected').val();
-        var andOrNot = $('#andOrNotlijst_2 option:selected').val();
         if (val1 == 'datum') {
-            createDatumSearchBlock(2);
+            createDatumSearchBlock(itemNr);
         } else {
-            updateSearchBlock(2,val1,andOrNot);
+            addSearchBlock(itemNr);
         }
-    }
-
-function criterialijst_change_3() {
-        var val1 = $('#criterialijst_3 option:selected').val();
-        var andOrNot = $('#andOrNotlijst_3 option:selected').val();
+        updItemNr = searchItemNr-1;
+        updateSearchBlock(updItemNr,val1,andOrNot);
         
-        if (val1 == 'datum') {
-            createDatumSearchBlock(3);
-        } else {
-            updateSearchBlock(3,val1,andOrNot);
-        }
-    }
-
-function criterialijst_change_4() {
-        var val1 = $('#criterialijst_4 option:selected').val();
-        var andOrNot = $('#andOrNotlijst_4 option:selected').val();
-        
-        if (val1 == 'datum') {
-            createDatumSearchBlock(4);
-        } else {
-            updateSearchBlock(4,val1,andOrNot);
-        }
-    }
-
-function criterialijst_change_5() {
-        var val1 = $('#criterialijst_5 option:selected').val();
-        var andOrNot = $('#andOrNotlijst_5 option:selected').val();
-        
-        if (val1 == 'datum') {
-            createDatumSearchBlock(5);
-        } else {
-            updateSearchBlock(5,val1,andOrNot);
+        for (ind=1;ind<searchArr.length+1;ind++)
+        {
+            if (null != searchArr[ind]) {
+                var orgindex = searchArr[ind]['orgindex'];
+                if (orgindex == itemNr ) {
+                    removeSearchBlock(itemNr);
+                    itemNr = ind;
+                    break;
+                }
+            } 
         }
     }
 </script>
