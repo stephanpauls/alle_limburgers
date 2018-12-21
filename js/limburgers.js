@@ -298,7 +298,7 @@ function createDatumSearchBlock(arrIndex) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
     targetToPush += '<a title="'+transtab['add']+'" onclick="addSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
-    targetToPush += '<a title="'+transtab['bracket']+'" onclick="addNewCondition('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['bracket']+'" onclick="addBracketsBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
     targetToPush += '</div>';    
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -394,7 +394,7 @@ function addSearchBlock(arrIndex) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
     targetToPush += '<a title="'+transtab['add']+'" onclick="addSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
-    targetToPush += '<a title="'+transtab['bracket']+'" onclick="addNewCondition('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['bracket']+'" onclick="addBracketsBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -431,6 +431,119 @@ function addSearchBlock(arrIndex) {
     } 
     searchItemNr++;
 }    
+
+
+function addBracketsBlock(arrIndex) {
+
+    $('#feitenbox').hide();
+    $('#subtypesbox').hide();
+    $('#liCreateQuery').hide();
+        
+    var itemNr = searchItemNr;
+    if (arrIndex == 0) {
+        arrIndex = itemNr;
+    } else {
+        for (ind=1;ind<searchArr.length+1;ind++)
+        {
+            if (null != searchArr[ind]) {
+                var orgindex = searchArr[ind]['orgindex'];
+                if (orgindex == arrIndex ) {
+                    arrIndex = ind;
+                    break;
+                }
+            } 
+        }  
+    }    
+    
+    var poutput = [];// voorbereiding
+    var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
+    targetToPush += '<div class="row li_align_center" >';
+    targetToPush += '<div class="col-sm col-md-offset-1">';    
+    targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
+    targetToPush += '<select onchange="composeQuery('+itemNr+')">';
+    targetToPush += '<option value="AND">'+transtab['and']+'</option>';
+    targetToPush += '<option value="OR">'+transtab['or']+'</option>';
+    targetToPush += '<option value="NOT">'+transtab['not']+'</option>';
+    targetToPush += '</select>';  
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<a><img class="br_img" src="'+transtab['url']+'/public/img/openbracket.png" alt=""></a>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
+    targetToPush += '</div>';    
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+ 
+    var item = {'html':targetToPush,
+                'orgindex':itemNr,
+                'bracket':'('
+                };
+       
+    if (searchArr.length ==  0) searchArr[itemNr] = item;
+    else searchArr.splice(arrIndex+1,0,item);
+    
+    searchItemNr++;
+    addSearchBlock(itemNr);
+    
+    itemNr=searchItemNr;
+    poutput = [];// voorbereiding
+    targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
+    targetToPush += '<div class="row li_align_center" >';
+    targetToPush += '<div class="col-sm col-md-offset-1">';     
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<a><img class="br_img" src="'+transtab['url']+'/public/img/closebracket.png" alt=""></a>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '</div>';    
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<a></a>';
+    targetToPush += '</div>';    
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+ 
+    var item = {'html':targetToPush,
+                'orgindex':itemNr,
+                'bracket':'('
+                };
+    
+    searchArr.splice(arrIndex+3,0,item);
+    
+    $('#alSearchCriterium').html('');
+    for (ind=1;ind<searchArr.length+1;ind++)
+    {
+        if (null != searchArr[ind]) {
+            poutput.push(searchArr[ind]['html']);
+        }
+    }
+    $('#alSearchCriterium').append( poutput.join(''));
+
+    for (ind=1;ind<searchArr.length+1;ind++)
+    {
+        if (null != searchArr[ind]) {
+            var orgindex = searchArr[ind]['orgindex'];
+            $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
+            $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
+            $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
+            if (searchArr[ind]['date']) {
+                $("#dp_"+orgindex ).val(searchArr[ind]['date']);
+            } else {
+                $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
+            }
+        }
+    }
+    
+} 
+
+
 
 function checkDate(itemNr) {
     

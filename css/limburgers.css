@@ -40,6 +40,13 @@ img{
         object-fit: contain;
         margin: 5px
     }
+    
+.br_img{
+height: 8%;
+width: 8%; 
+object-fit: contain;
+        margin: 5px
+}
 
 .nav-link{
     color:rgb(255,255,255) !important;
