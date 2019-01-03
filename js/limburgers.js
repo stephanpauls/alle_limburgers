@@ -304,7 +304,8 @@ function createDatumSearchBlock(arrIndex) {
     targetToPush += '</div>';
 
     var item = {'html':targetToPush,
-                'orgindex':itemNr};
+                'orgindex':itemNr,
+                'bracket':'-'};
        
     if (searchArr.length ==  0) searchArr[itemNr] = item;
     else searchArr.splice(arrIndex+1,0,item);
@@ -401,7 +402,8 @@ function addSearchBlock(arrIndex) {
     targetToPush += '</div>';
 
     var item = {'html':targetToPush,
-                'orgindex':itemNr};
+                'orgindex':itemNr,
+                'bracket':'-'};
        
     if (searchArr.length ==  0) searchArr[itemNr] = item;
     else searchArr.splice(arrIndex+1,0,item);
@@ -512,7 +514,7 @@ function addBracketsBlock(arrIndex) {
  
     var item = {'html':targetToPush,
                 'orgindex':itemNr,
-                'bracket':'('
+                'bracket':')'
                 };
     
     searchArr.splice(arrIndex+3,0,item);
@@ -540,6 +542,7 @@ function addBracketsBlock(arrIndex) {
             }
         }
     }
+    searchItemNr++;
     
 } 
 
@@ -634,7 +637,30 @@ function removeSearchBlock(itemNr){
             }
         } 
     }     
-    searchArr.splice(itemNr,1);
+    
+    //check if it's a bracket
+    if (searchArr[itemNr]['bracket'] == '(') {
+        var diepte = 1;
+        searchArr.splice(itemNr,1);
+        while (itemNr < searchArr.length) {
+           if (searchArr[ind]['bracket'] == '(') {
+               diepte++;
+           }
+           if (searchArr[ind]['bracket'] == ')') {
+               diepte--;
+           }
+           searchArr.splice(itemNr,1);
+           if (diepte == 0) {
+               break;
+           }
+        }
+    } else {
+        searchArr.splice(itemNr,1);
+        if ((itemNr < searchArr.length) && (searchArr[itemNr]['bracket'] == ')') && (searchArr[itemNr-1]['bracket'] == '(')) {
+            searchArr.splice(itemNr,1);
+            searchArr.splice(itemNr-1,1);
+        }
+    }
     
     $('#alSearchCriterium').html('');
     for (ind=1;ind<searchArr.length+1;ind++)
@@ -700,18 +726,6 @@ function composeQuery(itemNr) {
             return;
         }
     }
-    /*
-    for (var i=1;i<searchItemNr;i++)
-    {
-        if (null != searchArr[i]) {
-            var orgindex = searchArr[i]['orgindex'];
-            if ((!$.trim($("#al_filter_"+orgindex).val())) || (($.trim($("#al_filter_"+orgindex).val())) === (transtab['fill_out']))) {
-            //if ((!$.trim($("#al_filter_"+i).val())) && (!$.trim($("#dp_"+i).val()))) {
-                $('#liCreateQuery').hide();
-            }
-        }
-    }
-*/
 
     var poutput = [];
     advSQLFieldsArray = [];
@@ -747,35 +761,30 @@ function composeQuery(itemNr) {
                 if ((!li_val) || ((li_val) === (transtab['fill_out_date']))) {
                     $('#liCreateQuery').hide();
                 }
-            } else {
+            } else if (searchArr[j]['bracket'] == '-') {
                 li_val = li_val_fin = $( "#al_filter_"+i).val();
                 if ((!li_val) || ((li_val) === (transtab['fill_out']))) {
                     $('#liCreateQuery').hide();
                 }
-                
             }        
 
-//        if (i>1) {
-            targetToPush +=  '> ' + $( "#andOrNotlijst_"+i+" option:selected" ).text();
             advSQLFieldsArray[advInd] = { 'poort':$( "#andOrNotlijst_"+i+" option:selected" ).val(), 
                                         'term':$( "#criterialijst_"+i+" option:selected" ).val(),
                                         'operator':$( "#operatorlijst_"+i+" option:selected" ).val(),
                                         'filter':li_val_fin
                                     }; 
-  /*      } else {
-            targetToPush += ' > AND';
-            advSQLFieldsArray[i-1] = { 'poort':'AND', 
-                                        'term':$( "#criterialijst_"+i+" option:selected" ).val(),
-                                        'operator':$( "#operatorlijst_"+i+" option:selected" ).val(),
-                                        'filter':li_val_fin
-                                    }; 
-        }
-*/        
-        targetToPush += '</br>';
-        targetToPush += '> ' + $( "#criterialijst_"+i+" option:selected" ).text();
-        targetToPush += ' ' + $( "#operatorlijst_"+i+" option:selected" ).text();
-        targetToPush += ' ' + li_val + '</br>';        
-        advInd++;
+        
+            if ((searchArr[j]['bracket'] == '(') || (searchArr[j]['bracket'] == ')')) {
+                targetToPush +=  '> ' + $( "#andOrNotlijst_"+i+" option:selected" ).text();
+                targetToPush += ' ' + searchArr[j]['bracket'];
+                targetToPush += '</br>';        
+            } else { 
+                targetToPush +=  '> ' + $( "#andOrNotlijst_"+i+" option:selected" ).text();
+                targetToPush += ' ' + $( "#criterialijst_"+i+" option:selected" ).text();
+                targetToPush += ' ' + $( "#operatorlijst_"+i+" option:selected" ).text();
+                targetToPush += ' ' + li_val + '</br>';        
+            }
+            advInd++;
         }
     }
     targetToPush += '</p>';
