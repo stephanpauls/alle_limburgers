@@ -16,11 +16,10 @@ class Vw_feitcontroller extends Controller
     public function index()
     {
         //$feiten = Feit::all();
-        $feiten = DB::table('vw_feit')->select('feittype')->distinct()->get();
-        $subtypes = DB::table('vw_feit')->select('trefwoord')->distinct()->get();
-        
-        //$feiten = DB::table('vw_feit')->where('feittype','Burgerlijk huwelijk aangifte')->limit(100)->get();
-        //$aantal = DB::table('vw_feit')->where('feittype','Geboorte-aangifte')->count();
+        $feiten = DB::table('feit')->select('feittype')->distinct()->get();
+        $subtypes = DB::table('feit')->select('trefwoord')->distinct()->get();
+        $rollen = DB::table('pers')->select('rol')->distinct()->get();
+        $authorities = DB::table('persd')->select('authority')->distinct()->get();
         
 /*        
     DB::table('vw_feit')->where('feittype','Geboorte-aangifte')->orderBy('feit_id')->chunk(100, function ($facts) {
@@ -37,7 +36,7 @@ class Vw_feitcontroller extends Controller
         }
  * 
  */
-    return view('feiten.index',['feiten'=>$feiten,'subtypes'=>$subtypes]);
+    return view('feiten.index',['feiten'=>$feiten,'subtypes'=>$subtypes,'rollen'=>$rollen,'authorities'=>$authorities]);
 
         
         

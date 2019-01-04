@@ -47,6 +47,14 @@ width: 8%;
 object-fit: contain;
         margin: 5px
 }
+.li_input{
+    width: 260px; 
+}
+
+.li_input_auth{
+    width: 120px; 
+}
+
 
 .nav-link{
     color:rgb(255,255,255) !important;

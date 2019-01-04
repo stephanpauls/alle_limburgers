@@ -118,6 +118,20 @@ $(document).ready(function(){
     firstOpenFeit = true;
     firstOpenSubtype = true;
     newwindow = null;
+    
+    rollen = [];
+    authorities = [];
+    
+    var rols = JSON.parse('<?php echo $rollen ?>');
+    var auths = JSON.parse('<?php echo $authorities ?>');
+    
+    for (var i=0;i<rols.length;i++) {
+        rollen[i]=rols[i].rol;
+    }
+    for (var i=0;i<auths.length;i++) {
+        authorities[i]=auths[i].authority;
+    }
+    
 
     transtab = [];
     transtab['url']='{{ url('') }}';
@@ -487,7 +501,11 @@ function criterialijst_change(itemNr) {
         var andOrNot = $('#andOrNotlijst_'+itemNr+' option:selected').val();
 
         if (val1 == 'datum') {
-            createDatumSearchBlock(itemNr);
+            addDatumSearchBlock(itemNr);
+        } else if (val1 == 'authority'){
+            addAuthSearchBlock(itemNr);
+        } else if (val1 == 'rol'){
+            addRoleSearchBlock(itemNr);
         } else {
             addSearchBlock(itemNr);
         }
