@@ -12,7 +12,7 @@ return [
     'search_subtype' => 'Search subtype',
     'name' => 'Name',
     'date' => 'Date',
-    'authority_list' => 'Authority list',
+    'authority_list' => 'Detail search',
     'contains' => 'contains', 
     'contains_exact' => 'contains exactly',
     'starts_with' => 'starts with',

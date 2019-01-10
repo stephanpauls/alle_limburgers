@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Vw_feit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Illuminate\Database\Query\Builder;
 
 class Vw_feitcontroller extends Controller
 {
@@ -16,30 +17,12 @@ class Vw_feitcontroller extends Controller
     public function index()
     {
         //$feiten = Feit::all();
-        $feiten = DB::table('feit')->select('feittype')->distinct()->get();
-        $subtypes = DB::table('feit')->select('trefwoord')->distinct()->get();
-        $rollen = DB::table('pers')->select('rol')->distinct()->get();
-        $authorities = DB::table('persd')->select('authority')->distinct()->get();
+        $feiten = DB::table('feit')->select('feittype')->distinct()->orderBy('feittype','asc')->get();
+        $subtypes = DB::table('feit')->select('trefwoord')->distinct()->orderBy('trefwoord','asc')->get();
+        $rollen = DB::table('pers')->select('rol')->distinct()->orderBy('rol','asc')->get();
+        $authorities = DB::table('persd')->select('authority')->distinct()->orderBy('authority','asc')->get();
         
-/*        
-    DB::table('vw_feit')->where('feittype','Geboorte-aangifte')->orderBy('feit_id')->chunk(100, function ($facts) {
-    $feiten = $facts;
-    return false;
-//    sleep(5);
-    
-});        
-*/
-/*      
-        foreach ($feiten as $feit) {
-            $feit = $feit;
-            $bron = $feit->bron_id;
-        }
- * 
- */
-    return view('feiten.index',['feiten'=>$feiten,'subtypes'=>$subtypes,'rollen'=>$rollen,'authorities'=>$authorities]);
-
-        
-        
+        return view('feiten.index',['feiten'=>$feiten,'subtypes'=>$subtypes,'rollen'=>$rollen,'authorities'=>$authorities]);
     }
 
     /**
@@ -52,9 +35,6 @@ class Vw_feitcontroller extends Controller
         //
     }
 
-    
-            
-    
     /**
      * Store a newly created resource in storage.
      *
@@ -95,121 +75,107 @@ class Vw_feitcontroller extends Controller
             $result = $query->select('vw_feit-bron.gemeente','vw_feit-bron.plaats','vw_feit-bron.omschrijving','vw_feit-pers.naam','vw_feit-pers.voornamen','vw_feit.*')->limit(1)->get();
         } else {
         
-        $query = DB::table('vw_feit');
-        $query->join('vw_feit-pers','vw_feit.feit_id', '=','vw_feit-pers.feit_id');
+            $query = DB::table('vw_feit');
+            $query->join('vw_feit-pers','vw_feit.feit_id', '=','vw_feit-pers.feit_id');
 
-        //$input = $request->all();
-        $types = $request->input('feit');
-        $subtypes = $request->input('subtype');
-        $others = $request->input('other');
-        if ($others != null) {
-            foreach ($others as $other) {
-                if ((
-                    ($other['term']) == 'naam') 
-                    ||($other['term'] == 'voornamen') 
-                    ||($other['term'] == 'datum') 
-                    ||($other['term'] == 'rol')
-                   ) {
-                    if ($queryPers == false) {
-                        $queryPers = true;
-                    }
-                } else if ($other['term'] == 'authority') {
-                    if ($queryAuthority == false) {
-                     $queryAuthority = true;
-                     $query->join('vw_feit-persd','vw_feit.feit_id', '=','vw_feit-persd.feit_id');
-                    }
-                }
-                if (($other['poort']) == 'AND') {
-                    if (($other['operator']) == 'bevat') {
-                        $query->where($other['term'],'ilike','%'.$other['filter'].'%');
-                    } else if (($other['operator']) == 'bevat_exact') {
-                        $query->where($other['term'],'ilike',$other['filter']);
-                    } else if (($other['operator']) == 'begint') {
-                        $query->where($other['term'],'ilike',$other['filter'].'%');
-                    } else if (($other['operator']) == 'vanaf') {
-                        $query->where($other['term'],'>',$other['filter']);
-                    } else if (($other['operator']) == 'totmet') {
-                        $query->where($other['term'],'<',$other['filter']);
-                    } else {
-                        $query->where($other['term'],'=',$other['filter']);
-                    }
-                }  else if (($other['poort']) == 'OR') {
-                    if (($other['operator']) == 'bevat') {
-                        $query->orWhere($other['term'],'ilike','%'.$other['filter'].'%');
-                    } else if (($other['operator']) == 'bevat_exact') {
-                        $query->orWhere($other['term'],'ilike',$other['filter']);
-                    } else if (($other['operator']) == 'begint') {
-                        $query->orWhere($other['term'],'ilike',$other['filter'].'%');
-                    } else if (($other['operator']) == 'vanaf') {
-                        $query->orWhere($other['term'],'>',$other['filter']);
-                    } else if (($other['operator']) == 'totmet') {
-                        $query->orWhere($other['term'],'<',$other['filter']);
-                    } else {
-                        $query->orWhere($other['term'],'!=',$other['filter'].'%');
-                    }
-                } else {
-                    if (($other['operator']) == 'bevat') {
-                        $query->where($other['term'],'not ilike','%'.$other['filter'].'%');
-                    } else if (($other['operator']) == 'bevat_exact') {
-                        $query->where($other['term'],'not ilike',$other['filter']);
-                    } else if (($other['operator']) == 'begint') {
-                        $query->where($other['term'],'not ilike',$other['filter'].'%');
-                    } else if (($other['operator']) == 'vanaf') {
-                        $query->where($other['term'],'<=',$other['filter']);
-                    } else if (($other['operator']) == 'totmet') {
-                        $query->where($other['term'],'>=',$other['filter']);
-                    } else {
-                        $query->where($other['term'],'!=',$other['filter'].'%');
-                    }
-                }
-            }   
-        }
-        $index = 1; 
-        $whereQuery = "";
+            //$input = $request->all();
+            $types = $request->input('feit');
+            $subtypes = $request->input('subtype');
+            $others = $request->input('other');
 
-        if ($types != null) {
-            foreach ($types as $type){
-                if ($index == 1){
-                   $whereQuery.=  ' (feittype = \''.$type.'\'';
-                } else {
-                    $whereQuery.= ' or feittype = \''.$type.'\'';
+            $index = 1; 
+            $q = "";
+            $first = true;
+
+            if ($types != null) {
+                $first = false;
+                foreach ($types as $type){
+                    if ($index == 1){
+                       $q.=  ' (feittype = \''.$type.'\'';
+                    } else {
+                        $q.= ' or feittype = \''.$type.'\'';
+                    }
+                    $index++;
                 }
-                $index++;
+                $q.= ')';
             }
-            $whereQuery.= ')';
-            $query->whereRaw($whereQuery);
-        }
-        $index = 1;
-        $whereQuery = "";
-        
-        if($subtypes != null) {
-            foreach ($subtypes as $type){
-                if ($index == 1){
-                    $whereQuery.=' (trefwoord = \''.$type.'\'';
-                } else {
-                    $whereQuery.=' or trefwoord = \''.$type.'\'';
-                }
-                $index++;            
-            }
-            $whereQuery.= ')';
-            $query->whereRaw($whereQuery);
-        }
-        if ($queryAuthority == true) {
-            $whereQuery = "";
-            $whereQuery.='("vw_feit-persd"."pers_id" = "vw_feit-pers"."pers_id")';
-            $query->whereRaw($whereQuery);
-        }
+            $index = 1;
 
-        $result = $query->select('vw_feit-pers.*','vw_feit.feittype')->limit(200)->get();
-        
-/*        
-        $result = DB::table('vw_feit')
-            ->join('vw_feit-pers', 'vw_feit-pers.feit_id', '=', 'vw_feit.feit_id')
-            ->where ('vw_feit-pers.rol','Moeder')
-            ->select('vw_feit-pers.rol')
-            ->get();
-        
-*/        
+            if($subtypes != null) {
+                $first = false;
+                foreach ($subtypes as $type){
+                    if ($index == 1) {
+                        if ($types != null) {
+                            $q.=' and (trefwoord = \''.$type.'\'';
+                        } else {
+                            $q.=' (trefwoord = \''.$type.'\'';
+                        }
+                    } else {
+                        $q.=' or trefwoord = \''.$type.'\'';
+                    }
+                    $index++;            
+                }
+                $q.= ')';
+            }
+
+            if ($others != null) {
+            
+                foreach ($others as $other) {
+                    if (
+                        ('naam' == $other['term'])
+                        ||('voornamen' == $other['term'])
+                        ||('datum' == $other['term']) 
+                        ||('rol' == $other['term'])
+                       ) {
+                        if ($queryPers == false) {
+                            $queryPers = true;
+                        }
+                    } else if ('authority' == $other['term']) {
+                        if ($queryAuthority == false) {
+                         $queryAuthority = true;
+                         $query->join('vw_feit-persd','vw_feit-pers.pers_id', '=','vw_feit-persd.pers_id');
+                        }
+                    }
+
+                    if ('bracket' == ($other['term'])) {
+                        if ($other['bracket'] == '(') {
+                            if ($first == false) { 
+                                $q .= ' '.$other['poort'];
+                                $first = true;
+                           }
+                        }
+                        $q .= ' '.$other['bracket'];
+                    } else {
+                        if ($first == false) { 
+                            $q .= ' '.$other['poort'];
+                        } else {
+                            $first = false;
+                        }
+                        if ('authority' == $other['term']) {
+                            $q.= '(authority = \''.$other['auth'].'\' and ';
+                            $other['term'] = 'waarde';
+                        }
+                        if (($other['operator']) == 'bevat') {
+                            $q.= ' lower('.$other['term'].') like lower(\'%'.$other['filter'].'%\')';
+                        } else if (($other['operator']) == 'bevat_exact') {
+                            $q.= ' lower('.$other['term'].') = lower(\''.$other['filter'].'\')';
+                        } else if (($other['operator']) == 'begint') {
+                            $q.= ' lower('.$other['term'].') like lower(\'%'.$other['filter'].')';
+                        } else if (($other['operator']) == 'vanaf') {
+                            $q.= ' '.$other['term'].' > '.$other['filter'];
+                        } else if (($other['operator']) == 'totmet') {
+                            $q.= ' '.$other['term'].' < '.$other['filter'];
+                        } else {
+                            $q.= ' '.$other['term'].' = '.$other['filter'];
+                        }
+                        if ('waarde' == $other['term']) {
+                            $q.= ')';
+                        }
+                    }   
+                }
+            }
+            $query->whereRaw($q);            
+            $result = $query->select('vw_feit-pers.*','vw_feit.feittype')->limit(200)->get();
         }
         return $result;
     }  

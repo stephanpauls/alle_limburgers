@@ -12,7 +12,7 @@ return [
     'search_subtype' => 'Zoek subtype',
     'name' => 'Naam',
     'date' => 'Datum',
-    'authority_list' => 'Bevoegdheidslijst',
+    'authority_list' => 'Detail zoeken',
     'contains' => 'bevat', 
     'contains_exact' => 'bevat exact',
     'starts_with' => 'start met',

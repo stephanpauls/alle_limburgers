@@ -12,7 +12,7 @@
     </div>
     <div class="col-sm">
     <div class="button-group"  style="margin: 10px">
-        <input class="geotextbox feitenTextBox" name="feitenbox" placeholder="{{__('app.search_fact')}}" onkeyup="limZoekFeit();" maxlength="20"/>
+        <input class="geotextbox feitenTextBox" name="feitenbox" placeholder="{{__('app.all_facts')}}" onkeyup="limZoekFeit();" maxlength="20"/>
         <button id="feiten_btn" type="button" onclick="feitBtn()" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">{{__('app.fact')}}<span class="caret"></span></button>
         <ul id=feitenbox class="dropdown-menu">
         @foreach($feiten as $feit)
@@ -23,7 +23,7 @@
     </div>
     <div class="col-sm">
     <div class="button-group" style="margin: 10px">
-        <input class="geotextbox subtypesTextBox" name="subtypesbox" placeholder="{{__('app.search_subtype')}}" onkeyup="limZoekSubtype();" maxlength="20"/>
+        <input class="geotextbox subtypesTextBox" name="subtypesbox" placeholder="{{__('app.all_subtypes')}}" onkeyup="limZoekSubtype();" maxlength="20"/>
         <button id="subtypes_btn" type="button" onclick="subtypeBtn()" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">{{__('app.subtype')}}<span class="caret"></span></button>
         <ul id=subtypesbox class="dropdown-menu">
         @foreach($subtypes as $subtype)
@@ -355,7 +355,7 @@ $(document).ready(function(){
             },              
             success: function(result){
                 alFeitenTable(result);
-                $('.feitenTextBox').attr("placeholder",'{{__('app.search_fact')}}');
+                $('.feitenTextBox').attr("placeholder",'{{__('app.all_facts')}}');
                 $.ajax({
                     url: "{{url('/feit/post')}}",
                     method: 'post',
@@ -365,7 +365,7 @@ $(document).ready(function(){
                     },              
                     success: function(result){
                         alSubtypesTable(result);
-                        $('.subtypesTextBox').attr("placeholder",'{{__('app.search_subtype')}}');
+                        $('.subtypesTextBox').attr("placeholder",'{{__('app.all_subtypes')}}');
                     }
                 });
             }
@@ -393,6 +393,7 @@ function limZoekFeit()
         },
         success: function(result){
             alResultFeiten(result);
+            $('#feitenbox').slideDown();
         }
     });
 }
@@ -417,6 +418,7 @@ function limZoekSubtype() {
         },
         success: function(result){
             alResultSubtypes(result);
+            $('#subtypesbox').slideDown();
         }
     });
 }
