@@ -30,7 +30,7 @@ return [
     'all_facts' => 'All facts',
     'all_subtypes' => 'All subtypes',
     'fill_out' => 'Fill out here',
-    'fill_out_date' => 'Date ex.: 2001-01-01',
+    'fill_out_date' => 'ex.: 2001-01-01',
     'text' => 'Text',
     'place' => 'Place',
     'keyword' => 'Keyword',
@@ -51,5 +51,10 @@ return [
     'or' => 'Or',
     'and' => 'And',
     'not' => 'Not',
+    'source' => 'Source',
+    'objecttype' => 'Object type',
+    'type' => 'Type',
+    'toponym' => 'Toponym'
+    
     
 ];

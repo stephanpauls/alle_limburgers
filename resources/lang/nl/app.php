@@ -30,7 +30,7 @@ return [
     'all_facts' => 'Alle feiten',
     'all_subtypes' => 'Alle subtypes',
     'fill_out' => 'Vul hier in',
-    'fill_out_date' => 'Datum vb: 2001-01-01',
+    'fill_out_date' => 'vb: 2001-01-01',
     'text' => 'Tekst',
     'place' => 'Plaats',
     'keyword' => 'Trefwoord', 
@@ -51,5 +51,8 @@ return [
     'or' => 'Of',
     'and' => 'En',
     'not' => 'Niet',
-    
+    'source' => 'Bron',
+    'objecttype' => 'Objecttype',
+    'type' => 'Soort',
+    'toponym' => 'Toponiem'    
 ];

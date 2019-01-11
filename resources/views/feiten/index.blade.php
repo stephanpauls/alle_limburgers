@@ -169,6 +169,10 @@ $(document).ready(function(){
     transtab['and']='{{__('app.and')}}';
     transtab['or']='{{__('app.or')}}';
     transtab['not']='{{__('app.not')}}';
+    transtab['source']='{{__('app.source')}}';
+    transtab['objecttype']='{{__('app.objecttype')}}';
+    transtab['type']='{{__('app.type')}}';
+    transtab['toponym']='{{__('app.toponym')}}';
     
     $( document ).ajaxStart(function() {
           $( "#al_loading" ).show();
@@ -423,12 +427,6 @@ function limZoekSubtype() {
     });
 }
 
-
-
-
-
-
-
 function jumpToPreviousDetailPage()
 {
         if (currentIndex != 0) {
@@ -505,14 +503,14 @@ function criterialijst_change(itemNr) {
         if (val1 == 'datum') {
             addDatumSearchBlock(itemNr);
         } else if (val1 == 'authority'){
-            addAuthSearchBlock(itemNr);
+            addDatumAuthSearchBlock(itemNr);
         } else if (val1 == 'rol'){
             addRoleSearchBlock(itemNr);
         } else {
             addSearchBlock(itemNr);
         }
         updItemNr = searchItemNr-1;
-        updateSearchBlock(updItemNr,val1,andOrNot);
+        updateSearchBlock(updItemNr,val1,andOrNot,null);
         
         for (ind=1;ind<searchArr.length+1;ind++)
         {
@@ -526,6 +524,32 @@ function criterialijst_change(itemNr) {
             } 
         }
     }
+    
+function authoritylist_change(itemNr) {
+        var val1 = $('#criterialijst_'+itemNr+' option:selected').val();
+        var andOrNot = $('#andOrNotlijst_'+itemNr+' option:selected').val();
+        var auth = $('#authoritylijst_'+itemNr+' option:selected').val();
+
+        if (auth.includes('datum')) {
+            addDatumAuthSearchBlock(itemNr);
+        } else {
+            addAuthSearchBlock(itemNr);
+        }
+        updItemNr = searchItemNr-1;
+        updateSearchBlock(updItemNr,val1,andOrNot,auth);
+        
+        for (ind=1;ind<searchArr.length+1;ind++)
+        {
+            if (null != searchArr[ind]) {
+                var orgindex = searchArr[ind]['orgindex'];
+                if (orgindex == itemNr ) {
+                    removeSearchBlock(itemNr);
+                    itemNr = ind;
+                    break;
+                }
+            } 
+        }
+    }    
 </script>
    
 @endsection

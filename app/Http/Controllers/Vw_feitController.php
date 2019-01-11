@@ -77,6 +77,7 @@ class Vw_feitcontroller extends Controller
         
             $query = DB::table('vw_feit');
             $query->join('vw_feit-pers','vw_feit.feit_id', '=','vw_feit-pers.feit_id');
+            $query->join('vw_feit-bron','vw_feit-pers.feit_id', '=','vw_feit-bron.feit_id');
 
             //$input = $request->all();
             $types = $request->input('feit');
@@ -169,13 +170,30 @@ class Vw_feitcontroller extends Controller
                             $q.= ' '.$other['term'].' = '.$other['filter'];
                         }
                         if ('waarde' == $other['term']) {
+                            if(strpos($other['auth'],'plaats') != false) {
+                                if (($other['operator']) == 'bevat') {
+                                    $q.= ' and lower(plaats) like lower(\'%'.$other['filter'].'%\')';
+                                } else if (($other['operator']) == 'bevat_exact') {
+                                    $q.= ' and lower(plaats) = lower(\''.$other['filter'].'\')';
+                                } else if (($other['operator']) == 'begint') {
+                                    $q.= ' and lower(plaats) like lower(\'%'.$other['filter'].')';                            
+                                }
+                            } else if (strpos($other['auth'],'datum') != false) {
+                                if (($other['operator']) == 'vanaf') {
+                                    $q.= ' and datum > '.$other['filter'];
+                                } else if (($other['operator']) == 'totmet') {
+                                    $q.= ' and datum < '.$other['filter'];
+                                } else {
+                                    $q.= ' and datum = '.$other['filter'];
+                                }
+                            }
                             $q.= ')';
                         }
                     }   
                 }
             }
             $query->whereRaw($q);            
-            $result = $query->select('vw_feit-pers.*','vw_feit.feittype')->limit(200)->get();
+            $result = $query->select('vw_feit-pers.*','vw_feit.feittype','vw_feit.plaats','vw_feit.tekst','vw_feit.datum','vw_feit-bron.bronklasse')->limit(200)->get();
         }
         return $result;
     }  
