@@ -173,6 +173,7 @@ $(document).ready(function(){
     transtab['objecttype']='{{__('app.objecttype')}}';
     transtab['type']='{{__('app.type')}}';
     transtab['toponym']='{{__('app.toponym')}}';
+    transtab['subtype']='{{__('app.subtype')}}';
     
     $( document ).ajaxStart(function() {
           $( "#al_loading" ).show();
@@ -238,10 +239,11 @@ $(document).ready(function(){
         composeQuery(0);
     });
     
-
-    $('#al_resultList').on('shown.bs.tab', function (e) {
+    $('#al_resultList').on('show.bs.tab', function (e){
         e.preventDefault();
         //window.open(e.target.href, "_blank");
+       
+        //$('#'+e.target.id).css("background-color","#3490dc");
         var persId = e.target.href.substring(e.target.href.lastIndexOf('/')+1);
         currentIndex = e.target.type;
         $.ajaxSetup({
@@ -263,6 +265,17 @@ $(document).ready(function(){
                alResultDetailTable(resultaat,transtab);
            }
        });
+    });
+    $('#al_resultList').on('hide.bs.tab', function (e){
+        e.preventDefault();
+        
+    });
+    $('#al_resultList').on('hidden.bs.tab', function (e){
+        e.preventDefault();
+    });
+
+    $('#al_resultList').on('shown.bs.tab', function (e) {
+        e.preventDefault();
     })
 
     $(document).on('click','.feitenTextBox',function(event){

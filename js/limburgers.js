@@ -112,10 +112,10 @@ function createStartSearchBlock(lijn,crit,andOrNot) {
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
     targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
-    targetToPush += '<option selected value="bron">'+transtab['source']+'</option>';
+    targetToPush += '<option selected value="omschrijving">'+transtab['source']+'</option>';
     targetToPush += '<option value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
-    targetToPush += '<option  value="objecttype">'+transtab['objecttype']+'</option>';
+    targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
     targetToPush += '<option  value="plaats">'+transtab['place']+'</option>';
     targetToPush += '<option value="rol">'+transtab['role']+'</option>';
     targetToPush += '<option  value="soort">'+transtab['type']+'</option>';
@@ -204,11 +204,11 @@ function createStartDatumSearchBlock(andOrNot) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="criterialijst_1">';
     targetToPush += '<select onchange="criterialijst_change_('+itemNr+');">';
-    targetToPush += '<option  value="bron">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="omschrijving">'+transtab['source']+'</option>';
     targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
     targetToPush += '<option selected value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
-    targetToPush += '<option  value="objecttype">'+transtab['objecttype']+'</option>';
+    targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
     targetToPush += '<option  value="plaats">'+transtab['place']+'</option>';
     targetToPush += '<option value="rol">'+transtab['role']+'</option>';
     targetToPush += '<option  value="soort">'+transtab['type']+'</option>';
@@ -284,11 +284,11 @@ function addDatumSearchBlock(arrIndex) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
-    targetToPush += '<option  value="bron">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="omschrijving">'+transtab['source']+'</option>';
     targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
     targetToPush += '<option selected value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
-    targetToPush += '<option  value="objecttype">'+transtab['objecttype']+'</option>';
+    targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
     targetToPush += '<option  value="plaats">'+transtab['place']+'</option>';
     targetToPush += '<option value="rol">'+transtab['role']+'</option>';
     targetToPush += '<option  value="soort">'+transtab['type']+'</option>';
@@ -391,11 +391,11 @@ function addSearchBlock(arrIndex) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
-    targetToPush += '<option selected value="bron">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="omschrijving">'+transtab['source']+'</option>';
     targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
     targetToPush += '<option  value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
-    targetToPush += '<option  value="objecttype">'+transtab['objecttype']+'</option>';
+    targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
     targetToPush += '<option  value="plaats">'+transtab['place']+'</option>';
     targetToPush += '<option  value="rol">'+transtab['role']+'</option>';
     targetToPush += '<option  value="soort">'+transtab['type']+'</option>';
@@ -499,10 +499,10 @@ function addRoleSearchBlock(arrIndex) {
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
     targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
-    targetToPush += '<option  value="bron">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="omschrijving">'+transtab['source']+'</option>';
     targetToPush += '<option  value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
-    targetToPush += '<option  value="objecttype">'+transtab['objecttype']+'</option>';
+    targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
     targetToPush += '<option  value="plaats">'+transtab['place']+'</option>';
     targetToPush += '<option selected value="rol">'+transtab['role']+'</option>';
     targetToPush += '<option  value="soort">'+transtab['type']+'</option>';
@@ -612,10 +612,10 @@ function addAuthSearchBlock(arrIndex) {
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
     targetToPush += '<option selected value="authority">'+transtab['authority_list']+'</option>';
-    targetToPush += '<option  value="bron">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="omschrijving">'+transtab['source']+'</option>';
     targetToPush += '<option  value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
-    targetToPush += '<option  value="objecttype">'+transtab['objecttype']+'</option>';
+    targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
     targetToPush += '<option  value="plaats">'+transtab['place']+'</option>';
     targetToPush += '<option  value="rol">'+transtab['role']+'</option>';
     targetToPush += '<option  value="soort">'+transtab['type']+'</option>';
@@ -729,10 +729,10 @@ function addDatumAuthSearchBlock(arrIndex) {
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
     targetToPush += '<option selected value="authority">'+transtab['authority_list']+'</option>';
-    targetToPush += '<option  value="bron">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="omschrijving">'+transtab['source']+'</option>';
     targetToPush += '<option  value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
-    targetToPush += '<option  value="objecttype">'+transtab['objecttype']+'</option>';
+    targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
     targetToPush += '<option  value="plaats">'+transtab['place']+'</option>';
     targetToPush += '<option  value="rol">'+transtab['role']+'</option>';
     targetToPush += '<option  value="soort">'+transtab['type']+'</option>';
@@ -1308,10 +1308,13 @@ function alResultTable(result,transtab){
         targetToPush_list += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result[i].naam+'</h4>';
         targetToPush_list += '<h3 class="li_keyList">'+transtab['first_name']+'</h3><h4 class="li_valueList">'+result[i].voornamen+'</h4>';
         targetToPush_list += '<h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result[i].rol+'</h4>';
-        targetToPush_list += '<h3 class="li_keyList">'+transtab['source']+'</h3><h4 class="li_valueList">'+result[i].bronklasse+'</h4>';
+        targetToPush_list += '<h3 class="li_keyList">'+transtab['source']+'</h3><h4 class="li_valueList">'+result[i].omschrijving+'</h4>';
         targetToPush_list += '<h3 class="li_keyList">'+transtab['date']+'</h3><h4 class="li_valueList">'+result[i].datum.substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");+'</h4>';
         targetToPush_list += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result[i].plaats+'</h4>';
         targetToPush_list += '<h3 class="li_keyList">'+transtab['text']+'</h3><h4 class="li_valueList">'+result[i].tekst+'</h4>';
+        targetToPush_list += '<h3 class="li_keyList">'+transtab['objecttype']+'</h3><h4 class="li_valueList">'+result[i].oobjtype+'</h4>';
+        targetToPush_list += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result[i].soort+'</h4>';
+        targetToPush_list += '<h3 class="li_keyList">'+transtab['toponym']+'</h3><h4 class="li_valueList">'+result[i].toponiem+'</h4>';
         
         style="display: none;"
 //        targetToPush_list += '<small>('+transtab['dig_available']+')</small>';
@@ -1371,7 +1374,9 @@ function jumpToPage(pg,nrOfPages) {
 }
 
 function alResultDetailTable(resultaat,transtab) {
-    
+
+    var result = resultaat[0].metadata;
+    result = JSON.parse(result);
     $('#al_detailResultList').empty();
     var poutput = [];
     var targetToPush = '';
@@ -1382,7 +1387,14 @@ function alResultDetailTable(resultaat,transtab) {
         targetToPush += '<a href="https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwi7qJfcn6TeAhVO2qQKHdk2A9sQjRx6BAgBEAU&url=https%3A%2F%2Fwww.autowereld.com%2Fmultimedia%2Ffotogalleries%2Fid%2F10519&psig=AOvVaw3tHTnxBiSgOBvJtQdzz6gS&ust=1540648093602313" target="_blank">image2</a>';
         targetToPush += '</div>';
         targetToPush += '<div style="width:50px;float:left;">&nbsp;</div>';
-        targetToPush += '<div style="width: 100px;float:left;">';
+        targetToPush += '<div style="float:left;">';
+        
+            targetToPush += '<h2 class=class="mb-1">'+transtab['fact']+'</h2>';
+            targetToPush += '<h3 class="li_keyList">'+transtab['source']+'</h3><h4 class="li_valueList">'+result.feit[0].bronklasse+'</h4>';
+            targetToPush += '<h3 class="li_keyList">'+transtab['subtype']+'</h3><h4 class="li_valueList">'+result.feit[0].feitsubtype+'</h4>';
+        targetToPush += '</div>'
+        targetToPush += '</div>'
+/*        
         targetToPush += '<p>'+transtab['name']+'</p>';
         targetToPush += '<p>'+transtab['first_name']+'</p>';
         targetToPush += '<p>'+transtab['municipality']+'</p>';
@@ -1411,6 +1423,7 @@ function alResultDetailTable(resultaat,transtab) {
             
         }
         targetToPush += '</div>';
+*/        
         poutput.push(targetToPush);
         $('#al_detailResultList').empty();
         $('#al_detailResultList').append(poutput.join(''));

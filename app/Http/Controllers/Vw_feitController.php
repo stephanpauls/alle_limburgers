@@ -65,6 +65,7 @@ class Vw_feitcontroller extends Controller
         } else if ($lijst == 'detail') {
             $pers_id = $request->input('pers_id');
             $feit_id = $request->input('feit_id');
+/*            
             $query = DB::table('vw_feit-pers');
             $query->join('vw_feit','vw_feit.feit_id', '=','vw_feit-pers.feit_id');            
             $query->join('vw_feit-persd','vw_feit.feit_id', '=','vw_feit-pers.feit_id');            
@@ -73,12 +74,18 @@ class Vw_feitcontroller extends Controller
             $query->where('vw_feit-pers.feit_id',$feit_id);
             $query->where('vw_feit-persd.feit_id',$feit_id);
             $result = $query->select('vw_feit-bron.gemeente','vw_feit-bron.plaats','vw_feit-bron.omschrijving','vw_feit-pers.naam','vw_feit-pers.voornamen','vw_feit.*')->limit(1)->get();
+*/            
+            $query = DB::table('feit');
+            $query->where('feit.feit_id',$feit_id);
+            $result = $query->select('metadata')->get();
+            
         } else {
         
             $query = DB::table('vw_feit');
             $query->join('vw_feit-pers','vw_feit.feit_id', '=','vw_feit-pers.feit_id');
             $query->join('vw_feit-bron','vw_feit-pers.feit_id', '=','vw_feit-bron.feit_id');
-
+            $query->join('oobj','oobj.feit_id', '=','vw_feit.feit_id');
+                
             //$input = $request->all();
             $types = $request->input('feit');
             $subtypes = $request->input('subtype');
@@ -122,6 +129,9 @@ class Vw_feitcontroller extends Controller
             if ($others != null) {
             
                 foreach ($others as $other) {
+                    
+                    if ($other['term'] == 'plaats') $other['term'] = 'vw_feit.plaats';
+                    if ($other['term'] == 'omschrijving') $other['term'] = 'bron.omschrijving';
                     if (
                         ('naam' == $other['term'])
                         ||('voornamen' == $other['term'])
@@ -193,8 +203,9 @@ class Vw_feitcontroller extends Controller
                 }
             }
             $query->whereRaw($q);            
-            $result = $query->select('vw_feit-pers.*','vw_feit.feittype','vw_feit.plaats','vw_feit.tekst','vw_feit.datum','vw_feit-bron.bronklasse')->limit(200)->get();
+            $result = $query->select('vw_feit-pers.*','vw_feit.feittype','vw_feit.plaats','vw_feit.tekst','vw_feit.datum','vw_feit-bron.omschrijving','oobj.oobjtype','oobj.soort','oobj.toponiem')->limit(200)->get();
         }
+;
         return $result;
     }  
  
