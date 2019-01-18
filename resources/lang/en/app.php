@@ -32,14 +32,8 @@ return [
     'fill_out' => 'Fill out here',
     'fill_out_date' => 'ex.: 2001-01-01',
     'text' => 'Text',
-    'place' => 'Place',
-    'keyword' => 'Keyword',
-    'source_class' => 'Source class',
-    'archive_law' => 'Archive_law',
     'detail' => 'Detailed card',
     'search_on' => 'Search on:',
-    'municipality' => 'Municipality',
-    'description' => 'Description',
     'authority' => 'authority',
     'hide_query' => 'Hide Query',
     'show_query' => 'Show Query',
@@ -51,10 +45,53 @@ return [
     'or' => 'Or',
     'and' => 'And',
     'not' => 'Not',
-    'source' => 'Source',
     'objecttype' => 'Object type',
     'type' => 'Type',
-    'toponym' => 'Toponym'
+    'toponym' => 'Toponym',
+    
+    'person' => 'Person',
+    'firstnames' => 'First names',
+    'remark' => 'Remark',
+    'perstype' => 'Type of person',
+    'chararacteristic' => 'Kenmerk',
+    
+    'value' => 'Value',
+    'authority' => 'Authority',
+    
+    'column' => 'column',
+    'source' => 'Source',
+    'province' => 'Province',
+    'status' => 'Status',
+    'country' => 'Country',
+    'category' => 'Category',
+    'source_class' => 'Source class',
+    'language' => 'Language',
+    'placecode' => 'Place code',
+    'keyword' => 'Keyword',
+    'adacode' => 'Adacode',
+    'section' => 'Section',
+    'description' => 'Description',
+    'municipality' => 'Municipality',
+    'place' => 'Place',
+    'startdate' => 'Start date',
+    'enddate'  => 'End date',
+
+
+    'archive_law' => 'Public records act',
+    'facttype' => 'Type of fact'
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
     
     
 ];

@@ -32,15 +32,8 @@ return [
     'fill_out' => 'Vul hier in',
     'fill_out_date' => 'vb: 2001-01-01',
     'text' => 'Tekst',
-    'place' => 'Plaats',
-    'keyword' => 'Trefwoord', 
-    'source_class' => 'Bronklasse',
-    'archive_law' => 'Archiefwet',
     'detail' => 'Detailkaart',
     'search_on' => 'Zoek op:',
-    'municipality' => 'Gemeente',
-    'description' => 'Beschrijving',
-    'authority' => 'bevoegdheid',
     'hide_query' => 'Verberg Query',
     'show_query' => 'Toon Query',
     'reset' => 'Reset',
@@ -51,8 +44,39 @@ return [
     'or' => 'Of',
     'and' => 'En',
     'not' => 'Niet',
-    'source' => 'Bron',
     'objecttype' => 'Objecttype',
     'type' => 'Soort',
-    'toponym' => 'Toponiem'    
+    'toponym' => 'Toponiem',
+
+    
+    'person' => 'Persoon',
+    'firstnames' => 'Voornamen',
+    'remark' => 'Opmerking',
+    'perstype' => 'Persoonstype',
+    'chararacteristic' => 'Kenmerk',
+    
+    'value' => 'Waarde',
+    'authority' => 'bevoegdheid',
+    
+    'column' => 'Rubriek',
+    'source' => 'Bron',
+    'province' => 'Province',
+    'status' => 'Status',
+    'country' => 'Land',
+    'category' => 'Categorie',
+    'source_class' => 'Bronklasse',
+    'language' => 'Taal',
+    'placecode' => 'Plaatscode',
+    'keyword' => 'Trefwoord', 
+    'adacode' => 'Adacode',
+    'section' => 'Sectie',
+    'description' => 'Omschrijving',
+    'municipality' => 'Gemeente',
+    'place' => 'Plaats',
+    'startdate' => 'Startdatum',
+    'enddate'  => 'Einddatum',    
+
+    'archive_law' => 'Archiefwet',
+    'facttype' => 'Feittype'
+        
 ];

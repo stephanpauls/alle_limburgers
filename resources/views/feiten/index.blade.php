@@ -152,14 +152,10 @@ $(document).ready(function(){
     transtab['subtype']='{{__('app.authority_list')}}';
     transtab['text']='{{__('app.text')}}';
     transtab['date']='{{__('app.date')}}';
-    transtab['place']='{{__('app.place')}}';
-    transtab['keyword']='{{__('app.keyword')}}';
-    transtab['source_class']='{{__('app.source_class')}}';
     transtab['archive_law']='{{__('app.archive_law')}}';
     transtab['detail']='{{__('app.detail')}}';
     transtab['fill_out']='{{__('app.fill_out')}}';
     transtab['fill_out_date']='{{__('app.fill_out_date')}}';
-    transtab['municipality']='{{__('app.municipality')}}';
     transtab['description']='{{__('app.description')}}';
     transtab['fact']='{{__('app.fact')}}';
     transtab['authority']='{{__('app.authority')}}';
@@ -169,11 +165,44 @@ $(document).ready(function(){
     transtab['and']='{{__('app.and')}}';
     transtab['or']='{{__('app.or')}}';
     transtab['not']='{{__('app.not')}}';
-    transtab['source']='{{__('app.source')}}';
     transtab['objecttype']='{{__('app.objecttype')}}';
     transtab['type']='{{__('app.type')}}';
     transtab['toponym']='{{__('app.toponym')}}';
     transtab['subtype']='{{__('app.subtype')}}';
+    
+    transtab['person']='{{__('app.person')}}';
+    transtab['firstnames']='{{__('app.remark')}}';
+    transtab['remark']='{{__('app.remark')}}';
+    transtab['perstype']='{{__('app.perstype')}}';
+    transtab['characteristic']='{{__('app.chararacteristic')}}';
+    
+    transtab['value']='{{__('app.value')}}';
+    transtab['authority']='{{__('app.authority')}}';
+    
+    transtab['source']='{{__('app.source')}}';
+    transtab['province']='{{__('app.province')}}';
+    transtab['status']='{{__('app.status')}}';
+    transtab['country']='{{__('app.country')}}';
+    transtab['category']='{{__('app.category')}}';
+    transtab['source_class']='{{__('app.source_class')}}';
+    transtab['language']='{{__('app.language')}}';
+    transtab['placecode']='{{__('app.placecode')}}';
+    transtab['keyword']='{{__('app.keyword')}}';
+    transtab['adacode']='{{__('app.adacode')}}';
+    transtab['section']='{{__('app.section')}}';
+    transtab['description']='{{__('app.description')}}';
+    transtab['municipality']='{{__('app.municipality')}}';
+    transtab['place']='{{__('app.place')}}';
+    transtab['startdate']='{{__('app.startdate')}}';
+    transtab['enddate']='{{__('app.enddate')}}';
+    transtab['column']='{{__('app.column')}}';
+
+
+    transtab['archive_law']='{{__('app.archive_law')}}';
+    transtab['facttype']='{{__('app.Type of fact')}}';    
+    
+    
+    
     
     $( document ).ajaxStart(function() {
           $( "#al_loading" ).show();

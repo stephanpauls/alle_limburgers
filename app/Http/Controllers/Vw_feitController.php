@@ -84,7 +84,7 @@ class Vw_feitcontroller extends Controller
             $query = DB::table('vw_feit');
             $query->join('vw_feit-pers','vw_feit.feit_id', '=','vw_feit-pers.feit_id');
             $query->join('vw_feit-bron','vw_feit-pers.feit_id', '=','vw_feit-bron.feit_id');
-            $query->join('oobj','oobj.feit_id', '=','vw_feit.feit_id');
+//            $query->join('oobj','oobj.feit_id', '=','vw_feit.feit_id');
                 
             //$input = $request->all();
             $types = $request->input('feit');
@@ -203,7 +203,8 @@ class Vw_feitcontroller extends Controller
                 }
             }
             $query->whereRaw($q);            
-            $result = $query->select('vw_feit-pers.*','vw_feit.feittype','vw_feit.plaats','vw_feit.tekst','vw_feit.datum','vw_feit-bron.omschrijving','oobj.oobjtype','oobj.soort','oobj.toponiem')->limit(200)->get();
+//            $result = $query->select('vw_feit-pers.*','vw_feit.feittype','vw_feit.plaats','vw_feit.tekst','vw_feit.datum','vw_feit-bron.omschrijving','oobj.oobjtype','oobj.soort','oobj.toponiem')->limit(200)->get();
+            $result = $query->select('vw_feit-pers.*','vw_feit.feittype','vw_feit.plaats','vw_feit.tekst','vw_feit.datum','vw_feit-bron.omschrijving')->limit(200)->get();
         }
 ;
         return $result;

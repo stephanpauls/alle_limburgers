@@ -61,7 +61,7 @@ return [
 //            'database' => env('DB_DATABASE', 'alle_limburgers'),
 //            'username' => env('DB_USERNAME', 'martin'),
 //            'password' => env('DB_PASSWORD', 'martin1$'),
-            'database' => env('DB_DATABASE', 'adb_con_test1'),
+            'database' => env('DB_DATABASE', 'adb'),
             'username' => env('DB_USERNAME', 'postgres'),
             'password' => env('DB_PASSWORD', 'aezadm2017!'),
             'charset' => 'utf8',
