@@ -106,7 +106,7 @@
             </div>            
         </nav>        
     </div>
-    <div id="alDetailResultList" style="overflow: auto;">
+    <div id="alDetailResultList">
         <div id="al_detailResultList">
         </div>
     </div>        
@@ -201,7 +201,31 @@ $(document).ready(function(){
     transtab['archive_law']='{{__('app.archive_law')}}';
     transtab['facttype']='{{__('app.Type of fact')}}';    
     
-    
+    transtab['afkomstig_uit']='{{__('app.archive_law')}}';
+    transtab['doopplaats']='{{__('app.doopplaats')}}';
+    transtab['wettigingsdatum']='{{__('app.wettigingsdatum')}}';
+    transtab['tijdstip_omschrijving']='{{__('app.tijdstip_omschrijving')}}';
+    transtab['toponiem']='{{__('app.toponiem')}}';
+    transtab['begraafplaats']='{{__('app.begraafplaats')}}';
+    transtab['plaats_van_huwelijk']='{{__('app.plaats_van_huwelijk')}}';
+    transtab['geboortedatum']='{{__('app.geboortedatum')}}';
+    transtab['woonplaats']='{{__('app.woonplaats')}}';
+    transtab['ondertrouwdatum']='{{__('app.ondertrouwdatum')}}';
+    transtab['plaats_van_ondertrouw']='{{__('app.plaats_van_ondertrouw')}}';
+    transtab['geboorteplaats']='{{__('app.geboorteplaats')}}';
+    transtab['burgerlijke_staat']='{{__('app.burgerlijke_staat')}}';
+    transtab['alias']='{{__('app.alias')}}';
+    transtab['plaats_van_overlijden']='{{__('app.plaats_van_overlijden')}}';
+    transtab['relatie']='{{__('app.relatie')}}';
+    transtab['doodsoorzaak']='{{__('app.doodsoorzaak')}}';
+    transtab['adres']='{{__('app.adres')}}';
+    transtab['beroep']='{{__('app.beroep')}}';
+    transtab['doopdatum']='{{__('app.doopdatum')}}';
+    transtab['overlijdensdatum']='{{__('app.overlijdensdatum')}}';
+    transtab['roepnaam']='{{__('app.roepnaam')}}';
+    transtab['leeftijd']='{{__('app.leeftijd')}}';
+    transtab['aangiftedatum']='{{__('app.aangiftedatum')}}';
+    transtab['begraafdatum']='{{__('app.begraafdatum')}}';
     
     
     $( document ).ajaxStart(function() {
@@ -316,12 +340,10 @@ $(document).ready(function(){
         $('#subtypesbox').slideToggle();
         firstOpenSubtype = false;
     });
-    
+
+
     $('#liCreateSearchBlock').click(function(e){
-       $('#feitenbox').slideUp();
-        firstOpenFeit = false;        
-        $('#subtypesbox').slideUp();
-        firstOpenSubtype = false;
+        closeFactBoxes();
         $('#al_resultList').empty();
         $('#al_detailResultList').empty();
         $('#li_navbar').empty();
@@ -338,6 +360,7 @@ $(document).ready(function(){
 
     $('#liShowQuery').click(function(e){
        e.preventDefault();    
+        closeFactBoxes();
        if ($('#alQueryBox').css('display') == 'none') {
             $('#alQueryBox').show();
             $('#liShowQuery').text('{{__('app.hide_query')}}');
@@ -349,6 +372,7 @@ $(document).ready(function(){
 
     $('#liCreateQuery').click(function(e){
        e.preventDefault();
+        closeFactBoxes();
        $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -373,6 +397,7 @@ $(document).ready(function(){
 
     $('#liResetQuery').click(function(e){
         e.preventDefault();
+        closeFactBoxes();
         selSubtype.splice(0,selSubtype.length);           
         selFeit.splice(0,selFeit.length);
         searchArr.splice(0,searchArr.length);
@@ -417,6 +442,11 @@ $(document).ready(function(){
             }
         });
     });
+    
+    $('#alSearchCriterium').click(function(){
+     closeFactBoxes();
+    });    
+    
 });
 
 

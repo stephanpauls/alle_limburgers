@@ -77,6 +77,31 @@ return [
     'enddate'  => 'Einddatum',    
 
     'archive_law' => 'Archiefwet',
-    'facttype' => 'Feittype'
-        
+    'facttype' => 'Feittype',
+  
+    'afkomstig_uit' => 'Afkomstig uit',
+    'doopplaats' => 'Doopplaats',
+    'wettigingsdatum' => 'Wettigingsdatum',
+    'tijdstip_omschrijving' => 'Tijdstip_omschrijving',
+    'toponiem' => 'Toponiem',
+    'begraafplaats' => 'Begraafplaats',
+    'plaats_van_huwelijk' => 'Plaats van huwelijk',
+    'geboortedatum' => 'Geboortedatum',
+    'woonplaats' => 'Woonplaats',
+    'ondertrouwdatum' => 'Ondertrouwdatum',
+    'plaats_van_ondertrouw' => 'Plaats van ondertrouw',
+    'geboorteplaats' => 'Geboorteplaats',
+    'burgerlijke_staat' => 'Burgerlijke staat',
+    'alias' => 'Alias',
+    'plaats van overlijden' => 'Plaats van overlijden',
+    'relatie' => 'Relatie',
+    'doodsoorzaak' => 'Doodsoorzaak',
+    'adres' => 'Adres',
+    'beroep' => 'Beroep',
+    'doopdatum' => 'Doopdatum',
+    'overlijdensdatum' => 'Overlijdensdatum',
+    'roepnaam' => 'Roepnaam',
+    'leeftijd' => 'Leeftijd',
+    'aangiftedatum' => 'Aangiftedatum',
+    'begraafdatum' => 'Begraafdatum',    
 ];

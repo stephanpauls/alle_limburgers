@@ -78,10 +78,35 @@ return [
 
 
     'archive_law' => 'Public records act',
-    'facttype' => 'Type of fact'
+    'facttype' => 'Type of fact',
     
 
-    
+    'afkomstig_uit' => 'Originating from',
+    'doopplaats' => 'Baptismal place',
+    'wettigingsdatum' => 'Legalization date',
+    'tijdstip_omschrijving' => 'Time description',
+    'toponiem' => 'Toponym',
+    'begraafplaats' => 'Cemetery',
+    'plaats_van_huwelijk' => 'Place of marriage',
+    'geboortedatum' => 'Date of birth',
+    'woonplaats' => 'Residence',
+    'ondertrouwdatum' => 'Date of underfeit',
+    'plaats_van_ondertrouw' => 'Place of underfeit',
+    'geboorteplaats' => 'Birthplace',
+    'burgerlijke_staat' => 'Marital status',
+    'alias' => 'Alias',
+    'plaats_van_overlijden' => 'Place of death',
+    'relatie' => 'Relation',
+    'doodsoorzaak' => 'Cause of death',
+    'adres' => 'Address',
+    'beroep' => 'Profession',
+    'doopdatum' => 'Baptismal date',
+    'overlijdensdatum' => 'Date of death',
+    'roepnaam' => 'Call sign',
+    'leeftijd' => 'Age',
+    'aangiftedatum' => 'Declaration date',
+    'begraafdatum' => 'Bury date',
+
     
     
     

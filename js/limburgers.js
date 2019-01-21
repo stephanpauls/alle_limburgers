@@ -1093,23 +1093,6 @@ function composeQuery(itemNr) {
     }
 
 
-    $('#liCreateQuery').show();
-    if (selFeit.length>0) {
-        if (selSubtype.length == 0) {
-            if (searchItemNr < 2) {
-                $('#liCreateQuery').hide();
-            }
-        } 
-    } else {
-        if (selSubtype.length > 0) {
-            if (searchItemNr < 2) {
-                $('#liCreateQuery').hide();
-            } 
-        } else if (searchItemNr < 3) {
-                $('#liCreateQuery').hide();
-                }
-    }
-
     var poutput = [];
     advSQLFieldsArray = [];
     
@@ -1186,6 +1169,23 @@ function composeQuery(itemNr) {
     poutput.push(targetToPush);
     $('#alQuery').empty();
     $('#alQuery').append( poutput.join(''));
+
+    $('#liCreateQuery').show();
+    if (selFeit.length>0) {
+        if (selSubtype.length == 0) {
+            if (advInd < 1) {
+                $('#liCreateQuery').hide();
+            }
+        } 
+    } else {
+        if (selSubtype.length > 0) {
+            if (advInd < 1) {
+                $('#liCreateQuery').hide();
+            } 
+        } else if (advInd < 2) {
+                $('#liCreateQuery').hide();
+        }
+    } 
 }
 
 function resetQuery() {
@@ -1380,6 +1380,9 @@ function alResultDetailTable(resultaat,transtab) {
     $('#al_detailResultList').empty();
     var poutput = [];
     var targetToPush = '';
+    if (result == null) {
+        targetToPush = ' No data available ';
+    } else {
     
     
         targetToPush = '<div style="width: 200px;float:left;background-color: #f2f2f2">';
@@ -1391,16 +1394,17 @@ function alResultDetailTable(resultaat,transtab) {
         targetToPush += '<div style="float:left;">';
         
         targetToPush += '<h2 class=class="mb-1">'+transtab['fact']+'</h2>';
-        targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result.feit[0].feittype+'</h4>';
-        targetToPush += '<h3 class="li_keyList">'+transtab['text']+'</h3><h4 class="li_valueList">'+result.feit[0].tekst+'</h4>';
+        if (result.feit[0].feittype) targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result.feit[0].feittype+'</h4>';
+        if (result.feit[0].text) targetToPush += '<h3 class="li_keyList">'+transtab['text']+'</h3><h4 class="li_valueList">'+result.feit[0].tekst+'</h4>';
         if (result.feit[0].datum) targetToPush += '<h3 class="li_keyList">'+transtab['date']+'</h3><h4 class="li_valueList">'+result.feit[0].datum.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")+'</h4>';
-        targetToPush += '<h3 class="li_keyList">'+transtab['subtype']+'</h3><h4 class="li_valueList">'+result.feit[0].feitsubtype+'</h4>';
-        targetToPush += '<h3 class="li_keyList">'+transtab['archive_law']+'</h3><h4 class="li_valueList">'+result.feit[0].archiefwet+'</h4>';
-        targetToPush += '<h3 class="li_keyList">'+transtab['keyword']+'</h3><h4 class="li_valueList">'+result.feit[0].trefwoord+'</h4>';
-        targetToPush += '<h3 class="li_keyList">'+transtab['source']+'</h3><h4 class="li_valueList">'+result.feit[0].bronklasse+'</h4>';
-        targetToPush += '<h3 class="li_keyList">'+transtab['characteristic']+'</h3><h4 class="li_valueList">'+result.feit[0].kenmerk+'</h4>';
-        targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.feit[0].opmerking+'</h4>';
-        targetToPush += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result.feit[0].plaats+'</h4>';
+        if (result.feit[0].feitsubtype) targetToPush += '<h3 class="li_keyList">'+transtab['subtype']+'</h3><h4 class="li_valueList">'+result.feit[0].feitsubtype+'</h4>';
+        if (result.feit[0].archiefwet) targetToPush += '<h3 class="li_keyList">'+transtab['archive_law']+'</h3><h4 class="li_valueList">'+result.feit[0].archiefwet+'</h4>';
+        if (result.feit[0].trefwoord) targetToPush += '<h3 class="li_keyList">'+transtab['keyword']+'</h3><h4 class="li_valueList">'+result.feit[0].trefwoord+'</h4>';
+        if (result.feit[0].bronklasse) targetToPush += '<h3 class="li_keyList">'+transtab['source']+'</h3><h4 class="li_valueList">'+result.feit[0].bronklasse+'</h4>';
+        if (result.feit[0].kenmerk) targetToPush += '<h3 class="li_keyList">'+transtab['characteristic']+'</h3><h4 class="li_valueList">'+result.feit[0].kenmerk+'</h4>';
+        if (result.feit[0].opmerking) targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.feit[0].opmerking+'</h4>';
+        if (result.feit[0].plaats) targetToPush += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result.feit[0].plaats+'</h4>';
+
 
         for(i=0;i<result.persoon.length;i++) {
             targetToPush += '<h2 class=class="mb-1"> </h2>';
@@ -1413,10 +1417,10 @@ function alResultDetailTable(resultaat,transtab) {
             targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.persoon[i].opmerking+'</h4>';
 
             for (j=0;j<result.persoon[i].detail.length;j++) {
-                if (result.persoon[i].detail[j].waarde) targetToPush += '<h3 class="li_keyList">'+result.persoon[i].detail[j].authority+'</h3><h4 class="li_valueList">'+result.persoon[i].detail[j].waarde+'</h4>';
+                if (result.persoon[i].detail[j].waarde) targetToPush += '<h3 class="li_keyList">'+transtab[result.persoon[i].detail[j].authority.toString().replace(' ','_')]+'</h3><h4 class="li_valueList">'+result.persoon[i].detail[j].waarde+'</h4>';
             }
         }
-
+        
         for(i=0;i<result.bron.length;i++) {
             targetToPush += '<h2 class=class="mb-1"> </h2>';
             targetToPush += '<h2 class=class="mb-1">'+transtab['source']+'</h2>';
@@ -1439,7 +1443,7 @@ function alResultDetailTable(resultaat,transtab) {
     
         targetToPush += '</div>'
         targetToPush += '</div>'
-        
+    }
 /*        
         targetToPush += '<p>'+transtab['name']+'</p>';
         targetToPush += '<p>'+transtab['first_name']+'</p>';
@@ -1479,3 +1483,10 @@ function alResultDetailTable(resultaat,transtab) {
         $('#al_detailResultList').show();
 }
 
+
+function closeFactBoxes() {
+    $('#feitenbox').slideUp();
+    firstOpenFeit = false;        
+    $('#subtypesbox').slideUp();
+    firstOpenSubtype = false;
+}
