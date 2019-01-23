@@ -1305,16 +1305,16 @@ function alResultTable(result,transtab){
         targetToPush_list += '<h5 class="mb-1">'+result[i].feittype+'</h5>';
         targetToPush_list += '<small>'+(i+1)+'</small></div>';
         
-        targetToPush_list += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result[i].naam+'</h4>';
-        targetToPush_list += '<h3 class="li_keyList">'+transtab['first_name']+'</h3><h4 class="li_valueList">'+result[i].voornamen+'</h4>';
-        targetToPush_list += '<h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result[i].rol+'</h4>';
-        targetToPush_list += '<h3 class="li_keyList">'+transtab['source']+'</h3><h4 class="li_valueList">'+result[i].omschrijving+'</h4>';
-        targetToPush_list += '<h3 class="li_keyList">'+transtab['date']+'</h3><h4 class="li_valueList">'+result[i].datum.substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");+'</h4>';
-        targetToPush_list += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result[i].plaats+'</h4>';
-        targetToPush_list += '<h3 class="li_keyList">'+transtab['text']+'</h3><h4 class="li_valueList">'+result[i].tekst+'</h4>';
-        targetToPush_list += '<h3 class="li_keyList">'+transtab['objecttype']+'</h3><h4 class="li_valueList">'+result[i].oobjtype+'</h4>';
-        targetToPush_list += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result[i].soort+'</h4>';
-        targetToPush_list += '<h3 class="li_keyList">'+transtab['toponym']+'</h3><h4 class="li_valueList">'+result[i].toponiem+'</h4>';
+        if (result[i].naam) targetToPush_list += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result[i].naam+'</h4>';
+        if (result[i].voornamen)targetToPush_list += '<h3 class="li_keyList">'+transtab['first_name']+'</h3><h4 class="li_valueList">'+result[i].voornamen+'</h4>';
+        if (result[i].rol)targetToPush_list += '<h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result[i].rol+'</h4>';
+        if (result[i].omschrijving)targetToPush_list += '<h3 class="li_keyList">'+transtab['source']+'</h3><h4 class="li_valueList">'+result[i].omschrijving+'</h4>';
+        if (result[i].datum)targetToPush_list += '<h3 class="li_keyList">'+transtab['date']+'</h3><h4 class="li_valueList">'+result[i].datum.substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");+'</h4>';
+        if (result[i].plaats)targetToPush_list += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result[i].plaats+'</h4>';
+        if (result[i].tekst)targetToPush_list += '<h3 class="li_keyList">'+transtab['text']+'</h3><h4 class="li_valueList">'+result[i].tekst+'</h4>';
+        if (result[i].oobjtype)targetToPush_list += '<h3 class="li_keyList">'+transtab['objecttype']+'</h3><h4 class="li_valueList">'+result[i].oobjtype+'</h4>';
+        if (result[i].soort)targetToPush_list += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result[i].soort+'</h4>';
+        if (result[i].toponiem)targetToPush_list += '<h3 class="li_keyList">'+transtab['toponym']+'</h3><h4 class="li_valueList">'+result[i].toponiem+'</h4>';
         
         style="display: none;"
 //        targetToPush_list += '<small>('+transtab['dig_available']+')</small>';
@@ -1409,12 +1409,12 @@ function alResultDetailTable(resultaat,transtab) {
         for(i=0;i<result.persoon.length;i++) {
             targetToPush += '<h2 class=class="mb-1"> </h2>';
             targetToPush += '<h2 class=class="mb-1">'+transtab['person']+'</h2>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result.persoon[i].rol+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result.persoon[i].naam+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['firstnames']+'</h3><h4 class="li_valueList">'+result.persoon[i].voornamen+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result.persoon[i].perstype+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['characteristic']+'</h3><h4 class="li_valueList">'+result.persoon[i].kenmerk+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.persoon[i].opmerking+'</h4>';
+            if(result.persoon[i].rol)targetToPush += '<h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result.persoon[i].rol+'</h4>';
+            if(result.persoon[i].naam)targetToPush += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result.persoon[i].naam+'</h4>';
+            if(result.persoon[i].voornamen)targetToPush += '<h3 class="li_keyList">'+transtab['firstnames']+'</h3><h4 class="li_valueList">'+result.persoon[i].voornamen+'</h4>';
+            if(result.persoon[i].perstype)targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result.persoon[i].perstype+'</h4>';
+            if(result.persoon[i].kenmerk)targetToPush += '<h3 class="li_keyList">'+transtab['characteristic']+'</h3><h4 class="li_valueList">'+result.persoon[i].kenmerk+'</h4>';
+            if(result.persoon[i].opmerking)targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.persoon[i].opmerking+'</h4>';
 
             for (j=0;j<result.persoon[i].detail.length;j++) {
                 if (result.persoon[i].detail[j].waarde) targetToPush += '<h3 class="li_keyList">'+transtab[result.persoon[i].detail[j].authority.toString().replace(' ','_')]+'</h3><h4 class="li_valueList">'+result.persoon[i].detail[j].waarde+'</h4>';
@@ -1424,56 +1424,26 @@ function alResultDetailTable(resultaat,transtab) {
         for(i=0;i<result.bron.length;i++) {
             targetToPush += '<h2 class=class="mb-1"> </h2>';
             targetToPush += '<h2 class=class="mb-1">'+transtab['source']+'</h2>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['country']+'</h3><h4 class="li_valueList">'+result.bron[i].land+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['province']+'</h3><h4 class="li_valueList">'+result.bron[i].provincie+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['municipality']+'</h3><h4 class="li_valueList">'+result.bron[i].gemeente+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result.bron[i].plaats+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['placecode']+'</h3><h4 class="li_valueList">'+result.bron[i].plaatscode+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['category']+'</h3><h4 class="li_valueList">'+result.bron[i].categorie+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['source_class']+'</h3><h4 class="li_valueList">'+result.bron[i].bronklasse+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['text']+'</h3><h4 class="li_valueList">'+result.bron[i].brontext+'</h4>';
+            if(result.bron[i].land)targetToPush += '<h3 class="li_keyList">'+transtab['country']+'</h3><h4 class="li_valueList">'+result.bron[i].land+'</h4>';
+            if(result.bron[i].provincie)targetToPush += '<h3 class="li_keyList">'+transtab['province']+'</h3><h4 class="li_valueList">'+result.bron[i].provincie+'</h4>';
+            if(result.bron[i].gemeente)targetToPush += '<h3 class="li_keyList">'+transtab['municipality']+'</h3><h4 class="li_valueList">'+result.bron[i].gemeente+'</h4>';
+            if(result.bron[i].plaats)targetToPush += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result.bron[i].plaats+'</h4>';
+            if(result.bron[i].plaatscode)targetToPush += '<h3 class="li_keyList">'+transtab['placecode']+'</h3><h4 class="li_valueList">'+result.bron[i].plaatscode+'</h4>';
+            if(result.bron[i].categorie)targetToPush += '<h3 class="li_keyList">'+transtab['category']+'</h3><h4 class="li_valueList">'+result.bron[i].categorie+'</h4>';
+            if(result.bron[i].bronklasse)targetToPush += '<h3 class="li_keyList">'+transtab['source_class']+'</h3><h4 class="li_valueList">'+result.bron[i].bronklasse+'</h4>';
+            if(result.bron[i].brontext)targetToPush += '<h3 class="li_keyList">'+transtab['text']+'</h3><h4 class="li_valueList">'+result.bron[i].brontext+'</h4>';
             if (result.bron[i].bdatum) targetToPush += '<h3 class="li_keyList">'+transtab['startdate']+'</h3><h4 class="li_valueList">'+result.bron[i].bdatum.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")+'</h4>';
             if (result.bron[i].edatum) targetToPush += '<h3 class="li_keyList">'+transtab['enddate']+'</h3><h4 class="li_valueList">'+result.bron[i].edatum.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['keyword']+'</h3><h4 class="li_valueList">'+result.bron[i].trefwoord+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['adacode']+'</h3><h4 class="li_valueList">'+result.bron[i].adacode+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.bron[i].opmerking+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['column']+'</h3><h4 class="li_valueList">'+result.bron[i].rubriek+'</h4>';
-            targetToPush += '<h3 class="li_keyList">'+transtab['description']+'</h3><h4 class="li_valueList">'+result.bron[i].omschrijving+'</h4>';
+            if(result.bron[i].trefwoord)targetToPush += '<h3 class="li_keyList">'+transtab['keyword']+'</h3><h4 class="li_valueList">'+result.bron[i].trefwoord+'</h4>';
+            if(result.bron[i].adacode)targetToPush += '<h3 class="li_keyList">'+transtab['adacode']+'</h3><h4 class="li_valueList">'+result.bron[i].adacode+'</h4>';
+            if(result.bron[i].opmerking)targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.bron[i].opmerking+'</h4>';
+            if(result.bron[i].rubriek)targetToPush += '<h3 class="li_keyList">'+transtab['column']+'</h3><h4 class="li_valueList">'+result.bron[i].rubriek+'</h4>';
+            if(result.bron[i].omschrijving)targetToPush += '<h3 class="li_keyList">'+transtab['description']+'</h3><h4 class="li_valueList">'+result.bron[i].omschrijving+'</h4>';
         }
     
         targetToPush += '</div>'
         targetToPush += '</div>'
     }
-/*        
-        targetToPush += '<p>'+transtab['name']+'</p>';
-        targetToPush += '<p>'+transtab['first_name']+'</p>';
-        targetToPush += '<p>'+transtab['municipality']+'</p>';
-        targetToPush += '<p>'+transtab['place']+'</p>';
-        targetToPush += '<p>'+transtab['description']+'</p>';
-        targetToPush += '<p>'+transtab['fact']+'</p>';
-        targetToPush += '<p>'+transtab['text']+'</p>';
-        targetToPush += '<p>'+transtab['date']+'</p>';
-        targetToPush += '<p>'+transtab['keyword']+'</p>';
-        targetToPush += '<p>'+transtab['source_class']+'</p>';
-        targetToPush += '<p>'+transtab['archive_law']+'</p>';
-        targetToPush += '</div>';
-        targetToPush += '<div>';
-        for (var i = 0;i< resultaat.length;i++) {
-            targetToPush += '<p><span class="li_span">'+resultaat[i].naam+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+resultaat[i].voornamen+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+resultaat[i].gemeente+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+resultaat[i].plaats+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+resultaat[i].omschrijving+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+resultaat[i].feittype+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+resultaat[i].tekst+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+resultaat[i].datum+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+resultaat[i].trefwoord+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+resultaat[i].bronklasse+'</span></p>';
-            targetToPush += '<p><span class="li_span">'+resultaat[i].archiefwet+'</span></p>';
-            
-        }
-        targetToPush += '</div>';
-*/        
         poutput.push(targetToPush);
         $('#al_detailResultList').empty();
         $('#al_detailResultList').append(poutput.join(''));
