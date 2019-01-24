@@ -37,7 +37,7 @@
     </div>
 </div>
 <div class="container">
-    <div id="alSearchCriterium" style="margin-left:20px;margin-top:10px;margin-bottom:10px;margin-right:200px;">
+    <div id="alSearchCriterium" style="margin-left:20px;margin-top:10px;margin-bottom:10px;margin-right:180px;">
 
     </div>
 </div>
@@ -201,21 +201,21 @@ $(document).ready(function(){
     transtab['archive_law']='{{__('app.archive_law')}}';
     transtab['facttype']='{{__('app.Type of fact')}}';    
     
-    transtab['afkomstig_uit']='{{__('app.archive_law')}}';
+    transtab['afkomstig°uit']='{{__('app.afkomstig°uit')}}';
     transtab['doopplaats']='{{__('app.doopplaats')}}';
     transtab['wettigingsdatum']='{{__('app.wettigingsdatum')}}';
     transtab['tijdstip_omschrijving']='{{__('app.tijdstip_omschrijving')}}';
     transtab['toponiem']='{{__('app.toponiem')}}';
     transtab['begraafplaats']='{{__('app.begraafplaats')}}';
-    transtab['plaats_van_huwelijk']='{{__('app.plaats_van_huwelijk')}}';
+    transtab['plaats°van°huwelijk']='{{__('app.plaats°van°huwelijk')}}';
     transtab['geboortedatum']='{{__('app.geboortedatum')}}';
     transtab['woonplaats']='{{__('app.woonplaats')}}';
     transtab['ondertrouwdatum']='{{__('app.ondertrouwdatum')}}';
-    transtab['plaats_van_ondertrouw']='{{__('app.plaats_van_ondertrouw')}}';
+    transtab['plaats°van°ondertrouw']='{{__('app.plaats°van°ondertrouw')}}';
     transtab['geboorteplaats']='{{__('app.geboorteplaats')}}';
-    transtab['burgerlijke_staat']='{{__('app.burgerlijke_staat')}}';
+    transtab['burgerlijke°staat']='{{__('app.burgerlijke°staat')}}';
     transtab['alias']='{{__('app.alias')}}';
-    transtab['plaats_van_overlijden']='{{__('app.plaats_van_overlijden')}}';
+    transtab['plaats°van°overlijden']='{{__('app.plaats°van°overlijden')}}';
     transtab['relatie']='{{__('app.relatie')}}';
     transtab['doodsoorzaak']='{{__('app.doodsoorzaak')}}';
     transtab['adres']='{{__('app.adres')}}';

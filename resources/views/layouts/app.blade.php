@@ -26,7 +26,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="navbar navbar-expand-sm navbar-light navbar-laravel">
             <div class="container-fluid">
                 <a class="navbar-brand"  href="{{ url('/') }}">
                     <img src="{{ asset ('public/img/tree_logo.png')}}" alt="" class="img_navbar"> {{ config('app.proj', 'Laravel') }} 
@@ -34,13 +34,7 @@
                 <a class="navbar-italic"  href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }} 
                 </a>
-<!--                
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
--->
 @yield('menu')
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
@@ -57,6 +51,12 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="en">&nbsp;<img src="{{ asset ('public/img/england.png')}}" alt="">&nbsp;En</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="de">&nbsp;<img src="{{ asset ('public/img/deutschland.png')}}" alt="">&nbsp;De</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="fr">&nbsp;<img src="{{ asset ('public/img/france.png')}}" alt="">&nbsp;Fr</a>
                             </li>
                         @else
                             <li class="nav-item dropdown">
@@ -78,7 +78,6 @@
                             </li>
                         @endguest
                     </ul>
-                </div>
             </div>
         </nav>
 

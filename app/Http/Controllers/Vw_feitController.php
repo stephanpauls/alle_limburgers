@@ -163,6 +163,7 @@ class Vw_feitcontroller extends Controller
                             $first = false;
                         }
                         if ('authority' == $other['term']) {
+                            $other['auth'] = str_replace('°', ' ', $other['auth']);
                             $q.= '(authority = \''.$other['auth'].'\' and ';
                             $other['term'] = 'waarde';
                         }

@@ -581,6 +581,7 @@ function addAuthSearchBlock(arrIndex) {
     $('#liCreateQuery').hide();
         
     var itemNr = searchItemNr;
+    var auth;
     if (arrIndex == 0) {
         arrIndex = itemNr;
     } else {
@@ -638,7 +639,8 @@ function addAuthSearchBlock(arrIndex) {
     targetToPush += '<div id="authoritylijst_'+itemNr+'">';
     targetToPush += '<select class="li_input_auth" onchange="authoritylist_change('+itemNr+')">';
     for (var i=0;i<authorities.length;i++){
-        targetToPush += '<option value='+authorities[i]+'>'+authorities[i]+'</option>';
+        auth =authorities[i].replace(/ /g, "°");
+        targetToPush += '<option value='+auth+'>'+transtab[auth]+'</option>';
     }
     targetToPush += '</select>';
     targetToPush += '</div>';
@@ -698,6 +700,7 @@ function addDatumAuthSearchBlock(arrIndex) {
     $('#liCreateQuery').hide();
         
     var itemNr = searchItemNr;
+    var auth;
     if (arrIndex == 0) {
         arrIndex = itemNr;
     } else {
@@ -753,7 +756,8 @@ function addDatumAuthSearchBlock(arrIndex) {
     targetToPush += '<div id="authoritylijst_'+itemNr+'">';
     targetToPush += '<select class="li_input_auth" onchange="authoritylist_change('+itemNr+')">';
     for (var i=0;i<authorities.length;i++){
-        targetToPush += '<option value='+authorities[i]+'>'+authorities[i]+'</option>';
+        auth =authorities[i].replace(/ /g, "°");
+        targetToPush += '<option value='+auth+'>'+transtab[auth]+'</option>';
     }
     targetToPush += '</select>';
     targetToPush += '</div>';
@@ -1144,7 +1148,7 @@ function composeQuery(itemNr) {
                                             'poort':$( "#andOrNotlijst_"+i+" option:selected" ).val(), 
                                             'term':searchArr[j]['term'],
                                             'operator':$( "#operatorlijst_"+i+" option:selected" ).val(),
-                                            'auth':$("#authoritylijst_"+i+" option:selected" ).text(),                                        
+                                            'auth':$("#authoritylijst_"+i+" option:selected" ).val(),                                        
                                             'bracket':searchArr[j]['bracket'],
                                             'filter':li_val_fin
                                         }; 
