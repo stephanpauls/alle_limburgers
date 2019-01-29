@@ -73,6 +73,9 @@ return [
     'place' => 'Place',
     'startdate' => 'Date de début',
     'enddate'  => 'Date de fin',    
+    'provcode'  => 'Code de province',    
+    'landcode'  => 'Code de pays',    
+    
 
     'archive_law' => 'Droit des archives',
     'facttype' => 'Type de fait',

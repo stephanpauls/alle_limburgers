@@ -75,6 +75,9 @@ return [
     'place' => 'Standort',
     'startdate' => 'Startdatum',
     'enddate'  => 'Enddatum',    
+    'provcode'  => 'Provinzcode',    
+    'landcode'  => 'Landcode',    
+        
 
     'archive_law' => 'Archivgesetz',
     'facttype' => 'Tatsachetyp',

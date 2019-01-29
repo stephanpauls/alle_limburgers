@@ -75,6 +75,8 @@ return [
     'place' => 'Place',
     'startdate' => 'Start date',
     'enddate'  => 'End date',
+    'provcode'  => 'Province code',    
+    'landcode'  => 'Country code',    
 
 
     'archive_law' => 'Public records act',

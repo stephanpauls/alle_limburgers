@@ -196,6 +196,8 @@ $(document).ready(function(){
     transtab['startdate']='{{__('app.startdate')}}';
     transtab['enddate']='{{__('app.enddate')}}';
     transtab['column']='{{__('app.column')}}';
+    transtab['provcode']='{{__('app.provcode')}}';
+    transtab['landcode']='{{__('app.landcode')}}';
 
 
     transtab['archive_law']='{{__('app.archive_law')}}';

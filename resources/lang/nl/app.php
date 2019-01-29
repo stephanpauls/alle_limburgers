@@ -74,8 +74,10 @@ return [
     'municipality' => 'Gemeente',
     'place' => 'Plaats',
     'startdate' => 'Startdatum',
-    'enddate'  => 'Einddatum',    
-
+    'enddate'  => 'Einddatum',   
+    'provcode'  => 'Provinciecode',    
+    'landcode'  => 'Landcode',    
+    
     'archive_law' => 'Archiefwet',
     'facttype' => 'Feittype',
   

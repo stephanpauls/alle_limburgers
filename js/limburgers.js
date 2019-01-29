@@ -1443,6 +1443,8 @@ function alResultDetailTable(resultaat,transtab) {
             if(result.bron[i].opmerking)targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.bron[i].opmerking+'</h4>';
             if(result.bron[i].rubriek)targetToPush += '<h3 class="li_keyList">'+transtab['column']+'</h3><h4 class="li_valueList">'+result.bron[i].rubriek+'</h4>';
             if(result.bron[i].omschrijving)targetToPush += '<h3 class="li_keyList">'+transtab['description']+'</h3><h4 class="li_valueList">'+result.bron[i].omschrijving+'</h4>';
+            if(result.bron[i].provcode)targetToPush += '<h3 class="li_keyList">'+transtab['provcode']+'</h3><h4 class="li_valueList">'+result.bron[i].provcode+'</h4>';
+            if(result.bron[i].landcode)targetToPush += '<h3 class="li_keyList">'+transtab['landcode']+'</h3><h4 class="li_valueList">'+result.bron[i].landcode+'</h4>';
         }
     
         targetToPush += '</div>'
