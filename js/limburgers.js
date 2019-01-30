@@ -1409,20 +1409,21 @@ function alResultDetailTable(resultaat,transtab) {
         if (result.feit[0].opmerking) targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.feit[0].opmerking+'</h4>';
         if (result.feit[0].plaats) targetToPush += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result.feit[0].plaats+'</h4>';
 
-
+        var curr_pers_id = result.persoon[0].pers_id;
         for(i=0;i<result.persoon.length;i++) {
-            targetToPush += '<h2 class=class="mb-1"> </h2>';
-            targetToPush += '<h2 class=class="mb-1">'+transtab['person']+'</h2>';
-            if(result.persoon[i].rol)targetToPush += '<h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result.persoon[i].rol+'</h4>';
-            if(result.persoon[i].naam)targetToPush += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result.persoon[i].naam+'</h4>';
-            if(result.persoon[i].voornamen)targetToPush += '<h3 class="li_keyList">'+transtab['firstnames']+'</h3><h4 class="li_valueList">'+result.persoon[i].voornamen+'</h4>';
-            if(result.persoon[i].perstype)targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result.persoon[i].perstype+'</h4>';
-            if(result.persoon[i].kenmerk)targetToPush += '<h3 class="li_keyList">'+transtab['characteristic']+'</h3><h4 class="li_valueList">'+result.persoon[i].kenmerk+'</h4>';
-            if(result.persoon[i].opmerking)targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.persoon[i].opmerking+'</h4>';
-
-            for (j=0;j<result.persoon[i].detail.length;j++) {
-                if (result.persoon[i].detail[j].waarde) targetToPush += '<h3 class="li_keyList">'+transtab[result.persoon[i].detail[j].authority.toString().replace(' ','_')]+'</h3><h4 class="li_valueList">'+result.persoon[i].detail[j].waarde+'</h4>';
-            }
+            
+            if ((i==0) || (curr_pers_id != result.persoon[i].pers_id)) {
+                curr_pers_id = result.persoon[i].pers_id;
+                targetToPush += '<h2 class=class="mb-1"> </h2>';
+                targetToPush += '<h2 class=class="mb-1">'+transtab['person']+'</h2>';
+                if(result.persoon[i].rol)targetToPush += '<h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result.persoon[i].rol+'</h4>';
+                if(result.persoon[i].naam)targetToPush += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result.persoon[i].naam+'</h4>';
+                if(result.persoon[i].voornamen)targetToPush += '<h3 class="li_keyList">'+transtab['firstnames']+'</h3><h4 class="li_valueList">'+result.persoon[i].voornamen+'</h4>';
+                if(result.persoon[i].perstype)targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result.persoon[i].perstype+'</h4>';
+                if(result.persoon[i].kenmerk)targetToPush += '<h3 class="li_keyList">'+transtab['characteristic']+'</h3><h4 class="li_valueList">'+result.persoon[i].kenmerk+'</h4>';
+                if(result.persoon[i].opmerking)targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.persoon[i].opmerking+'</h4>';
+            }            
+            if (result.persoon[i].waarde) targetToPush += '<h3 class="li_keyList">'+transtab[result.persoon[i].authority.toString().replace(' ','_')]+'</h3><h4 class="li_valueList">'+result.persoon[i].waarde+'</h4>';
         }
         
         for(i=0;i<result.bron.length;i++) {
