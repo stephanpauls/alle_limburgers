@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Vw_feit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Illuminate\Database\Query\Builder;
+use Google_Client;
+use Google_Service_Drive;
+
 
 class Vw_feitcontroller extends Controller
 {
@@ -17,12 +19,12 @@ class Vw_feitcontroller extends Controller
     public function index()
     {
         //$feiten = Feit::all();
-        $feiten = DB::table('feit')->select('feittype')->distinct()->orderBy('feittype','asc')->get();
-        $subtypes = DB::table('feit')->select('trefwoord')->distinct()->orderBy('trefwoord','asc')->get();
-        $rollen = DB::table('pers')->select('rol')->distinct()->orderBy('rol','asc')->get();
-        $authorities = DB::table('persd')->select('authority')->distinct()->orderBy('authority','asc')->get();
+//        $feiten = DB::table('feit')->select('feittype')->distinct()->orderBy('feittype','asc')->get();
+//        $subtypes = DB::table('feit')->select('trefwoord')->distinct()->orderBy('trefwoord','asc')->get();
+//        $rollen = DB::table('pers')->select('rol')->distinct()->orderBy('rol','asc')->get();
+//        $authorities = DB::table('persd')->select('authority')->distinct()->orderBy('authority','asc')->get();
         
-        return view('feiten.index',['feiten'=>$feiten,'subtypes'=>$subtypes,'rollen'=>$rollen,'authorities'=>$authorities]);
+        return view('feiten.index');
     }
 
     /**
@@ -48,7 +50,11 @@ class Vw_feitcontroller extends Controller
         $queryAuthority = false;
 
         $lijst = $request->input('lijst');
-        if ($lijst == 'feittype') {
+        if ($lijst == 'rollen') {
+            $result = DB::table('pers')->select('rol')->distinct()->orderBy('rol','asc')->get();
+        } else if ($lijst == 'authorities') {
+            $result = DB::table('persd')->select('authority')->distinct()->orderBy('authority','asc')->get();
+        } else if ($lijst == 'feittype') {
             $result = DB::table('vw_feit')->select('feittype')->distinct()->get();
         } else if ($lijst == 'subtype') {
             $result = DB::table('vw_feit')->select('trefwoord')->distinct()->get();
@@ -78,7 +84,44 @@ class Vw_feitcontroller extends Controller
             $query = DB::table('feit');
             $query->where('feit.feit_id',$feit_id);
             $result = $query->select('metadata')->get();
-            
+        } else if ($lijst == 'file') {
+            $adacode = $request->input('adacode');
+            $client = new \Google_Client();
+            $client->setApplicationName('Google Drive API PHP Quickstart');
+            $client->setScopes(Google_Service_Drive::DRIVE_METADATA_READONLY);
+            $client->setAuthConfig('client_id.json');
+            $client->setAccessType('offline');
+            $client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/oauth2callback.php');
+            $client->setApprovalPrompt('force');   
+            if (file_exists('credentials.json')) {
+                $accessToken = json_decode(file_get_contents('credentials.json'), true);
+                $client->setAccessToken($accessToken);     
+                $service = new Google_Service_Drive($client);
+                $q = 'name contains \''.$adacode.'\'';
+                $optParams = array(
+                    'includeTeamDriveItems'=> true,
+                    'q' => $q,
+                    'supportsTeamDrives' => true,
+                    'pageSize' => 1,
+                    'fields' => 'nextPageToken, files(id, name)'
+                );
+                $results = $service->files->listFiles($optParams);
+                foreach ($results->getFiles() as $file) {
+                    $href = 'https://drive.google.com/open?id='; 
+                    $href .= $file->getId();
+                    $file->getMimeType();
+                    $contentUrl = $file->getWebContentLink();
+                    $webcontentlink = "https://docs.google.com/uc?id=".$file->getId()."&amp;export=download";
+//$handle = fopen($webcontentlink, "r");
+//$response = $service->files->get($file->getId(), array('alt' => 'media'));
+//$content = $response->getBody()->getContents();                    
+                    break;
+                }
+//                $result = DB::table('vw_feit')->select('feittype')->distinct()->get();                
+                $result[0]=$webcontentlink;
+            } else {
+                $result[0] = 'www.hbvl.be';
+            }
         } else {
         
             $query = DB::table('vw_feit');
@@ -207,7 +250,6 @@ class Vw_feitcontroller extends Controller
 //            $result = $query->select('vw_feit-pers.*','vw_feit.feittype','vw_feit.plaats','vw_feit.tekst','vw_feit.datum','vw_feit-bron.omschrijving','oobj.oobjtype','oobj.soort','oobj.toponiem')->limit(200)->get();
             $result = $query->select('vw_feit-pers.*','vw_feit.feittype','vw_feit.plaats','vw_feit.tekst','vw_feit.datum','vw_feit-bron.omschrijving')->limit(200)->get();
         }
-;
         return $result;
     }  
  
@@ -259,4 +301,7 @@ class Vw_feitcontroller extends Controller
     {
         //
     }
+    
+    
+    
 }

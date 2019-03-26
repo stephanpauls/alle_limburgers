@@ -15,8 +15,15 @@ exactdatum = 0;
 
 resultlijst = [];
 
-
 currentIndex = 1;
+
+persoonsoort = new Array();
+persoonsoort[1] = 'persoon';
+persoonsoort[2] = 'gemeentelijk';
+persoonsoort[3] = 'provinciaal';
+persoonsoort[4] = 'landelijk';
+persoonsoort[5] = 'kerkelijk';
+
 
 function alResultFeiten(result){
     
@@ -82,7 +89,7 @@ function createStartSearchBlock(lijn,crit,andOrNot) {
     
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
-    $('#liCreateQuery').hide();
+    fadeSearchButton();
     
     if (lijn==0) {
         searchItemNr = 1;
@@ -250,7 +257,7 @@ function addDatumSearchBlock(arrIndex) {
 
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
-    $('#liCreateQuery').hide();
+    fadeSearchButton();
         
     var itemNr = searchItemNr;
     if (arrIndex == 0) {
@@ -358,7 +365,7 @@ function addSearchBlock(arrIndex) {
 
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
-    $('#liCreateQuery').hide();
+    fadeSearchButton();
         
     var itemNr = searchItemNr;
     if (arrIndex == 0) {
@@ -465,7 +472,7 @@ function addRoleSearchBlock(arrIndex) {
 
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
-    $('#liCreateQuery').hide();
+    fadeSearchButton();
         
     var itemNr = searchItemNr;
     if (arrIndex == 0) {
@@ -578,7 +585,7 @@ function addAuthSearchBlock(arrIndex) {
 
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
-    $('#liCreateQuery').hide();
+    fadeSearchButton();
         
     var itemNr = searchItemNr;
     var auth;
@@ -697,7 +704,7 @@ function addDatumAuthSearchBlock(arrIndex) {
 
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
-    $('#liCreateQuery').hide();
+    fadeSearchButton();
         
     var itemNr = searchItemNr;
     var auth;
@@ -815,7 +822,7 @@ function addBracketsBlock(arrIndex) {
 
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
-    $('#liCreateQuery').hide();
+    fadeSearchButton();
         
     var itemNr = searchItemNr;
     if (arrIndex == 0) {
@@ -941,7 +948,8 @@ function checkDate(itemNr) {
     var dat = $('#dp_'+itemNr).val();
     if (dat.length < 4 ) { 
         $('#dp_'+itemNr).css("background-color","yellow");
-        $('#liCreateQuery').hide();
+        fadeSearchButton();
+        
         return;
     } else if (dat.length == 4){
         if (parseInt(dat) != 'NaN') {
@@ -951,7 +959,7 @@ function checkDate(itemNr) {
         } else {
             $('#dp_'+itemNr).css("background-color","yellow");
             $('#dp_'+itemNr).val('');
-            $('#liCreateQuery').hide();
+            fadeSearchButton();
         }
     } else if (dat.length == 7) {
         if (dat.indexOf('-') == 4) {
@@ -979,7 +987,7 @@ function checkDate(itemNr) {
     } else {
         $('#dp_'+itemNr).css("background-color","yellow");
         searchArr[ind]['date'] ="";
-        $('#liCreateQuery').hide();
+        fadeSearchButton();
     }
 }
 
@@ -1133,14 +1141,14 @@ function composeQuery(itemNr) {
                     li_val_fin = li_val ="";
                 }
                 if ((!li_val) || ((li_val) === (transtab['fill_out_date']))) {
-                    $('#liCreateQuery').hide();
+                    fadeSearchButton();
                 }
             } else if ($( "#criterialijst_"+i+" option:selected" ).val() == 'rol') {
                 li_val = li_val_fin = $( "#rollijst_"+i+" option:selected" ).val();
             } else if (searchArr[j]['bracket'] == '-') {
                 li_val = li_val_fin = $( "#al_filter_"+i).val();
                 if ((!li_val) || ((li_val) === (transtab['fill_out']))) {
-                    $('#liCreateQuery').hide();
+                    fadeSearchButton();
                 }
             }        
 
@@ -1174,22 +1182,35 @@ function composeQuery(itemNr) {
     $('#alQuery').empty();
     $('#alQuery').append( poutput.join(''));
 
-    $('#liCreateQuery').show();
+    showSearchButton();
+
     if (selFeit.length>0) {
         if (selSubtype.length == 0) {
             if (advInd < 1) {
-                $('#liCreateQuery').hide();
+                fadeSearchButton();
             }
         } 
     } else {
         if (selSubtype.length > 0) {
             if (advInd < 1) {
-                $('#liCreateQuery').hide();
+                fadeSearchButton();
             } 
         } else if (advInd < 2) {
-                $('#liCreateQuery').hide();
+                fadeSearchButton();
         }
     } 
+}
+
+function fadeSearchButton() {
+    $('#liCreateQuery').fadeTo("fast",0.4);
+    $('#liCreateQuery').prop("disabled", true);
+    $("#liCreateQuery span").text(transtab['search']+' ('+transtab['two_choices']+')');
+    
+}
+function showSearchButton() {
+    $('#liCreateQuery').fadeTo("fast",1);
+    $('#liCreateQuery').prop("disabled", false);
+    $("#liCreateQuery span").text(transtab['search']);
 }
 
 function resetQuery() {
@@ -1229,9 +1250,14 @@ function alResultTable(result,transtab){
             targetToPush += '<div class="col-lg-1">';
             targetToPush += '<a class="navbar-text" href="#">Pag. '+(i+1)+'</a>';
             targetToPush += '</div>';
-            targetToPush += '<div class ="col-lg-5">';
+            targetToPush += '<div class ="col-lg-3">';
             targetToPush += '<span class="navbar-text">';
             targetToPush += result.length + ' '+transtab['results'];
+            targetToPush += '</span>';
+            targetToPush += '</div>';
+            targetToPush += '<div class ="col-lg-3">';
+            targetToPush += '<span class="navbar-text">';
+            targetToPush += '    '+transtab['details'];
             targetToPush += '</span>';
             targetToPush += '</div>';
             targetToPush += '<div class ="col-lg-auto">';
@@ -1264,9 +1290,14 @@ function alResultTable(result,transtab){
             targetToPush += '<div class="col-lg-1">';
             targetToPush += '<a class="navbar-text" href="#">Pag. '+((i/pagelength)+1)+'</a>';
             targetToPush += '</div>';
-            targetToPush += '<div class ="col-lg-5">';
+            targetToPush += '<div class ="col-lg-3">';
             targetToPush += '<span class="navbar-text">';
-            targetToPush += result.length + ' resultaten';
+            targetToPush += result.length + ' '+transtab['results'];
+            targetToPush += '</span>';
+            targetToPush += '</div>';
+            targetToPush += '<div class ="col-lg-3">';
+            targetToPush += '<span class="navbar-text">';
+            targetToPush += '    '+transtab['details'];
             targetToPush += '</span>';
             targetToPush += '</div>';
             targetToPush += '<div class ="col-lg-auto">';
@@ -1329,30 +1360,33 @@ function alResultTable(result,transtab){
     $('#al_resultList').empty();
     $('#al_resultList').append(poutput_list.join(''));
     $('#li_navbar').empty();
-    $('#li_navbar').append( poutput_bar.join(''));        
+    $('#li_navbar').append( poutput_bar.join(''));     
+    $('#al_resultList').show();
+    $('#li_navbar').show();
+    
     poutput_bar = [];
     poutput_list = [];
 }
 
-function alFeitenTable(result){
+function alFeitenTable(feiten){
     
     var poutput = [];
     var targetToPush = '';
     
-    for (var i = 0;i< result.length;i++){
-        targetToPush +=  '<li><a href="#" class="small" data-value="'+result[i].feittype+'" tabIndex="-1"><input type="checkbox" />'+result[i].feittype+'</a></li>';              
+    for (var i = 0;i< feiten.length;i++){
+        targetToPush +=  '<li><a href="#" class="small" data-value="'+feiten[i]+'" tabIndex="-1"><input type="checkbox" />'+feiten[i]+'</a></li>';              
     }
     poutput.push(targetToPush);
     $('#feitenbox').empty();
     $('#feitenbox').append( poutput.join(''));
 }
-function alSubtypesTable(result){
+function alSubtypesTable(subtypes){
     
     var poutput = [];
     var targetToPush = '';
     
-    for (var i = 0;i< result.length;i++){
-        targetToPush +=  '<li><a href="#" class="small" data-value="'+result[i].trefwoord+'" tabIndex="-1"><input type="checkbox" />'+result[i].trefwoord+'</a></li>';              
+    for (var i = 0;i< subtypes.length;i++){
+        targetToPush +=  '<li><a href="#" class="small" data-value="'+subtypes[i]+'" tabIndex="-1"><input type="checkbox" />'+subtypes[i]+'</a></li>';              
     }
     poutput.push(targetToPush);
     $('#subtypesbox').empty();
@@ -1377,6 +1411,7 @@ function jumpToPage(pg,nrOfPages) {
     
 }
 
+
 function alResultDetailTable(resultaat,transtab) {
 
     var result = resultaat[0].metadata;
@@ -1391,13 +1426,14 @@ function alResultDetailTable(resultaat,transtab) {
     
         targetToPush = '<div style="width: 200px;float:left;background-color: #f2f2f2">';
         targetToPush += '<p class="card-text">Scans</p>';  
-        targetToPush += '<a href="https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjHiL7Fn6TeAhVL3KQKHYwYBUQQjRx6BAgBEAU&url=https%3A%2F%2Fwww.voertuigkosten.be%2Fauto%2Fpk-cc-omrekenen%2F&psig=AOvVaw3tHTnxBiSgOBvJtQdzz6gS&ust=1540648093602313" target="_blank">image1</a>';
-        targetToPush += '<a href="https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwi7qJfcn6TeAhVO2qQKHdk2A9sQjRx6BAgBEAU&url=https%3A%2F%2Fwww.autowereld.com%2Fmultimedia%2Ffotogalleries%2Fid%2F10519&psig=AOvVaw3tHTnxBiSgOBvJtQdzz6gS&ust=1540648093602313" target="_blank">image2</a>';
+        targetToPush += '<button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a01\');\" class=\"btn btn-secondary\">toon image</button>';
+        targetToPush += '<button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">toon image</button>';
         targetToPush += '</div>';
         targetToPush += '<div style="width:50px;float:left;">&nbsp;</div>';
         targetToPush += '<div style="float:left;">';
         
         targetToPush += '<h2 class=class="mb-1">'+transtab['fact']+'</h2>';
+        if (result.feit) {
         if (result.feit[0].feittype) targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result.feit[0].feittype+'</h4>';
         if (result.feit[0].text) targetToPush += '<h3 class="li_keyList">'+transtab['text']+'</h3><h4 class="li_valueList">'+result.feit[0].tekst+'</h4>';
         if (result.feit[0].datum) targetToPush += '<h3 class="li_keyList">'+transtab['date']+'</h3><h4 class="li_valueList">'+result.feit[0].datum.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")+'</h4>';
@@ -1409,23 +1445,33 @@ function alResultDetailTable(resultaat,transtab) {
         if (result.feit[0].opmerking) targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.feit[0].opmerking+'</h4>';
         if (result.feit[0].plaats) targetToPush += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result.feit[0].plaats+'</h4>';
 
-        var curr_pers_id = result.persoon[0].pers_id;
-        for(i=0;i<result.persoon.length;i++) {
-            
-            if ((i==0) || (curr_pers_id != result.persoon[i].pers_id)) {
-                curr_pers_id = result.persoon[i].pers_id;
-                targetToPush += '<h2 class=class="mb-1"> </h2>';
-                targetToPush += '<h2 class=class="mb-1">'+transtab['person']+'</h2>';
-                if(result.persoon[i].rol)targetToPush += '<h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result.persoon[i].rol+'</h4>';
-                if(result.persoon[i].naam)targetToPush += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result.persoon[i].naam+'</h4>';
-                if(result.persoon[i].voornamen)targetToPush += '<h3 class="li_keyList">'+transtab['firstnames']+'</h3><h4 class="li_valueList">'+result.persoon[i].voornamen+'</h4>';
-                if(result.persoon[i].perstype)targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result.persoon[i].perstype+'</h4>';
-                if(result.persoon[i].kenmerk)targetToPush += '<h3 class="li_keyList">'+transtab['characteristic']+'</h3><h4 class="li_valueList">'+result.persoon[i].kenmerk+'</h4>';
-                if(result.persoon[i].opmerking)targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.persoon[i].opmerking+'</h4>';
-            }            
-            if (result.persoon[i].waarde) targetToPush += '<h3 class="li_keyList">'+transtab[result.persoon[i].authority.toString().replace(' ','_')]+'</h3><h4 class="li_valueList">'+result.persoon[i].waarde+'</h4>';
+        if (result.persoon != null) {
+        if (result.persoon.length> 0){
+            var curr_pers_id = result.persoon[0].pers_id;
+            for(i=0;i<result.persoon.length;i++) {
+
+                if ((i==0) || (curr_pers_id != result.persoon[i].pers_id)) {
+                    curr_pers_id = result.persoon[i].pers_id;
+                    targetToPush += '<h2 class=class="mb-1"> </h2>';
+                    targetToPush += '<h2 class=class="mb-1">'+transtab['person']+'</h2>';
+                    if(result.persoon[i].rol)targetToPush += '<h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result.persoon[i].rol+'</h4>';
+                    if(result.persoon[i].naam)targetToPush += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result.persoon[i].naam+'</h4>';
+                    if(result.persoon[i].voornamen)targetToPush += '<h3 class="li_keyList">'+transtab['firstnames']+'</h3><h4 class="li_valueList">'+result.persoon[i].voornamen+'</h4>';
+                    if(result.persoon[i].perstype)targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+persoonsoort[result.persoon[i].perstype]+'</h4>';
+                    if(result.persoon[i].kenmerk)targetToPush += '<h3 class="li_keyList">'+transtab['characteristic']+'</h3><h4 class="li_valueList">'+result.persoon[i].kenmerk+'</h4>';
+                    if(result.persoon[i].opmerking)targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.persoon[i].opmerking+'</h4>';
+                }            
+                if (result.persoon[i].waarde) { 
+                    if (result.persoon[i].authority.indexOf('atum') != -1){
+                        var datum = result.persoon[i].waarde.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")
+                        targetToPush += '<h3 class="li_keyList">'+transtab[result.persoon[i].authority.toString().replace(' ','_')]+'</h3><h4 class="li_valueList">'+datum+'</h4>';
+                    } else {
+                        targetToPush += '<h3 class="li_keyList">'+transtab[result.persoon[i].authority.toString().replace(' ','_')]+'</h3><h4 class="li_valueList">'+result.persoon[i].waarde+'</h4>';
+                    }
+                }
+            }
         }
-        
+    }
         for(i=0;i<result.bron.length;i++) {
             targetToPush += '<h2 class=class="mb-1"> </h2>';
             targetToPush += '<h2 class=class="mb-1">'+transtab['source']+'</h2>';
@@ -1444,10 +1490,8 @@ function alResultDetailTable(resultaat,transtab) {
             if(result.bron[i].opmerking)targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.bron[i].opmerking+'</h4>';
             if(result.bron[i].rubriek)targetToPush += '<h3 class="li_keyList">'+transtab['column']+'</h3><h4 class="li_valueList">'+result.bron[i].rubriek+'</h4>';
             if(result.bron[i].omschrijving)targetToPush += '<h3 class="li_keyList">'+transtab['description']+'</h3><h4 class="li_valueList">'+result.bron[i].omschrijving+'</h4>';
-            if(result.bron[i].provcode)targetToPush += '<h3 class="li_keyList">'+transtab['provcode']+'</h3><h4 class="li_valueList">'+result.bron[i].provcode+'</h4>';
-            if(result.bron[i].landcode)targetToPush += '<h3 class="li_keyList">'+transtab['landcode']+'</h3><h4 class="li_valueList">'+result.bron[i].landcode+'</h4>';
         }
-    
+        }
         targetToPush += '</div>'
         targetToPush += '</div>'
     }

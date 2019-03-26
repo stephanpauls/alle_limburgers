@@ -11,30 +11,23 @@
         <p class="li_bold_info">{{__('app.search_on')}}</p>
     </div>
     <div class="col-sm">
-    <div class="button-group"  style="margin: 10px">
-        <input class="geotextbox feitenTextBox" name="feitenbox" placeholder="{{__('app.all_facts')}}" onkeyup="limZoekFeit();" maxlength="20"/>
-        <button id="feiten_btn" type="button" onclick="feitBtn()" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">{{__('app.fact')}}<span class="caret"></span></button>
-        <ul id=feitenbox class="dropdown-menu">
-        @foreach($feiten as $feit)
-            <li><a href="#" class="small" data-value="{{$feit->feittype}}" tabIndex="-1"><input type="checkbox" />{{$feit->feittype}}</a></li>              
-        @endforeach                    
-        </ul>
+        <div class="button-group"  style="margin: 10px">
+            <input class="geotextbox feitenTextBox" name="feitenbox" placeholder="{{__('app.all_facts')}}" onkeyup="limZoekFeit();" maxlength="20"/>
+            <button id="feiten_btn" type="button"  onclick="" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">{{__('app.fact')}}<span class="caret"></span></button>
+            <ul id=feitenbox class="dropdown-menu">
+            </ul>
+        </div>
     </div>
+        <div class="col-sm">
+            <div class="button-group" style="margin: 10px">
+                <input class="geotextbox subtypesTextBox" name="subtypesbox" placeholder="{{__('app.all_subtypes')}}" onkeyup="limZoekSubtype();" maxlength="20"/>
+                <button id="subtypes_btn" type="button" onclick="" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">{{__('app.subtype')}}<span class="caret"></span></button>
+                <ul id=subtypesbox class="dropdown-menu">
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="col-sm">
-    <div class="button-group" style="margin: 10px">
-        <input class="geotextbox subtypesTextBox" name="subtypesbox" placeholder="{{__('app.all_subtypes')}}" onkeyup="limZoekSubtype();" maxlength="20"/>
-        <button id="subtypes_btn" type="button" onclick="subtypeBtn()" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">{{__('app.subtype')}}<span class="caret"></span></button>
-        <ul id=subtypesbox class="dropdown-menu">
-        @foreach($subtypes as $subtype)
-            <li><a href="#" class="small" data-value="{{$subtype->trefwoord}}" tabIndex="-1"><input type="checkbox" />{{$subtype->trefwoord}}</a></li>              
-        @endforeach                    
-        </ul>
-    </div
-  </div>
 </div>
-</div>
-    </div>
 </div>
 <div class="container">
     <div id="alSearchCriterium" style="margin-left:20px;margin-top:10px;margin-bottom:10px;margin-right:180px;">
@@ -42,18 +35,23 @@
     </div>
 </div>
 <div class="container" >
+<div id="alSearchCriterium" style="margin-left:20px;margin-top:10px;margin-bottom:10px;margin-right:180px;">
     <div class="btn-group" style="margin-bottom: 20px;" role="group" aria-label="Basic example">
         <button type="button" id="liCreateSearchBlock" class="btn btn-secondary">{{__('app.new_line')}}</button>
     </div>
-    <div class="btn-group" style="margin-left:5px;margin-bottom: 20px;" role="group" aria-label="Basic example">
+
+    <div class="btn-group" style="margin-left:1%;margin-right: 25%;margin-bottom: 20px;" role="group" aria-label="Basic example">
+        <button type="button" id="liCreateQuery"  style="display: none;" class="btn btn-secondary"><span>{{__('app.search')}}</span></button>                    
+    </div>       
+
+    <div class="btn-group" style="margin-right:1%;margin-bottom: 20px;" role="group" aria-label="Basic example">
         <button type="button" id="liResetQuery" class="btn btn-secondary">{{__('app.reset')}}</button>
     </div>
-    <div class="btn-group" style="margin-left:5px;margin-bottom: 20px;" role="group" aria-label="Basic example">
+    
+    <div class="btn-group" style="margin-left:1%;margin-right:2%;margin-bottom: 20px;" role="group" aria-label="Basic example">
         <button type="button" id="liShowQuery"  class="btn btn-secondary">{{__('app.show_query')}}</button>                    
     </div>                     
-    <div class="btn-group" style="margin-left:5px;margin-bottom: 20px;" role="group" aria-label="Basic example">
-        <button type="button" id="liCreateQuery"  style="display: none;" class="btn btn-secondary">{{__('app.search')}} </button>                    
-    </div>   
+ </div>
 </div>
 <div class="container" id=al_loading style="display: none;margin-top:10px;margin-bottom: 20px;">
     <p class="li_bold_info">{{__('app.wait')}}</p>
@@ -118,26 +116,19 @@ $(document).ready(function(){
     firstOpenFeit = true;
     firstOpenSubtype = true;
     newwindow = null;
-    
     rollen = [];
     authorities = [];
+    feiten = [];
+    subtypes = [];
     
-    var rols = JSON.parse('<?php echo $rollen ?>');
-    var auths = JSON.parse('<?php echo $authorities ?>');
-    
-    for (var i=0;i<rols.length;i++) {
-        rollen[i]=rols[i].rol;
-    }
-    for (var i=0;i<auths.length;i++) {
-        authorities[i]=auths[i].authority;
-    }
-    
-
     transtab = [];
     transtab['url']='{{ url('') }}';
     transtab['name']='{{__('app.name')}}';
     transtab['first_name']='{{__('app.first_name')}}';
     transtab['role']='{{__('app.role')}}';
+    transtab['two_choices']='{{__('app.two_choices')}}';
+    transtab['search']='{{__('app.search')}}';
+    transtab['details']='{{__('app.details')}}';
     transtab['results']='{{__('app.results')}}';
     transtab['dig_available']='{{__('app.dig_available')}}';
     transtab['date']='{{__('app.date')}}';
@@ -171,7 +162,7 @@ $(document).ready(function(){
     transtab['subtype']='{{__('app.subtype')}}';
     
     transtab['person']='{{__('app.person')}}';
-    transtab['firstnames']='{{__('app.remark')}}';
+    transtab['firstnames']='{{__('app.firstnames')}}';
     transtab['remark']='{{__('app.remark')}}';
     transtab['perstype']='{{__('app.perstype')}}';
     transtab['characteristic']='{{__('app.chararacteristic')}}';
@@ -203,21 +194,21 @@ $(document).ready(function(){
     transtab['archive_law']='{{__('app.archive_law')}}';
     transtab['facttype']='{{__('app.Type of fact')}}';    
     
-    transtab['afkomstig°uit']='{{__('app.afkomstig°uit')}}';
+    transtab['afkomstig uit']='{{__('app.afkomstig°uit')}}';
     transtab['doopplaats']='{{__('app.doopplaats')}}';
     transtab['wettigingsdatum']='{{__('app.wettigingsdatum')}}';
     transtab['tijdstip_omschrijving']='{{__('app.tijdstip_omschrijving')}}';
     transtab['toponiem']='{{__('app.toponiem')}}';
     transtab['begraafplaats']='{{__('app.begraafplaats')}}';
-    transtab['plaats°van°huwelijk']='{{__('app.plaats°van°huwelijk')}}';
+    transtab['plaats van huwelijk']='{{__('app.plaats°van°huwelijk')}}';
     transtab['geboortedatum']='{{__('app.geboortedatum')}}';
     transtab['woonplaats']='{{__('app.woonplaats')}}';
     transtab['ondertrouwdatum']='{{__('app.ondertrouwdatum')}}';
-    transtab['plaats°van°ondertrouw']='{{__('app.plaats°van°ondertrouw')}}';
+    transtab['plaats van ondertrouw']='{{__('app.plaats°van°ondertrouw')}}';
     transtab['geboorteplaats']='{{__('app.geboorteplaats')}}';
-    transtab['burgerlijke°staat']='{{__('app.burgerlijke°staat')}}';
+    transtab['burgerlijke staat']='{{__('app.burgerlijke°staat')}}';
     transtab['alias']='{{__('app.alias')}}';
-    transtab['plaats°van°overlijden']='{{__('app.plaats°van°overlijden')}}';
+    transtab['plaats van overlijden']='{{__('app.plaats°van°overlijden')}}';
     transtab['relatie']='{{__('app.relatie')}}';
     transtab['doodsoorzaak']='{{__('app.doodsoorzaak')}}';
     transtab['adres']='{{__('app.adres')}}';
@@ -236,7 +227,10 @@ $(document).ready(function(){
     $( document ).ajaxStop(function() {
           $( "#al_loading" ).hide();
     });
-        
+
+
+    createFirstSearchBlock();        
+            
     $(document).on('click','#feitenbox a',function(event){
 
        var $target = $( event.currentTarget ),
@@ -259,7 +253,7 @@ $(document).ready(function(){
        } else {
             $('.feitenTextBox').attr("placeholder","");
             if ((selFeit.length + selSubtype.length) < 2) {
-                $('#liCreateQuery').hide();
+                fadeSearchButton();
             }
         }
         composeQuery(0);
@@ -288,7 +282,7 @@ $(document).ready(function(){
         } else {
             $('.subtypesTextBox').attr("placeholder","");
             if ((selFeit.length + selSubtype.length) < 2) {
-                $('#liCreateQuery').hide();
+                fadeSearchButton();
             }
         }
         composeQuery(0);
@@ -345,19 +339,15 @@ $(document).ready(function(){
 
 
     $('#liCreateSearchBlock').click(function(e){
-        closeFactBoxes();
+       $('#feitenbox').slideUp();
+        firstOpenFeit = false;        
+        $('#subtypesbox').slideUp();
+        firstOpenSubtype = false;
         $('#al_resultList').empty();
         $('#al_detailResultList').empty();
         $('#li_navbar').empty();
         $('#li_navbar_detail').hide();
         addSearchBlock(0);
-    });
-    
-    $('#liToMainPage').click(function(e){
-        $('#li_navbar_detail').hide();
-        $('#al_detailResultList').hide();
-        $('#al_resultList').show();
-        $('#li_navbar').show();
     });
 
     $('#liShowQuery').click(function(e){
@@ -374,7 +364,10 @@ $(document).ready(function(){
 
     $('#liCreateQuery').click(function(e){
        e.preventDefault();
-        closeFactBoxes();
+       closeFactBoxes();
+        $('#al_detailResultList').empty();
+        $('#li_navbar_detail').hide('');
+       
        $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -411,9 +404,15 @@ $(document).ready(function(){
         $('#alSearchCriterium').html('');
         $('#al_detailResultList').empty();
         $('#alQueryBox').hide();
-        $('#liCreateQuery').hide();
+        fadeSearchButton();
         $('.feitenTextBox').attr("placeholder",'{{__('app.wait')}}');
         $('.subtypesTextBox').attr("placeholder",'{{__('app.wait')}}');
+        alFeitenTable(feiten);
+        $('.feitenTextBox').attr("placeholder",'{{__('app.all_facts')}}');
+        alSubtypesTable(subtypes);
+        $('.subtypesTextBox').attr("placeholder",'{{__('app.all_subtypes')}}');
+        addSearchBlock(0);
+ /*       
         $.ajaxSetup({
            headers: {
                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -443,13 +442,108 @@ $(document).ready(function(){
                 });
             }
         });
+*/        
     });
     
     $('#alSearchCriterium').click(function(){
      closeFactBoxes();
     });    
     
+    
+    $('#feiten_btn').click(function(e){
+        e.preventDefault();
+        if (firstOpenFeit == false) {
+            $('#feitenbox').slideToggle();
+        }
+    });
+
+    $('#subtypes_btn').click(function(e){
+        e.preventDefault();
+        if (firstOpenSubtype == false) {
+        $('#subtypesbox').slideToggle();
+    }
+    });
+    
+    
+    
 });
+
+
+function createFirstSearchBlock() {
+        closeFactBoxes();
+        $('#al_resultList').empty();
+        $('#al_detailResultList').empty();
+        $('#li_navbar').empty();
+        $('#li_navbar_detail').hide();
+
+       $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+       });
+       $.ajax({
+           url: "{{ url('/feit/post') }}",
+           method: 'post',
+           dataType: 'json',
+           data: {
+               lijst: 'rollen'
+           },
+           success: function(result){
+                for (var i=0;i<result.length;i++) {
+                    rollen[i]=result[i].rol;
+                }
+                $.ajax({
+                    url: "{{ url('/feit/post') }}",
+                    method: 'post',
+                    dataType: 'json',
+                    data: {
+                        lijst: 'authorities'
+                    },
+                    success: function(result){
+                    for (var i=0;i<result.length;i++) {
+                        authorities[i]=result[i].authority;
+                    }
+                    $.ajaxSetup({
+                       headers: {
+                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                       }
+                    });
+                    $.ajax({
+                        url: "{{ url('/feit/post') }}",
+                        method: 'post',
+                        dataType: 'json',
+                        data: {
+                           lijst: 'feittype',
+                        },              
+                        success: function(result){
+                            for (var i=0;i<result.length;i++) {
+                                feiten[i]=result[i].feittype;
+                            }                            
+                            alFeitenTable(feiten);
+                            $('.feitenTextBox').attr("placeholder",'{{__('app.all_facts')}}');
+                            $.ajax({
+                                url: "{{url('/feit/post')}}",
+                                method: 'post',
+                                dataType: 'json',
+                                data: {
+                                   lijst: 'subtype',
+                                },              
+                                success: function(result){
+                                    for (var i=0;i<result.length;i++) {
+                                        subtypes[i]=result[i].trefwoord;
+                                    }
+                                    alSubtypesTable(subtypes);
+                                    $('.subtypesTextBox').attr("placeholder",'{{__('app.all_subtypes')}}');
+                                    addSearchBlock(0);
+                                }
+                            });
+                        }
+                    });                    
+                    }
+                });
+            }
+         });
+       };        
 
 
 function limZoekFeit()
@@ -557,18 +651,13 @@ function jumpToNextDetailPage()
        });    
 }
 
-function feitBtn() {
-    if (firstOpenFeit == false) {
-        $('#feitenbox').slideToggle();
-    }
-};
 
-function subtypeBtn(){
-    if (firstOpenSubtype == false) {
-        $('#subtypesbox').slideToggle();
-    }
-};
-
+function  liToMainPage(){
+        $('#li_navbar_detail').hide();
+        $('#al_detailResultList').hide();
+        $('#al_resultList').show();
+        $('#li_navbar').show();
+    };
 
 function criterialijst_change(itemNr) {
         var val1 = $('#criterialijst_'+itemNr+' option:selected').val();
@@ -624,6 +713,33 @@ function authoritylist_change(itemNr) {
             } 
         }
     }    
+    
+    
+
+
+function getGoogleDriveADAFileId(adacode){
+         $.ajaxSetup({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           }
+        });
+
+        $.ajax({
+           url: "{{ url('/feit/post') }}",
+           method: 'post',
+           dataType: 'json',
+           data: {
+               lijst: 'file',
+               adacode: adacode,
+           },
+           success: function(result){
+               window.open(result[0], "_blank");
+           }
+       }); 
+ 
+}
+    
+    
 </script>
    
 @endsection
