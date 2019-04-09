@@ -40,15 +40,15 @@
         <button type="button" id="liCreateSearchBlock" class="btn btn-secondary">{{__('app.new_line')}}</button>
     </div>
 
-    <div class="btn-group" style="margin-left:1%;margin-right: 25%;margin-bottom: 20px;" role="group" aria-label="Basic example">
+    <div class="btn-group" style="margin-bottom: 20px;margin-right:30%;" role="group" aria-label="Basic example">
         <button type="button" id="liCreateQuery"  style="display: none;" class="btn btn-secondary"><span>{{__('app.search')}}</span></button>                    
     </div>       
 
-    <div class="btn-group" style="margin-right:1%;margin-bottom: 20px;" role="group" aria-label="Basic example">
+    <div class="btn-group" style="margin-bottom: 20px;" role="group" aria-label="Basic example">
         <button type="button" id="liResetQuery" class="btn btn-secondary">{{__('app.reset')}}</button>
     </div>
     
-    <div class="btn-group" style="margin-left:1%;margin-right:2%;margin-bottom: 20px;" role="group" aria-label="Basic example">
+    <div class="btn-group" style="margin-bottom: 20px;" role="group" aria-label="Basic example">
         <button type="button" id="liShowQuery"  class="btn btn-secondary">{{__('app.show_query')}}</button>                    
     </div>                     
  </div>
@@ -109,13 +109,13 @@
         </div>
     </div>        
 </div>
-
 <script>
 $(document).ready(function(){
     
     firstOpenFeit = true;
     firstOpenSubtype = true;
     newwindow = null;
+    imageresult = null;
     rollen = [];
     authorities = [];
     feiten = [];
@@ -220,6 +220,24 @@ $(document).ready(function(){
     transtab['aangiftedatum']='{{__('app.aangiftedatum')}}';
     transtab['begraafdatum']='{{__('app.begraafdatum')}}';
     
+    transtab['artikel_type']='{{__('app.artikel_type')}}';
+    transtab['artikelnummer']='{{__('app.artikelnummer')}}';
+    transtab['perceelnr']='{{__('app.perceelnr')}}';
+    transtab['grootte']='{{__('app.grootte')}}';
+    transtab['belastbaar_inkomen_ongebouwd']='{{__('app.belastbaar_inkomen_ongebouwd')}}';
+    transtab['voorlopige_klassering']='{{__('app.voorlopige_klassering')}}';
+    transtab['ongebouwde_grootte_1e_klasse']='{{__('app.ongebouwde_grootte_1e_klasse')}}';
+    transtab['ongebouwde_grootte_2e_klasse']='{{__('app.ongebouwde_grootte_2e_klasse')}}';
+    transtab['ongebouwde_grootte_3e_klasse']='{{__('app.ongebouwde_grootte_3e_klasse')}}';
+    transtab['tarief_ongebouwde_1e_klasse']='{{__('app.tarief_ongebouwde_1e_klasse')}}';
+    transtab['tarief_ongebouwde_2e_klasse']='{{__('app.tarief_ongebouwde_2e_klasse')}}';
+    transtab['tarief_ongebouwde_3e_klasse']='{{__('app.tarief_ongebouwde_3e_klasse')}}';
+    transtab['scan_oat']='{{__('app.scan_oat')}}';
+    transtab['scan_kaart']='{{__('app.scan_kaart')}}';
+    transtab['verwijzing_suppletoire_aanwijzende_tafel']='{{__('app.verwijzing_suppletoire_aanwijzende_tafel')}}';
+    transtab['object_koppelveld']='{{__('app.object_koppelveld')}}';
+    transtab['blad']='{{__('app.blad')}}';
+
     
     $( document ).ajaxStart(function() {
           $( "#al_loading" ).show();
@@ -516,8 +534,11 @@ function createFirstSearchBlock() {
                            lijst: 'feittype',
                         },              
                         success: function(result){
+                            var j=0;
                             for (var i=0;i<result.length;i++) {
-                                feiten[i]=result[i].feittype;
+                                if (result[i].feittype != null) {
+                                   feiten[j++]=result[i].feittype;
+                                }
                             }                            
                             alFeitenTable(feiten);
                             $('.feitenTextBox').attr("placeholder",'{{__('app.all_facts')}}');
@@ -529,8 +550,11 @@ function createFirstSearchBlock() {
                                    lijst: 'subtype',
                                 },              
                                 success: function(result){
+                                    var j=0;
                                     for (var i=0;i<result.length;i++) {
-                                        subtypes[i]=result[i].trefwoord;
+                                        if (result[i].trefwoord != null) {
+                                        subtypes[j++]=result[i].trefwoord;
+                                    }
                                     }
                                     alSubtypesTable(subtypes);
                                     $('.subtypesTextBox').attr("placeholder",'{{__('app.all_subtypes')}}');
@@ -733,11 +757,25 @@ function getGoogleDriveADAFileId(adacode){
                adacode: adacode,
            },
            success: function(result){
-               window.open(result[0], "_blank");
-           }
-       }); 
- 
-}
+               newwindow = window.open(result[0], "_blank");
+               imageresult = result;
+               newwindow.onload = function () {
+                    $.ajax({
+                        url: "{{ url('/feit/post') }}",
+                        method: 'post',
+                        dataType: 'json',
+                        data: {
+                            lijst: 'verwijder_file',
+                            filepathJpg: imageresult[1],
+                            filepathOrig: imageresult[2],
+                        },
+                        success: function(result){
+                        }
+                    }); 
+                }               
+            }
+        })
+    }
     
     
 </script>

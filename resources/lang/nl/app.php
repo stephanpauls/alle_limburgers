@@ -108,6 +108,27 @@ return [
     'leeftijd' => 'Leeftijd',
     'aangiftedatum' => 'Aangiftedatum',
     'begraafdatum' => 'Begraafdatum',    
+    
+    'artikel_type' => 'Artikel type',
+    'artikelnummer' => 'Artikelnummer',
+    'perceelnr' => 'Perceelnummer',
+    'grootte' => 'Grootte',
+    'belastbaar_inkomen_ongebouwd' => 'Belastbaar inkomen ongebouwd',
+    'voorlopige_klassering' => 'Voorlopige klassering',
+    'ongebouwde_grootte_1e_klasse' => 'Ongebouwde grootte 1e klasse',
+    'ongebouwde_grootte_2e_klasse' => 'Ongebouwde grootte 2e klasse',
+    'ongebouwde_grootte_3e_klasse' => 'Ongebouwde grootte 3e klasse',
+    'tarief_ongebouwde_1e_klasse' => 'Tarief ongebouwde 1e klasse',
+    'tarief_ongebouwde_2e_klasse' => 'Tarief ongebouwde 2e klasse',
+    'tarief_ongebouwde_3e_klasse' => 'Tarief ongebouwde 3e klasse',
+    'scan_oat' => 'Scan oat',
+    'scan_kaart' => 'Scan kaart',
+    'verwijzing_suppletoire_aanwijzende_tafel' => 'Verwijzing suppletoire aanwijzende tafel',
+    'object_koppelveld' => 'Object koppelveld',
+    'blad' => 'Blad',
+
+    
+    
 ];
 /*
 Resource_ID,Uniek,Tag_ID,Group_ID,Nederlands,Engels,Duits,Frans

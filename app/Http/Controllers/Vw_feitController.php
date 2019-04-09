@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Illuminate\Database\Query\Builder;
 use Google_Client;
 use Google_Service_Drive;
-
+use Imagick;
 
 class Vw_feitcontroller extends Controller
 {
@@ -84,18 +84,31 @@ class Vw_feitcontroller extends Controller
             $query = DB::table('feit');
             $query->where('feit.feit_id',$feit_id);
             $result = $query->select('metadata')->get();
+        } else if ($lijst == 'verwijder_file') {
+            $remFile = $request->input('filepathJpg');
+            $remFileOrig = $request->input('filepathOrig');
+            unlink($remFile) or die("Couldn't delete file");
+            if ($remFile != $remFileOrig) {
+                unlink($remFileOrig) or die("Couldn't delete file");
+            }
         } else if ($lijst == 'file') {
             $adacode = $request->input('adacode');
             $client = new \Google_Client();
+
             $client->setApplicationName('Google Drive API PHP Quickstart');
             $client->setScopes(Google_Service_Drive::DRIVE_METADATA_READONLY);
             $client->setAuthConfig('client_id.json');
             $client->setAccessType('offline');
             $client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/oauth2callback.php');
             $client->setApprovalPrompt('force');   
+            
             if (file_exists('credentials.json')) {
                 $accessToken = json_decode(file_get_contents('credentials.json'), true);
                 $client->setAccessToken($accessToken);     
+                if ($client->isAccessTokenExpired()) {
+                        $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+                        file_put_contents('credentials.json', json_encode($client->getAccessToken()));
+                }            
                 $service = new Google_Service_Drive($client);
                 $q = 'name contains \''.$adacode.'\'';
                 $optParams = array(
@@ -109,16 +122,33 @@ class Vw_feitcontroller extends Controller
                 foreach ($results->getFiles() as $file) {
                     $href = 'https://drive.google.com/open?id='; 
                     $href .= $file->getId();
+                    $result[0] = $href;
                     $file->getMimeType();
                     $contentUrl = $file->getWebContentLink();
                     $webcontentlink = "https://docs.google.com/uc?id=".$file->getId()."&amp;export=download";
-//$handle = fopen($webcontentlink, "r");
-//$response = $service->files->get($file->getId(), array('alt' => 'media'));
-//$content = $response->getBody()->getContents();                    
+/*
+                    if ((substr($file->getName(),(strpos($file->getName(),'.')+1)) === ("tiff")) ||
+                        (substr($file->getName(),(strpos($file->getName(),'.')+1)) === ("pdf"))) {
+ * 
+ */
+                    $response = $service->files->get($file->getId(), array('alt' => 'media'));
+                    $content = $response->getBody()->getContents();      
+                    ini_set('memory_limit', '-1');  
+                    set_time_limit (30);
+                    file_put_contents($file->getName(),$content);
+                    $image = new \Imagick(getcwd()."\\".$file->getName());
+                    $naam = substr($file->getName(),0,(strpos($file->getName(),'.')));
+                    $image->writeImage(getcwd()."\\".$naam.".jpg");
+                    $result[0]=$naam.".jpg";
+                    $result[1]=getcwd()."\\".$naam.".jpg";
+                    $result[2]=getcwd()."\\".$file->getName();
+/*                    
+$imagick = "/usr/local/bin/convert ".getcwd()."/".$file->getName()." ".getcwd()."/".$naam.".jpg";
+exec( $imagick, $output );                    
+ * 
+ */
                     break;
                 }
-//                $result = DB::table('vw_feit')->select('feittype')->distinct()->get();                
-                $result[0]=$webcontentlink;
             } else {
                 $result[0] = 'www.hbvl.be';
             }

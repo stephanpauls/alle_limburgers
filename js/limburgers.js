@@ -1415,93 +1415,192 @@ function jumpToPage(pg,nrOfPages) {
 function alResultDetailTable(resultaat,transtab) {
 
     var result = resultaat[0].metadata;
-    result = JSON.parse(result);
+
     $('#al_detailResultList').empty();
     var poutput = [];
     var targetToPush = '';
-    if (result == null) {
-        targetToPush = ' No data available ';
-    } else {
-    
-    
+
+    if (result.indexOf("scan oat") > -1){
+        result = result.replace(/ /g,"_");
+        result = JSON.parse(result);
+        
         targetToPush = '<div style="width: 200px;float:left;background-color: #f2f2f2">';
         targetToPush += '<p class="card-text">Scans</p>';  
-        targetToPush += '<button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a01\');\" class=\"btn btn-secondary\">toon image</button>';
-        targetToPush += '<button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">toon image</button>';
+        if(result.scan_kaart) {
+            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_kaart+'\');\" class=\"btn btn-secondary\">'+transtab['scan_kaart']+'</button></div>';
+        }
+        if(result.scan_oat) {
+            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_oat+'\');\" class=\"btn btn-secondary\">'+ranstab['scan_oat']+'</button></div>';
+        }
+        targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">NL-LI-RMD00-100-001-1842-a02</button></div>';
         targetToPush += '</div>';
-        targetToPush += '<div style="width:50px;float:left;">&nbsp;</div>';
+        targetToPush += '<div style="width:200px;float:left;">&nbsp;</div>';
         targetToPush += '<div style="float:left;">';
         
-        targetToPush += '<h2 class=class="mb-1">'+transtab['fact']+'</h2>';
-        if (result.feit) {
-        if (result.feit[0].feittype) targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result.feit[0].feittype+'</h4>';
-        if (result.feit[0].text) targetToPush += '<h3 class="li_keyList">'+transtab['text']+'</h3><h4 class="li_valueList">'+result.feit[0].tekst+'</h4>';
-        if (result.feit[0].datum) targetToPush += '<h3 class="li_keyList">'+transtab['date']+'</h3><h4 class="li_valueList">'+result.feit[0].datum.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")+'</h4>';
-        if (result.feit[0].feitsubtype) targetToPush += '<h3 class="li_keyList">'+transtab['subtype']+'</h3><h4 class="li_valueList">'+result.feit[0].feitsubtype+'</h4>';
-        if (result.feit[0].archiefwet) targetToPush += '<h3 class="li_keyList">'+transtab['archive_law']+'</h3><h4 class="li_valueList">'+result.feit[0].archiefwet+'</h4>';
-        if (result.feit[0].trefwoord) targetToPush += '<h3 class="li_keyList">'+transtab['keyword']+'</h3><h4 class="li_valueList">'+result.feit[0].trefwoord+'</h4>';
-        if (result.feit[0].bronklasse) targetToPush += '<h3 class="li_keyList">'+transtab['source']+'</h3><h4 class="li_valueList">'+result.feit[0].bronklasse+'</h4>';
-        if (result.feit[0].kenmerk) targetToPush += '<h3 class="li_keyList">'+transtab['characteristic']+'</h3><h4 class="li_valueList">'+result.feit[0].kenmerk+'</h4>';
-        if (result.feit[0].opmerking) targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.feit[0].opmerking+'</h4>';
-        if (result.feit[0].plaats) targetToPush += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result.feit[0].plaats+'</h4>';
+        targetToPush += '<h2 class=class="mb-1"> </h2>';
+        targetToPush += '<h2 class=class="mb-1">'+transtab['person']+'</h2>';
 
-        if (result.persoon != null) {
-        if (result.persoon.length> 0){
-            var curr_pers_id = result.persoon[0].pers_id;
-            for(i=0;i<result.persoon.length;i++) {
+        if(result.naam)targetToPush += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result.naam+'</h4>';
+        if(result.voornamen)targetToPush += '<h3 class="li_keyList">'+transtab['firstnames']+'</h3><h4 class="li_valueList">'+result.voornamen+'</h4>';
+        if(result.woonplaats)targetToPush += '<h3 class="li_keyList">'+transtab['woonplaats']+'</h3><h4 class="li_valueList">'+result.woonplaats+'</h4>';
+        if(result.beroep)targetToPush += '<h3 class="li_keyList">'+transtab['beroep']+'</h3><h4 class="li_valueList">'+result.beroep+'</h4>';
+        
+        targetToPush += '<h2 class=class="mb-1"> </h2>';
+        targetToPush += '<h2 class=class="mb-1">Oat</h2>';
+        if(result.toponiem)targetToPush += '<h3 class="li_keyList">'+transtab['toponiem']+'</h3><h4 class="li_valueList">'+result.toponiem+'</h4>';
+        if(result.artikel_type)targetToPush += '<h3 class="li_keyList">'+transtab['artikel_type']+'</h3><h4 class="li_valueList">'+result.artikel_type+'</h4>';
+        if(result.artikelnummer)targetToPush += '<h3 class="li_keyList">'+transtab['artikelnummer']+'</h3><h4 class="li_valueList">'+result.artikelnummer+'</h4>';
+        if(result.soort)targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result.soort+'</h4>';
+        if(result.gemeente)targetToPush += '<h3 class="li_keyList">'+transtab['municipality']+'</h3><h4 class="li_valueList">'+result.gemeente+'</h4>';
+        if(result.perceelnr)targetToPush += '<h3 class="li_keyList">'+transtab['perceelnr']+'</h3><h4 class="li_valueList">'+result.perceelnr+'</h4>';
+        if(result.sectie)targetToPush += '<h3 class="li_keyList">'+transtab['section']+'</h3><h4 class="li_valueList">'+result.sectie+'</h4>';
+        if(result.grootte)targetToPush += '<h3 class="li_keyList">'+transtab['grootte']+'</h3><h4 class="li_valueList">'+result.grootte+'</h4>';
+        if(result.belastbaar_inkomen_ongebouwd)targetToPush += '<h3 class="li_keyList">'+transtab['belastbaar_inkomen_ongebouwd']+'</h3><h4 class="li_valueList">'+result.belastbaar_inkomen_ongebouwd+'</h4>';
+        if(result.voorlopige_klassering)targetToPush += '<h3 class="li_keyList">'+transtab['voorlopige_klassering']+'</h3><h4 class="li_valueList">'+result.voorlopige_klassering+'</h4>';
+        if(result.ongebouwde_grootte_1e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['ongebouwde_grootte_1e_klasse']+'</h3><h4 class="li_valueList">'+result.ongebouwde_grootte_1e_klasse+'</h4>';
+        if(result.ongebouwde_grootte_2e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['ongebouwde_grootte_2e_klasse']+'</h3><h4 class="li_valueList">'+result.ongebouwde_grootte_2e_klasse+'</h4>';
+        if(result.ongebouwde_grootte_3e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['ongebouwde_grootte_3e_klasse']+'</h3><h4 class="li_valueList">'+result.ongebouwde_grootte_3e_klasse+'</h4>';
+        if(result.tarief_ongebouwde_1e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['tarief_ongebouwde_1e_klasse']+'</h3><h4 class="li_valueList">'+result.tarief_ongebouwde_1e_klasse+'</h4>';
+        if(result.tarief_ongebouwde_2e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['tarief_ongebouwde_2e_klasse']+'</h3><h4 class="li_valueList">'+result.tarief_ongebouwde_2e_klasse+'</h4>';
+        if(result.tarief_ongebouwde_3e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['tarief_ongebouwde_3e_klasse']+'</h3><h4 class="li_valueList">'+result.tarief_ongebouwde_3e_klasse+'</h4>';
+        if(result.scan_oat)targetToPush += '<h3 class="li_keyList">scan oat</h3><h4 class="li_valueList">'+result.scan_oat+'</h4>';
+        if(result.scan_kaart)targetToPush += '<h3 class="li_keyList">'+transtab['scan_kaart']+'</h3><h4 class="li_valueList">'+result.scan_kaart+'</h4>';
+        if(result.verwijzing_suppletoire_aanwijzende_tafel)targetToPush += '<h3 class="li_keyList">'+transtab['verwijzing_suppletoire_aanwijzende_tafel']+'</h3><h4 class="li_valueList">'+result.verwijzing_suppletoire_aanwijzende_tafel+'</h4>';
+        if(result.object_koppelveld)targetToPush += '<h3 class="li_keyList">'+transtab['object_koppelveld']+'</h3><h4 class="li_valueList">'+result.object_koppelveld+'</h4>';
+        
+        
+    } else if (result.indexOf("scan kaart") > -1){
+        result = result.replace(/ /g,"_");
+        result = JSON.parse(result);
+        
+        targetToPush = '<div style="width: 200px;float:left;background-color: #f2f2f2">';
+        targetToPush += '<p class="card-text">Scans</p>';  
+        if(result.scan_kaart) {
+            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_kaart+'\');\" class=\"btn btn-secondary\">'+transtab['scan_kaart']+'</button></div>';
+        }
+        targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">NL-LI-RMD00-100-001-1842-a02</button></div>';
+        targetToPush += '</div>';
+        targetToPush += '<div style="width:200px;float:left;">&nbsp;</div>';
+        targetToPush += '<div style="float:left;">';
+        
+        targetToPush += '<h2 class=class="mb-1"> </h2>';
+        targetToPush += '<h2 class=class="mb-1">Admin</h2>';
+        if(result.toponiem)targetToPush += '<h3 class="li_keyList">'+transtab['toponiem']+'</h3><h4 class="li_valueList">'+result.toponiem+'</h4>';
+        if(result.artikel_type)targetToPush += '<h3 class="li_keyList">'+transtab['artikel_type']+'</h3><h4 class="li_valueList">'+result.artikel_type+'</h4>';
+        if(result.artikelnummer)targetToPush += '<h3 class="li_keyList">'+transtab['artikelnummer']+'</h3><h4 class="li_valueList">'+result.artikelnummer+'</h4>';
+        if(result.soort)targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result.soort+'</h4>';
+        if(result.gemeente)targetToPush += '<h3 class="li_keyList">'+transtab['municipality']+'</h3><h4 class="li_valueList">'+result.gemeente+'</h4>';
+        if(result.perceelnr)targetToPush += '<h3 class="li_keyList">'+transtab['perceelnr']+'</h3><h4 class="li_valueList">'+result.perceelnr+'</h4>';
+        if(result.blad)targetToPush += '<h3 class="li_keyList">'+transtab['blad']+'</h3><h4 class="li_valueList">'+result.blad+'</h4>';
+        if(result.sectie)targetToPush += '<h3 class="li_keyList">'+transtab['section']+'</h3><h4 class="li_valueList">'+result.sectie+'</h4>';
+        if(result.grootte)targetToPush += '<h3 class="li_keyList">'+transtab['grootte']+'</h3><h4 class="li_valueList">'+result.grootte+'</h4>';
+        if(result.belastbaar_inkomen_ongebouwd)targetToPush += '<h3 class="li_keyList">'+transtab['belastbaar_inkomen_ongebouwd']+'</h3><h4 class="li_valueList">'+result.belastbaar_inkomen_ongebouwd+'</h4>';
+        if(result.voorlopige_klassering)targetToPush += '<h3 class="li_keyList">'+transtab['voorlopige_klassering']+'</h3><h4 class="li_valueList">'+result.voorlopige_klassering+'</h4>';
+        if(result.ongebouwde_grootte_1e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['ongebouwde_grootte_1e_klasse']+'</h3><h4 class="li_valueList">'+result.ongebouwde_grootte_1e_klasse+'</h4>';
+        if(result.ongebouwde_grootte_2e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['ongebouwde_grootte_2e_klasse']+'</h3><h4 class="li_valueList">'+result.ongebouwde_grootte_2e_klasse+'</h4>';
+        if(result.ongebouwde_grootte_3e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['ongebouwde_grootte_3e_klasse']+'</h3><h4 class="li_valueList">'+result.ongebouwde_grootte_3e_klasse+'</h4>';
+        if(result.tarief_ongebouwde_1e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['tarief_ongebouwde_1e_klasse']+'</h3><h4 class="li_valueList">'+result.tarief_ongebouwde_1e_klasse+'</h4>';
+        if(result.tarief_ongebouwde_2e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['tarief_ongebouwde_2e_klasse']+'</h3><h4 class="li_valueList">'+result.tarief_ongebouwde_2e_klasse+'</h4>';
+        if(result.tarief_ongebouwde_3e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['tarief_ongebouwde_3e_klasse']+'</h3><h4 class="li_valueList">'+result.tarief_ongebouwde_3e_klasse+'</h4>';
+        if(result.scan_oat)targetToPush += '<h3 class="li_keyList">scan oat</h3><h4 class="li_valueList">'+result.scan_oat+'</h4>';
+        if(result.scan_kaart)targetToPush += '<h3 class="li_keyList">'+transtab['scan_kaart']+'</h3><h4 class="li_valueList">'+result.scan_kaart+'</h4>';
+        if(result.verwijzing_suppletoire_aanwijzende_tafel)targetToPush += '<h3 class="li_keyList">'+transtab['verwijzing_suppletoire_aanwijzende_tafel']+'</h3><h4 class="li_valueList">'+result.verwijzing_suppletoire_aanwijzende_tafel+'</h4>';
+        if(result.object_koppelveld)targetToPush += '<h3 class="li_keyList">'+transtab['object_koppelveld']+'</h3><h4 class="li_valueList">'+result.object_koppelveld+'</h4>';
+        
+    } else {
+        result = JSON.parse(result);
+        if (result == null) {
+            targetToPush = ' No data available ';
+        } else {
 
-                if ((i==0) || (curr_pers_id != result.persoon[i].pers_id)) {
-                    curr_pers_id = result.persoon[i].pers_id;
-                    targetToPush += '<h2 class=class="mb-1"> </h2>';
-                    targetToPush += '<h2 class=class="mb-1">'+transtab['person']+'</h2>';
-                    if(result.persoon[i].rol)targetToPush += '<h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result.persoon[i].rol+'</h4>';
-                    if(result.persoon[i].naam)targetToPush += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result.persoon[i].naam+'</h4>';
-                    if(result.persoon[i].voornamen)targetToPush += '<h3 class="li_keyList">'+transtab['firstnames']+'</h3><h4 class="li_valueList">'+result.persoon[i].voornamen+'</h4>';
-                    if(result.persoon[i].perstype)targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+persoonsoort[result.persoon[i].perstype]+'</h4>';
-                    if(result.persoon[i].kenmerk)targetToPush += '<h3 class="li_keyList">'+transtab['characteristic']+'</h3><h4 class="li_valueList">'+result.persoon[i].kenmerk+'</h4>';
-                    if(result.persoon[i].opmerking)targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.persoon[i].opmerking+'</h4>';
-                }            
-                if (result.persoon[i].waarde) { 
-                    if (result.persoon[i].authority.indexOf('atum') != -1){
-                        var datum = result.persoon[i].waarde.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")
-                        targetToPush += '<h3 class="li_keyList">'+transtab[result.persoon[i].authority.toString().replace(' ','_')]+'</h3><h4 class="li_valueList">'+datum+'</h4>';
-                    } else {
-                        targetToPush += '<h3 class="li_keyList">'+transtab[result.persoon[i].authority.toString().replace(' ','_')]+'</h3><h4 class="li_valueList">'+result.persoon[i].waarde+'</h4>';
+
+            targetToPush = '<div style="width: 150px;float:left;background-color: #f2f2f2">';
+            targetToPush += '<p class="card-text">Scans</p>';  
+                if(result.scan_kaart) {
+                    targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_kaart+'\');\" class=\"btn btn-secondary\">'+result.scan_kaart+'</button></div>';
+                }
+
+
+            for(i=0;i<result.bron.length;i++) {        
+                if(result.bron[i].adacode) targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.bron[i].adacode+'\');\" class=\"btn btn-secondary\">'+result.bron[i].adacode+'</button></div>';
+            }
+            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">NL-LI-RMD00-100-001-1842-a02</button></div>';
+
+            targetToPush += '</div>';
+            targetToPush += '<div style="width:100px;float:left;">&nbsp;</div>';
+            targetToPush += '<div style="float:left;">';
+
+            targetToPush += '<h2 class=class="mb-1">'+transtab['fact']+'</h2>';
+            if (result.feit) {
+            if (result.feit[0].feittype) targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+result.feit[0].feittype+'</h4>';
+            if (result.feit[0].text) targetToPush += '<h3 class="li_keyList">'+transtab['text']+'</h3><h4 class="li_valueList">'+result.feit[0].tekst+'</h4>';
+            if (result.feit[0].datum) targetToPush += '<h3 class="li_keyList">'+transtab['date']+'</h3><h4 class="li_valueList">'+result.feit[0].datum.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")+'</h4>';
+            if (result.feit[0].feitsubtype) targetToPush += '<h3 class="li_keyList">'+transtab['subtype']+'</h3><h4 class="li_valueList">'+result.feit[0].feitsubtype+'</h4>';
+            if (result.feit[0].archiefwet) targetToPush += '<h3 class="li_keyList">'+transtab['archive_law']+'</h3><h4 class="li_valueList">'+result.feit[0].archiefwet+'</h4>';
+            if (result.feit[0].trefwoord) targetToPush += '<h3 class="li_keyList">'+transtab['keyword']+'</h3><h4 class="li_valueList">'+result.feit[0].trefwoord+'</h4>';
+            if (result.feit[0].bronklasse) targetToPush += '<h3 class="li_keyList">'+transtab['source']+'</h3><h4 class="li_valueList">'+result.feit[0].bronklasse+'</h4>';
+            if (result.feit[0].kenmerk) targetToPush += '<h3 class="li_keyList">'+transtab['characteristic']+'</h3><h4 class="li_valueList">'+result.feit[0].kenmerk+'</h4>';
+            if (result.feit[0].opmerking) targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.feit[0].opmerking+'</h4>';
+            if (result.feit[0].plaats) targetToPush += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result.feit[0].plaats+'</h4>';
+
+            if (result.persoon != null) {
+            if (result.persoon.length> 0){
+                var curr_pers_id = result.persoon[0].pers_id;
+                for(i=0;i<result.persoon.length;i++) {
+
+                    if ((i==0) || (curr_pers_id != result.persoon[i].pers_id)) {
+                        curr_pers_id = result.persoon[i].pers_id;
+                        targetToPush += '<h2 class=class="mb-1"> </h2>';
+                        targetToPush += '<h2 class=class="mb-1">'+transtab['person']+'</h2>';
+                        if(result.persoon[i].rol)targetToPush += '<h3 class="li_keyList">'+transtab['role']+'</h3><h4 class="li_valueList">'+result.persoon[i].rol+'</h4>';
+                        if(result.persoon[i].naam)targetToPush += '<h3 class="li_keyList">'+transtab['name']+'</h3><h4 class="li_valueList">'+result.persoon[i].naam+'</h4>';
+                        if(result.persoon[i].voornamen)targetToPush += '<h3 class="li_keyList">'+transtab['firstnames']+'</h3><h4 class="li_valueList">'+result.persoon[i].voornamen+'</h4>';
+                        if(result.persoon[i].perstype)targetToPush += '<h3 class="li_keyList">'+transtab['type']+'</h3><h4 class="li_valueList">'+persoonsoort[result.persoon[i].perstype]+'</h4>';
+                        if(result.persoon[i].kenmerk)targetToPush += '<h3 class="li_keyList">'+transtab['characteristic']+'</h3><h4 class="li_valueList">'+result.persoon[i].kenmerk+'</h4>';
+                        if(result.persoon[i].opmerking)targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.persoon[i].opmerking+'</h4>';
+                    }            
+                    if (result.persoon[i].waarde) { 
+                        if (result.persoon[i].authority.indexOf('atum') != -1){
+                            var datum = result.persoon[i].waarde.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")
+                            targetToPush += '<h3 class="li_keyList">'+transtab[result.persoon[i].authority.toString().replace(' ','_')]+'</h3><h4 class="li_valueList">'+datum+'</h4>';
+                        } else {
+                            targetToPush += '<h3 class="li_keyList">'+transtab[result.persoon[i].authority.toString().replace(' ','_')]+'</h3><h4 class="li_valueList">'+result.persoon[i].waarde+'</h4>';
+                        }
                     }
                 }
             }
         }
-    }
-        for(i=0;i<result.bron.length;i++) {
-            targetToPush += '<h2 class=class="mb-1"> </h2>';
-            targetToPush += '<h2 class=class="mb-1">'+transtab['source']+'</h2>';
-            if(result.bron[i].land)targetToPush += '<h3 class="li_keyList">'+transtab['country']+'</h3><h4 class="li_valueList">'+result.bron[i].land+'</h4>';
-            if(result.bron[i].provincie)targetToPush += '<h3 class="li_keyList">'+transtab['province']+'</h3><h4 class="li_valueList">'+result.bron[i].provincie+'</h4>';
-            if(result.bron[i].gemeente)targetToPush += '<h3 class="li_keyList">'+transtab['municipality']+'</h3><h4 class="li_valueList">'+result.bron[i].gemeente+'</h4>';
-            if(result.bron[i].plaats)targetToPush += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result.bron[i].plaats+'</h4>';
-            if(result.bron[i].plaatscode)targetToPush += '<h3 class="li_keyList">'+transtab['placecode']+'</h3><h4 class="li_valueList">'+result.bron[i].plaatscode+'</h4>';
-            if(result.bron[i].categorie)targetToPush += '<h3 class="li_keyList">'+transtab['category']+'</h3><h4 class="li_valueList">'+result.bron[i].categorie+'</h4>';
-            if(result.bron[i].bronklasse)targetToPush += '<h3 class="li_keyList">'+transtab['source_class']+'</h3><h4 class="li_valueList">'+result.bron[i].bronklasse+'</h4>';
-            if(result.bron[i].brontext)targetToPush += '<h3 class="li_keyList">'+transtab['text']+'</h3><h4 class="li_valueList">'+result.bron[i].brontext+'</h4>';
-            if (result.bron[i].bdatum) targetToPush += '<h3 class="li_keyList">'+transtab['startdate']+'</h3><h4 class="li_valueList">'+result.bron[i].bdatum.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")+'</h4>';
-            if (result.bron[i].edatum) targetToPush += '<h3 class="li_keyList">'+transtab['enddate']+'</h3><h4 class="li_valueList">'+result.bron[i].edatum.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")+'</h4>';
-            if(result.bron[i].trefwoord)targetToPush += '<h3 class="li_keyList">'+transtab['keyword']+'</h3><h4 class="li_valueList">'+result.bron[i].trefwoord+'</h4>';
-            if(result.bron[i].adacode)targetToPush += '<h3 class="li_keyList">'+transtab['adacode']+'</h3><h4 class="li_valueList">'+result.bron[i].adacode+'</h4>';
-            if(result.bron[i].opmerking)targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.bron[i].opmerking+'</h4>';
-            if(result.bron[i].rubriek)targetToPush += '<h3 class="li_keyList">'+transtab['column']+'</h3><h4 class="li_valueList">'+result.bron[i].rubriek+'</h4>';
-            if(result.bron[i].omschrijving)targetToPush += '<h3 class="li_keyList">'+transtab['description']+'</h3><h4 class="li_valueList">'+result.bron[i].omschrijving+'</h4>';
+            for(i=0;i<result.bron.length;i++) {
+                targetToPush += '<h2 class=class="mb-1"> </h2>';
+                targetToPush += '<h2 class=class="mb-1">'+transtab['source']+'</h2>';
+                if(result.bron[i].land)targetToPush += '<h3 class="li_keyList">'+transtab['country']+'</h3><h4 class="li_valueList">'+result.bron[i].land+'</h4>';
+                if(result.bron[i].provincie)targetToPush += '<h3 class="li_keyList">'+transtab['province']+'</h3><h4 class="li_valueList">'+result.bron[i].provincie+'</h4>';
+                if(result.bron[i].gemeente)targetToPush += '<h3 class="li_keyList">'+transtab['municipality']+'</h3><h4 class="li_valueList">'+result.bron[i].gemeente+'</h4>';
+                if(result.bron[i].plaats)targetToPush += '<h3 class="li_keyList">'+transtab['place']+'</h3><h4 class="li_valueList">'+result.bron[i].plaats+'</h4>';
+                if(result.bron[i].plaatscode)targetToPush += '<h3 class="li_keyList">'+transtab['placecode']+'</h3><h4 class="li_valueList">'+result.bron[i].plaatscode+'</h4>';
+                if(result.bron[i].categorie)targetToPush += '<h3 class="li_keyList">'+transtab['category']+'</h3><h4 class="li_valueList">'+result.bron[i].categorie+'</h4>';
+                if(result.bron[i].bronklasse)targetToPush += '<h3 class="li_keyList">'+transtab['source_class']+'</h3><h4 class="li_valueList">'+result.bron[i].bronklasse+'</h4>';
+                if(result.bron[i].brontext)targetToPush += '<h3 class="li_keyList">'+transtab['text']+'</h3><h4 class="li_valueList">'+result.bron[i].brontext+'</h4>';
+                if (result.bron[i].bdatum) targetToPush += '<h3 class="li_keyList">'+transtab['startdate']+'</h3><h4 class="li_valueList">'+result.bron[i].bdatum.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")+'</h4>';
+                if (result.bron[i].edatum) targetToPush += '<h3 class="li_keyList">'+transtab['enddate']+'</h3><h4 class="li_valueList">'+result.bron[i].edatum.toString().substr(0,8).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")+'</h4>';
+                if(result.bron[i].trefwoord)targetToPush += '<h3 class="li_keyList">'+transtab['keyword']+'</h3><h4 class="li_valueList">'+result.bron[i].trefwoord+'</h4>';
+                if(result.bron[i].adacode)targetToPush += '<h3 class="li_keyList">'+transtab['adacode']+'</h3><h4 class="li_valueList">'+result.bron[i].adacode+'</h4>';
+                if(result.bron[i].opmerking)targetToPush += '<h3 class="li_keyList">'+transtab['remark']+'</h3><h4 class="li_valueList">'+result.bron[i].opmerking+'</h4>';
+                if(result.bron[i].rubriek)targetToPush += '<h3 class="li_keyList">'+transtab['column']+'</h3><h4 class="li_valueList">'+result.bron[i].rubriek+'</h4>';
+                if(result.bron[i].omschrijving)targetToPush += '<h3 class="li_keyList">'+transtab['description']+'</h3><h4 class="li_valueList">'+result.bron[i].omschrijving+'</h4>';
+            }
+            }
+            targetToPush += '</div>'
+            targetToPush += '</div>'
         }
-        }
-        targetToPush += '</div>'
-        targetToPush += '</div>'
     }
-        poutput.push(targetToPush);
-        $('#al_detailResultList').empty();
-        $('#al_detailResultList').append(poutput.join(''));
-        $('#al_resultList').hide();
-        $('#li_navbar').hide();
-        $('#li_navbar_detail').show();
-        $('#al_detailResultList').show();
+    poutput.push(targetToPush);
+    $('#al_detailResultList').empty();
+    $('#al_detailResultList').append(poutput.join(''));
+    $('#al_resultList').hide();
+    $('#li_navbar').hide();
+    $('#li_navbar_detail').show();
+    $('#al_detailResultList').show();
 }
 
 
