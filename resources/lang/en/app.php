@@ -111,16 +111,23 @@ return [
     'aangiftedatum' => 'Declaration date',
     'begraafdatum' => 'Bury date',
 
-    
-    
-    
-    
-    
-    
-    
+    'artikel_type' => 'Item type',
+    'artikelnummer' => 'Item number',
+    'perceelnr' => 'Parcel number',
+    'grootte' => 'Size',
+    'belastbaar_inkomen_ongebouwd' => 'Taxable income unbuilt',
+    'voorlopige_klassering' => 'Provisional classification',
+    'ongebouwde_grootte_1e_klasse' => 'Unbuilded size 1st class',
+    'ongebouwde_grootte_2e_klasse' => 'Unbuilded size 2nd class',
+    'ongebouwde_grootte_3e_klasse' => 'Unbuilded size 3rd class',
+    'tarief_ongebouwde_1e_klasse' => 'Unbuilt 1st class rate',
+    'tarief_ongebouwde_2e_klasse' => 'Unbuilt 2nd class rate',
+    'tarief_ongebouwde_3e_klasse' => 'Unbuilt 3rd class rate',
+    'scan_oat' => 'Scan oat',
+    'scan_kaart' => 'Scan card',
+    'verwijzing_suppletoire_aanwijzende_tafel' => 'Reference supplementary supplemental table',
+    'object_koppelveld' => 'Link field object',
+    'blad' => 'Sheet',
 
-    
-    
-    
     
 ];

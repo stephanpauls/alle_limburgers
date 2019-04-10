@@ -20,7 +20,7 @@ class Vw_feitcontroller extends Controller
     {
         //$feiten = Feit::all();
 //        $feiten = DB::table('feit')->select('feittype')->distinct()->orderBy('feittype','asc')->get();
-//        $subtypes = DB::table('feit')->select('trefwoord')->distinct()->orderBy('trefwoord','asc')->get();
+//        $subtypes = DB::table('feit')->select('feitsubtype')->distinct()->orderBy('feitsubtype','asc')->get();
 //        $rollen = DB::table('pers')->select('rol')->distinct()->orderBy('rol','asc')->get();
 //        $authorities = DB::table('persd')->select('authority')->distinct()->orderBy('authority','asc')->get();
         
@@ -57,7 +57,7 @@ class Vw_feitcontroller extends Controller
         } else if ($lijst == 'feittype') {
             $result = DB::table('vw_feit')->select('feittype')->distinct()->get();
         } else if ($lijst == 'subtype') {
-            $result = DB::table('vw_feit')->select('trefwoord')->distinct()->get();
+            $result = DB::table('vw_feit')->select('feitsubtype')->distinct()->get();
         } else if ($lijst == 'zoekFeit') {
             $query = DB::table('vw_feit');
             $filter = $request->input('filter');
@@ -66,8 +66,8 @@ class Vw_feitcontroller extends Controller
         } else if ($lijst == 'zoekSubtype') {
             $query = DB::table('vw_feit');
             $filter = $request->input('filter');
-            $query->where('trefwoord','ilike','%'.$filter.'%');
-            $result = $query->select('vw_feit.trefwoord')->distinct()->limit(200)->get();
+            $query->where('feitsubtype','ilike','%'.$filter.'%');
+            $result = $query->select('vw_feit.feitsubtype')->distinct()->limit(200)->get();
         } else if ($lijst == 'detail') {
             $pers_id = $request->input('pers_id');
             $feit_id = $request->input('feit_id');
@@ -136,15 +136,21 @@ class Vw_feitcontroller extends Controller
                     ini_set('memory_limit', '-1');  
                     set_time_limit (30);
                     file_put_contents($file->getName(),$content);
+// met imagick php module en windows omgeving                    
                     $image = new \Imagick(getcwd()."\\".$file->getName());
                     $naam = substr($file->getName(),0,(strpos($file->getName(),'.')));
                     $image->writeImage(getcwd()."\\".$naam.".jpg");
                     $result[0]=$naam.".jpg";
                     $result[1]=getcwd()."\\".$naam.".jpg";
                     $result[2]=getcwd()."\\".$file->getName();
+//met image magick op aezel server en command calls via exec
 /*                    
-$imagick = "/usr/local/bin/convert ".getcwd()."/".$file->getName()." ".getcwd()."/".$naam.".jpg";
-exec( $imagick, $output );                    
+                    $naam = substr($file->getName(),0,(strpos($file->getName(),'.')));
+                    $result[0]=$naam.".jpg";
+                    $result[1]=getcwd()."/".$naam.".jpg";
+                    $result[2]=getcwd()."/".$file->getName();
+                    $imagick = "/usr/local/bin/convert ".getcwd()."/".$file->getName()." ".getcwd()."/".$naam.".jpg";
+                    exec( $imagick, $output );
  * 
  */
                     break;
@@ -155,8 +161,8 @@ exec( $imagick, $output );
         } else {
         
             $query = DB::table('vw_feit');
-            $query->join('vw_feit-pers','vw_feit.feit_id', '=','vw_feit-pers.feit_id');
-            $query->join('vw_feit-bron','vw_feit-pers.feit_id', '=','vw_feit-bron.feit_id');
+            $query->leftJoin('vw_feit-pers','vw_feit.feit_id', '=','vw_feit-pers.feit_id');
+            $query->leftJoin('vw_feit-bron','vw_feit.feit_id', '=','vw_feit-bron.feit_id');
 //            $query->join('oobj','oobj.feit_id', '=','vw_feit.feit_id');
                 
             //$input = $request->all();
@@ -187,12 +193,12 @@ exec( $imagick, $output );
                 foreach ($subtypes as $type){
                     if ($index == 1) {
                         if ($types != null) {
-                            $q.=' and (trefwoord = \''.$type.'\'';
+                            $q.=' and (feitsubtype = \''.$type.'\'';
                         } else {
-                            $q.=' (trefwoord = \''.$type.'\'';
+                            $q.=' (feitsubtype = \''.$type.'\'';
                         }
                     } else {
-                        $q.=' or trefwoord = \''.$type.'\'';
+                        $q.=' or feitsubtype = \''.$type.'\'';
                     }
                     $index++;            
                 }
@@ -278,7 +284,7 @@ exec( $imagick, $output );
             }
             $query->whereRaw($q);            
 //            $result = $query->select('vw_feit-pers.*','vw_feit.feittype','vw_feit.plaats','vw_feit.tekst','vw_feit.datum','vw_feit-bron.omschrijving','oobj.oobjtype','oobj.soort','oobj.toponiem')->limit(200)->get();
-            $result = $query->select('vw_feit-pers.*','vw_feit.feittype','vw_feit.plaats','vw_feit.tekst','vw_feit.datum','vw_feit-bron.omschrijving')->limit(200)->get();
+            $result = $query->select('vw_feit.feit_id','vw_feit-pers.naam','vw_feit-pers.voornamen','vw_feit-pers.rol','vw_feit-pers.naam','vw_feit.feittype','vw_feit.plaats','vw_feit.tekst','vw_feit.datum','vw_feit-bron.omschrijving')->limit(200)->get();
         }
         return $result;
     }  

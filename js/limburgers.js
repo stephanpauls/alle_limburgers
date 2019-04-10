@@ -1430,7 +1430,7 @@ function alResultDetailTable(resultaat,transtab) {
             targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_kaart+'\');\" class=\"btn btn-secondary\">'+transtab['scan_kaart']+'</button></div>';
         }
         if(result.scan_oat) {
-            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_oat+'\');\" class=\"btn btn-secondary\">'+ranstab['scan_oat']+'</button></div>';
+            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_oat+'\');\" class=\"btn btn-secondary\">'+transtab['scan_oat']+'</button></div>';
         }
         targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">NL-LI-RMD00-100-001-1842-a02</button></div>';
         targetToPush += '</div>';
@@ -1514,7 +1514,7 @@ function alResultDetailTable(resultaat,transtab) {
         } else {
 
 
-            targetToPush = '<div style="width: 150px;float:left;background-color: #f2f2f2">';
+            targetToPush = '<div style="width: 200px;float:left;background-color: #f2f2f2">';
             targetToPush += '<p class="card-text">Scans</p>';  
                 if(result.scan_kaart) {
                     targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_kaart+'\');\" class=\"btn btn-secondary\">'+result.scan_kaart+'</button></div>';

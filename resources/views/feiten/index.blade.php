@@ -552,8 +552,8 @@ function createFirstSearchBlock() {
                                 success: function(result){
                                     var j=0;
                                     for (var i=0;i<result.length;i++) {
-                                        if (result[i].trefwoord != null) {
-                                        subtypes[j++]=result[i].trefwoord;
+                                        if (result[i].feitsubtype != null) {
+                                        subtypes[j++]=result[i].feitsubtype;
                                     }
                                     }
                                     alSubtypesTable(subtypes);

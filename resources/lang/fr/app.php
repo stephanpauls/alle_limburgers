@@ -107,6 +107,25 @@ return [
     'leeftijd' => 'Age',
     'aangiftedatum' => 'Date de déclaration',
     'begraafdatum' => 'Date d\'enterrement',    
+    
+    'artikel_type' => 'Article d\'objet',
+    'artikelnummer' => 'Numéro d\'article',
+    'perceelnr' => 'Numéro de lot',
+    'grootte' => 'Taille',
+    'belastbaar_inkomen_ongebouwd' => 'Revenu imposable non construit',
+    'voorlopige_klassering' => 'Classement provisoire',
+    'ongebouwde_grootte_1e_klasse' => 'Taille non construite 1ère classe',
+    'ongebouwde_grootte_2e_klasse' => 'Taille non construite 2ème classe',
+    'ongebouwde_grootte_3e_klasse' => 'Taille non construite 3ème classe',
+    'tarief_ongebouwde_1e_klasse' => 'Tarif de 1ère classe non construit',
+    'tarief_ongebouwde_2e_klasse' => 'Tarif de 2ème classe non construit',
+    'tarief_ongebouwde_3e_klasse' => 'Tarif de 3ème classe non construit',
+    'scan_oat' => 'Scan oat',
+    'scan_kaart' => 'Scan carte',
+    'verwijzing_suppletoire_aanwijzende_tafel' => 'Tableau supplémentaire de référence',
+    'object_koppelveld' => 'objet de champ de lien',
+    'blad' => 'Feuille',
+    
 ];
 /*
 Resource_ID,Uniek,Tag_ID,Group_ID,Nederlands,Engels,Duits,Frans
