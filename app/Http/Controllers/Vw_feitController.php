@@ -55,9 +55,9 @@ class Vw_feitcontroller extends Controller
         } else if ($lijst == 'authorities') {
             $result = DB::table('persd')->select('authority')->distinct()->orderBy('authority','asc')->get();
         } else if ($lijst == 'feittype') {
-            $result = DB::table('vw_feit')->select('feittype')->distinct()->get();
+            $result = DB::table('feit')->select('feittype')->distinct()->get();
         } else if ($lijst == 'subtype') {
-            $result = DB::table('vw_feit')->select('feitsubtype')->distinct()->get();
+            $result = DB::table('feit')->select('feitsubtype')->distinct()->get();
         } else if ($lijst == 'zoekFeit') {
             $query = DB::table('vw_feit');
             $filter = $request->input('filter');
@@ -136,23 +136,26 @@ class Vw_feitcontroller extends Controller
                     ini_set('memory_limit', '-1');  
                     set_time_limit (30);
                     file_put_contents($file->getName(),$content);
-// met imagick php module en windows omgeving                    
+// met imagick php module en windows omgeving      
+                    /*
                     $image = new \Imagick(getcwd()."\\".$file->getName());
                     $naam = substr($file->getName(),0,(strpos($file->getName(),'.')));
                     $image->writeImage(getcwd()."\\".$naam.".jpg");
                     $result[0]=$naam.".jpg";
                     $result[1]=getcwd()."\\".$naam.".jpg";
                     $result[2]=getcwd()."\\".$file->getName();
+                     * 
+                     */
 //met image magick op aezel server en command calls via exec
-/*                    
+                    
                     $naam = substr($file->getName(),0,(strpos($file->getName(),'.')));
                     $result[0]=$naam.".jpg";
                     $result[1]=getcwd()."/".$naam.".jpg";
                     $result[2]=getcwd()."/".$file->getName();
                     $imagick = "/usr/local/bin/convert ".getcwd()."/".$file->getName()." ".getcwd()."/".$naam.".jpg";
                     exec( $imagick, $output );
- * 
- */
+ 
+
                     break;
                 }
             } else {
@@ -165,7 +168,6 @@ class Vw_feitcontroller extends Controller
             $query->leftJoin('vw_feit-bron','vw_feit.feit_id', '=','vw_feit-bron.feit_id');
 //            $query->join('oobj','oobj.feit_id', '=','vw_feit.feit_id');
                 
-            //$input = $request->all();
             $types = $request->input('feit');
             $subtypes = $request->input('subtype');
             $others = $request->input('other');
@@ -230,6 +232,7 @@ class Vw_feitcontroller extends Controller
                     if ('bracket' == ($other['term'])) {
                         if ($other['bracket'] == '(') {
                             if ($first == false) { 
+                                if ($other['poort'] == 'NOT') {$q .= ' AND';}
                                 $q .= ' '.$other['poort'];
                                 $first = true;
                            }
@@ -237,12 +240,13 @@ class Vw_feitcontroller extends Controller
                         $q .= ' '.$other['bracket'];
                     } else {
                         if ($first == false) { 
+                            if ($other['poort'] == 'NOT') {$q .= ' AND';}
                             $q .= ' '.$other['poort'];
                         } else {
                             $first = false;
                         }
                         if ('authority' == $other['term']) {
-                            $other['auth'] = str_replace('°', ' ', $other['auth']);
+//                            $other['auth'] = str_replace('°', ' ', $other['auth']);
                             $q.= '(authority = \''.$other['auth'].'\' and ';
                             $other['term'] = 'waarde';
                         }
@@ -251,7 +255,7 @@ class Vw_feitcontroller extends Controller
                         } else if (($other['operator']) == 'bevat_exact') {
                             $q.= ' lower('.$other['term'].') = lower(\''.$other['filter'].'\')';
                         } else if (($other['operator']) == 'begint') {
-                            $q.= ' lower('.$other['term'].') like lower(\'%'.$other['filter'].')';
+                            $q.= ' lower('.$other['term'].') like lower(\''.$other['filter'].'%\')';
                         } else if (($other['operator']) == 'vanaf') {
                             $q.= ' '.$other['term'].' > '.$other['filter'];
                         } else if (($other['operator']) == 'totmet') {
@@ -266,7 +270,7 @@ class Vw_feitcontroller extends Controller
                                 } else if (($other['operator']) == 'bevat_exact') {
                                     $q.= ' and lower(plaats) = lower(\''.$other['filter'].'\')';
                                 } else if (($other['operator']) == 'begint') {
-                                    $q.= ' and lower(plaats) like lower(\'%'.$other['filter'].')';                            
+                                    $q.= ' and lower(plaats) like lower(\''.$other['filter'].'%\')';                        
                                 }
                             } else if (strpos($other['auth'],'datum') != false) {
                                 if (($other['operator']) == 'vanaf') {

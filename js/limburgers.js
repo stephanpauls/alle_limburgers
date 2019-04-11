@@ -349,11 +349,14 @@ function addDatumSearchBlock(arrIndex) {
             $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
             $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
             $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
+            if (searchArr[ind]['auth']) {
+                $("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');      
+            }
             if (searchArr[ind]['date']) {
                 $("#dp_"+orgindex ).val(searchArr[ind]['date']);
             } else if (searchArr[ind]['term'] == 'rol') {
                 $("#rollijst_"+orgindex+" option[value="+searchArr[ind]['filter']+"]").attr('selected', 'selected');
-             } else {
+            } else {
                 $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
             }
         }
@@ -456,6 +459,9 @@ function addSearchBlock(arrIndex) {
             $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
             $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
             $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
+            if (searchArr[ind]['auth']) {
+                $("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');      
+            }
             if (searchArr[ind]['date']) {
                 $("#dp_"+orgindex ).val(searchArr[ind]['date']);
              } else if (searchArr[ind]['term'] == 'rol') {
@@ -468,7 +474,9 @@ function addSearchBlock(arrIndex) {
     searchItemNr++;
 }    
 
-function addRoleSearchBlock(arrIndex) {
+
+
+function addRoleSearchBlockFinal(arrIndex) {
 
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
@@ -568,6 +576,9 @@ function addRoleSearchBlock(arrIndex) {
             $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
             $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
             $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
+            if (searchArr[ind]['auth']) {
+                $("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');      
+            }
             if (searchArr[ind]['date']) {
                 $("#dp_"+orgindex ).val(searchArr[ind]['date']);
             } else if (searchArr[ind]['term'] == 'rol') {
@@ -581,7 +592,8 @@ function addRoleSearchBlock(arrIndex) {
 }    
 
 
-function addAuthSearchBlock(arrIndex) {
+
+function addAuthSearchBlockFinal(arrIndex) {
 
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
@@ -646,8 +658,8 @@ function addAuthSearchBlock(arrIndex) {
     targetToPush += '<div id="authoritylijst_'+itemNr+'">';
     targetToPush += '<select class="li_input_auth" onchange="authoritylist_change('+itemNr+')">';
     for (var i=0;i<authorities.length;i++){
-        auth =authorities[i].replace(/ /g, "°");
-        targetToPush += '<option value='+auth+'>'+transtab[auth]+'</option>';
+        //auth =authorities[i].replace(/ /g, "°");
+        targetToPush += '<option value='+authorities[i]+'>'+authorities[i]+'</option>';
     }
     targetToPush += '</select>';
     targetToPush += '</div>';
@@ -688,6 +700,9 @@ function addAuthSearchBlock(arrIndex) {
             $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
             $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
             $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
+            if (searchArr[ind]['auth']) {
+                $("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');      
+            }
             if (searchArr[ind]['date']) {
                 $("#dp_"+orgindex ).val(searchArr[ind]['date']);
             } else if (searchArr[ind]['term'] == 'rol') {
@@ -700,7 +715,7 @@ function addAuthSearchBlock(arrIndex) {
     searchItemNr++;
 }    
 
-function addDatumAuthSearchBlock(arrIndex) {
+function addDatumAuthSearchBlockFinal(arrIndex) {
 
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
@@ -763,8 +778,8 @@ function addDatumAuthSearchBlock(arrIndex) {
     targetToPush += '<div id="authoritylijst_'+itemNr+'">';
     targetToPush += '<select class="li_input_auth" onchange="authoritylist_change('+itemNr+')">';
     for (var i=0;i<authorities.length;i++){
-        auth =authorities[i].replace(/ /g, "°");
-        targetToPush += '<option value='+auth+'>'+transtab[auth]+'</option>';
+        //auth =authorities[i].replace(/ /g, "°");
+        targetToPush += '<option value='+authorities[i]+'>'+authorities[i]+'</option>';
     }
     targetToPush += '</select>';
     targetToPush += '</div>';
@@ -805,6 +820,9 @@ function addDatumAuthSearchBlock(arrIndex) {
             $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
             $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
             $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
+            if (searchArr[ind]['auth']) {
+                $("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');      
+            }
             if (searchArr[ind]['date']) {
                 $("#dp_"+orgindex ).val(searchArr[ind]['date']);
             } else if (searchArr[ind]['term'] == 'rol') {
@@ -920,6 +938,9 @@ function addBracketsBlock(arrIndex) {
             $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
             $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
             $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
+            if (searchArr[ind]['auth']) {
+                $("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');      
+            }
             if (searchArr[ind]['date']) {
                 $("#dp_"+orgindex ).val(searchArr[ind]['date']);
             } else if (searchArr[ind]['term'] == 'rol') {
@@ -1130,8 +1151,7 @@ function composeQuery(itemNr) {
         if (null != searchArr[j]) {
             i = searchArr[j]['orgindex'];
             if (($("#criterialijst_"+i+" option:selected" ).val() == 'datum') ||
-                (($("#criterialijst_"+i+" option:selected" ).val() == 'authority') &&  
-                ($("#authoritylijst_"+i+" option:selected" ).val().includes('datum') == true))    
+                (($("#criterialijst_"+i+" option:selected" ).val() == 'authority') && ($("#authoritylijst_"+i+" option:selected" ).val().includes('datum') == true))    
                 )
             {
                 if ($( "#dp_"+i).val().length >= 4){
@@ -1424,18 +1444,8 @@ function alResultDetailTable(resultaat,transtab) {
         result = result.replace(/ /g,"_");
         result = JSON.parse(result);
         
-        targetToPush = '<div style="width: 200px;float:left;background-color: #f2f2f2">';
-        targetToPush += '<p class="card-text">Scans</p>';  
-        if(result.scan_kaart) {
-            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_kaart+'\');\" class=\"btn btn-secondary\">'+transtab['scan_kaart']+'</button></div>';
-        }
-        if(result.scan_oat) {
-            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_oat+'\');\" class=\"btn btn-secondary\">'+transtab['scan_oat']+'</button></div>';
-        }
-        targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">NL-LI-RMD00-100-001-1842-a02</button></div>';
-        targetToPush += '</div>';
-        targetToPush += '<div style="width:200px;float:left;">&nbsp;</div>';
-        targetToPush += '<div style="float:left;">';
+
+        targetToPush += '<div class="col-md-8">';
         
         targetToPush += '<h2 class=class="mb-1"> </h2>';
         targetToPush += '<h2 class=class="mb-1">'+transtab['person']+'</h2>';
@@ -1463,25 +1473,28 @@ function alResultDetailTable(resultaat,transtab) {
         if(result.tarief_ongebouwde_1e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['tarief_ongebouwde_1e_klasse']+'</h3><h4 class="li_valueList">'+result.tarief_ongebouwde_1e_klasse+'</h4>';
         if(result.tarief_ongebouwde_2e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['tarief_ongebouwde_2e_klasse']+'</h3><h4 class="li_valueList">'+result.tarief_ongebouwde_2e_klasse+'</h4>';
         if(result.tarief_ongebouwde_3e_klasse)targetToPush += '<h3 class="li_keyList">'+transtab['tarief_ongebouwde_3e_klasse']+'</h3><h4 class="li_valueList">'+result.tarief_ongebouwde_3e_klasse+'</h4>';
-        if(result.scan_oat)targetToPush += '<h3 class="li_keyList">scan oat</h3><h4 class="li_valueList">'+result.scan_oat+'</h4>';
+        if(result.scan_oat)targetToPush += '<h3 class="li_keyList">'+transtab['scan_oat']+'</h3><h4 class="li_valueList">'+result.scan_oat+'</h4>';
         if(result.scan_kaart)targetToPush += '<h3 class="li_keyList">'+transtab['scan_kaart']+'</h3><h4 class="li_valueList">'+result.scan_kaart+'</h4>';
         if(result.verwijzing_suppletoire_aanwijzende_tafel)targetToPush += '<h3 class="li_keyList">'+transtab['verwijzing_suppletoire_aanwijzende_tafel']+'</h3><h4 class="li_valueList">'+result.verwijzing_suppletoire_aanwijzende_tafel+'</h4>';
         if(result.object_koppelveld)targetToPush += '<h3 class="li_keyList">'+transtab['object_koppelveld']+'</h3><h4 class="li_valueList">'+result.object_koppelveld+'</h4>';
+        targetToPush += '</div>';
         
+        targetToPush += '<div class="col-md-4">';
+        targetToPush += '<h2 class=class="mb-1">Scans</h2>'
+        if(result.scan_kaart) {
+            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_kaart+'\');\" class=\"btn btn-secondary\">'+transtab['scan_kaart']+'</button></div>';
+        }
+        if(result.scan_oat) {
+            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_oat+'\');\" class=\"btn btn-secondary\">'+transtab['scan_oat']+'</button></div>';
+        }
+        targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">NL-LI-RMD00-100-001-1842-a02</button></div>';
+        targetToPush += '</div>';        
         
     } else if (result.indexOf("scan kaart") > -1){
         result = result.replace(/ /g,"_");
         result = JSON.parse(result);
         
-        targetToPush = '<div style="width: 200px;float:left;background-color: #f2f2f2">';
-        targetToPush += '<p class="card-text">Scans</p>';  
-        if(result.scan_kaart) {
-            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_kaart+'\');\" class=\"btn btn-secondary\">'+transtab['scan_kaart']+'</button></div>';
-        }
-        targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">NL-LI-RMD00-100-001-1842-a02</button></div>';
-        targetToPush += '</div>';
-        targetToPush += '<div style="width:200px;float:left;">&nbsp;</div>';
-        targetToPush += '<div style="float:left;">';
+        targetToPush += '<div class="col-md-8">';
         
         targetToPush += '<h2 class=class="mb-1"> </h2>';
         targetToPush += '<h2 class=class="mb-1">Admin</h2>';
@@ -1506,6 +1519,16 @@ function alResultDetailTable(resultaat,transtab) {
         if(result.scan_kaart)targetToPush += '<h3 class="li_keyList">'+transtab['scan_kaart']+'</h3><h4 class="li_valueList">'+result.scan_kaart+'</h4>';
         if(result.verwijzing_suppletoire_aanwijzende_tafel)targetToPush += '<h3 class="li_keyList">'+transtab['verwijzing_suppletoire_aanwijzende_tafel']+'</h3><h4 class="li_valueList">'+result.verwijzing_suppletoire_aanwijzende_tafel+'</h4>';
         if(result.object_koppelveld)targetToPush += '<h3 class="li_keyList">'+transtab['object_koppelveld']+'</h3><h4 class="li_valueList">'+result.object_koppelveld+'</h4>';
+        targetToPush += '</div>';
+        
+        targetToPush += '<div class="col-md-4">';
+        targetToPush += '<h2 class=class="mb-1">Scans</h2>'
+        if(result.scan_kaart) {
+            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_kaart+'\');\" class=\"btn btn-secondary\">'+transtab['scan_kaart']+'</button></div>';
+        }
+        targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">NL-LI-RMD00-100-001-1842-a02</button></div>';
+        targetToPush += '</div>';
+
         
     } else {
         result = JSON.parse(result);
@@ -1514,21 +1537,7 @@ function alResultDetailTable(resultaat,transtab) {
         } else {
 
 
-            targetToPush = '<div style="width: 200px;float:left;background-color: #f2f2f2">';
-            targetToPush += '<p class="card-text">Scans</p>';  
-                if(result.scan_kaart) {
-                    targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_kaart+'\');\" class=\"btn btn-secondary\">'+result.scan_kaart+'</button></div>';
-                }
-
-
-            for(i=0;i<result.bron.length;i++) {        
-                if(result.bron[i].adacode) targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.bron[i].adacode+'\');\" class=\"btn btn-secondary\">'+result.bron[i].adacode+'</button></div>';
-            }
-            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">NL-LI-RMD00-100-001-1842-a02</button></div>';
-
-            targetToPush += '</div>';
-            targetToPush += '<div style="width:100px;float:left;">&nbsp;</div>';
-            targetToPush += '<div style="float:left;">';
+            targetToPush += '<div class="col-md-8">';
 
             targetToPush += '<h2 class=class="mb-1">'+transtab['fact']+'</h2>';
             if (result.feit) {
@@ -1590,8 +1599,21 @@ function alResultDetailTable(resultaat,transtab) {
                 if(result.bron[i].omschrijving)targetToPush += '<h3 class="li_keyList">'+transtab['description']+'</h3><h4 class="li_valueList">'+result.bron[i].omschrijving+'</h4>';
             }
             }
-            targetToPush += '</div>'
-            targetToPush += '</div>'
+            targetToPush += '</div>';
+            targetToPush += '</div>';
+            
+            targetToPush += '<div class="col-md-4" >';
+            targetToPush += '<h2 class=class="mb-1">Scans</h2>'
+                if(result.scan_kaart) {
+                    targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_kaart+'\');\" class=\"btn btn-secondary\">'+result.scan_kaart+'</button></div>';
+                }
+
+            for(i=0;i<result.bron.length;i++) {        
+                if(result.bron[i].adacode) targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.bron[i].adacode+'\');\" class=\"btn btn-secondary\">'+transtab['adacode']+'</button></div>';
+            }
+            targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">'+transtab['adacode']+'</button></div>';
+
+            targetToPush += '</div>';
         }
     }
     poutput.push(targetToPush);
@@ -1610,3 +1632,17 @@ function closeFactBoxes() {
     $('#subtypesbox').slideUp();
     firstOpenSubtype = false;
 }
+
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var result = 'false';
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){
+                result = pair[1];
+            }
+        }
+        return(result);
+    }

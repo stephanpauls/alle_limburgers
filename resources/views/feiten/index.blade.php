@@ -105,7 +105,7 @@
         </nav>        
     </div>
     <div id="alDetailResultList">
-        <div id="al_detailResultList">
+        <div id="al_detailResultList" class= "row">
         </div>
     </div>        
 </div>
@@ -245,9 +245,36 @@ $(document).ready(function(){
     $( document ).ajaxStop(function() {
           $( "#al_loading" ).hide();
     });
+/*
+    var feit_id  = getQueryVariable("feit_id");
+    if (feit_id != null) {
+        closeFactBoxes();
+        $('#al_detailResultList').empty();
+        $('#li_navbar_detail').hide('');
+       
+        $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
 
-
-    createFirstSearchBlock();        
+       $.ajax({
+          url: "{{ url('/feit/post') }}",
+          method: 'post',
+          dataType: 'json',
+          data: {
+              lijst: 'none',
+             feit: selFeit,
+             subtype: selSubtype,
+             other: advSQLFieldsArray
+          },
+          success: function(result){
+              alResultTable(result,transtab);
+          }});
+    } else {
+*/        
+        createFirstSearchBlock();        
+//    }
             
     $(document).on('click','#feitenbox a',function(event){
 
@@ -499,33 +526,6 @@ function createFirstSearchBlock() {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
        });
-       $.ajax({
-           url: "{{ url('/feit/post') }}",
-           method: 'post',
-           dataType: 'json',
-           data: {
-               lijst: 'rollen'
-           },
-           success: function(result){
-                for (var i=0;i<result.length;i++) {
-                    rollen[i]=result[i].rol;
-                }
-                $.ajax({
-                    url: "{{ url('/feit/post') }}",
-                    method: 'post',
-                    dataType: 'json',
-                    data: {
-                        lijst: 'authorities'
-                    },
-                    success: function(result){
-                    for (var i=0;i<result.length;i++) {
-                        authorities[i]=result[i].authority;
-                    }
-                    $.ajaxSetup({
-                       headers: {
-                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                       }
-                    });
                     $.ajax({
                         url: "{{ url('/feit/post') }}",
                         method: 'post',
@@ -562,13 +562,88 @@ function createFirstSearchBlock() {
                                 }
                             });
                         }
-                    });                    
-                    }
-                });
-            }
          });
        };        
 
+function addDatumAuthSearchBlock(arrIndex) {
+    if (authorities.length == 0) {
+    
+        $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $.ajax({
+            url: "{{ url('/feit/post') }}",
+            method: 'post',
+            dataType: 'json',
+            data: {
+                lijst: 'authorities'
+            },
+            success: function(result){
+                for (var i=0;i<result.length;i++) {
+                    authorities[i]=result[i].authority;
+                }
+                addDatumAuthSearchBlockFinal(arrIndex);
+            }
+        });
+    } else {
+        addDatumAuthSearchBlockFinal(arrIndex);
+    }
+}
+function addAuthSearchBlock(arrIndex) {
+    if (authorities.length == 0) {
+    
+        $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $.ajax({
+            url: "{{ url('/feit/post') }}",
+            method: 'post',
+            dataType: 'json',
+            data: {
+                lijst: 'authorities'
+            },
+            success: function(result){
+                for (var i=0;i<result.length;i++) {
+                    authorities[i]=result[i].authority;
+                }
+                addAuthSearchBlockFinal(arrIndex);
+            }
+        });
+    } else {
+        addAuthSearchBlockFinal(arrIndex);
+    }
+}
+
+function addRoleSearchBlock(arrIndex) {
+
+if (rollen.length == 0) {
+       $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+       });
+       $.ajax({
+           url: "{{ url('/feit/post') }}",
+           method: 'post',
+           dataType: 'json',
+           data: {
+               lijst: 'rollen'
+           },
+           success: function(result){
+                for (var i=0;i<result.length;i++) {
+                    rollen[i]=result[i].rol;
+                }
+                addRoleSearchBlockFinal(arrIndex);
+            }
+        });
+    } else {
+        addRoleSearchBlockFinal(arrIndex);
+    }
+}
 
 function limZoekFeit()
 {
