@@ -55,9 +55,9 @@ class Vw_feitcontroller extends Controller
         } else if ($lijst == 'authorities') {
             $result = DB::table('persd')->select('authority')->distinct()->orderBy('authority','asc')->get();
         } else if ($lijst == 'feittype') {
-            $result = DB::table('feit')->select('feittype')->distinct()->get();
+            $result = DB::table('mv_feit_types')->select('feittype')->get();
         } else if ($lijst == 'subtype') {
-            $result = DB::table('feit')->select('feitsubtype')->distinct()->get();
+            $result = DB::table('mv_feit_subtypes')->select('feitsubtype')->get();
         } else if ($lijst == 'zoekFeit') {
             $query = DB::table('vw_feit');
             $filter = $request->input('filter');

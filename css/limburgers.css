@@ -96,9 +96,9 @@ object-fit: contain;
     border-color: rgb(65,169,73);
     }
 
-    .li_key {
+.li_key {
     float:left;
-        margin-left: 0px  !important;
+    margin-left: 0px  !important;
 }
 .li_span {
    overflow: left;
@@ -128,15 +128,17 @@ object-fit: contain;
     
     float: left;
     clear: left;
-    width: 300px;
+    width: 35%;
     font-size: 1rem;
      margin-bottom: 0;
+    line-height: 1;
 }
 
 .li_valueList{
     overflow: hidden;
     font-size: 1rem;
     margin-bottom: 0;
+    line-height: 1;
 }
 
 a.remove-red {
@@ -153,4 +155,10 @@ a.add-green {
 
 .card {
     min-width: 262px !important
+}
+
+.flex_detail {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 66.6667%;
 }
