@@ -47,16 +47,16 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="nl"><img src="{{ asset ('public/img/nl.png')}}" alt="">&nbsp;Nl</a>
+                                <a class="nav-link" href="{{ url('/nl') }}"><img src="{{ asset ('public/img/nl.png')}}" alt="">&nbsp;Nl</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="en">&nbsp;<img src="{{ asset ('public/img/england.png')}}" alt="">&nbsp;En</a>
+                                <a class="nav-link" href="{{ url('/en') }}">&nbsp;<img src="{{ asset ('public/img/england.png')}}" alt="">&nbsp;En</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="de">&nbsp;<img src="{{ asset ('public/img/deutschland.png')}}" alt="">&nbsp;De</a>
+                                <a class="nav-link" href="{{ url('/de') }}">&nbsp;<img src="{{ asset ('public/img/deutschland.png')}}" alt="">&nbsp;De</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="fr">&nbsp;<img src="{{ asset ('public/img/france.png')}}" alt="">&nbsp;Fr</a>
+                                <a class="nav-link" href="{{ url('/fr') }}">&nbsp;<img src="{{ asset ('public/img/france.png')}}" alt="">&nbsp;Fr</a>
                             </li>
                         @else
                             <li class="nav-item dropdown">

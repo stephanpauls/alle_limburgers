@@ -211,8 +211,8 @@ class Vw_feitcontroller extends Controller
             
                 foreach ($others as $other) {
                     
-                    if ($other['term'] == 'plaats') $other['term'] = 'vw_feit.plaats';
-                    if ($other['term'] == 'omschrijving') $other['term'] = 'bron.omschrijving';
+                    if ($other['term'] == 'plaats') $other['term'] = '"vw_feit"."plaats"';
+                    if ($other['term'] == 'omschrijving') $other['term'] = '"vw_feit-bron"."omschrijving"';
                     if (
                         ('naam' == $other['term'])
                         ||('voornamen' == $other['term'])
@@ -247,41 +247,42 @@ class Vw_feitcontroller extends Controller
                         }
                         if ('authority' == $other['term']) {
 //                            $other['auth'] = str_replace('°', ' ', $other['auth']);
-                            $q.= '(authority = \''.$other['auth'].'\' and ';
+                            $q.= '(authority = \''.$other['auth'].'\'';
                             $other['term'] = 'waarde';
-                        }
-                        if (($other['operator']) == 'bevat') {
-                            $q.= ' lower('.$other['term'].') like lower(\'%'.$other['filter'].'%\')';
-                        } else if (($other['operator']) == 'bevat_exact') {
-                            $q.= ' lower('.$other['term'].') = lower(\''.$other['filter'].'\')';
-                        } else if (($other['operator']) == 'begint') {
-                            $q.= ' lower('.$other['term'].') like lower(\''.$other['filter'].'%\')';
-                        } else if (($other['operator']) == 'vanaf') {
-                            $q.= ' '.$other['term'].' > '.$other['filter'];
-                        } else if (($other['operator']) == 'totmet') {
-                            $q.= ' '.$other['term'].' < '.$other['filter'];
+                            if ('waarde' == $other['term']) {
+                                if(strpos($other['auth'],'plaats') != false) {
+                                    if (($other['operator']) == 'bevat') {
+                                        $q.= ' and lower(plaats) like lower(\'%'.$other['filter'].'%\')';
+                                    } else if (($other['operator']) == 'bevat_exact') {
+                                        $q.= ' and lower(plaats) = lower(\''.$other['filter'].'\')';
+                                    } else if (($other['operator']) == 'begint') {
+                                        $q.= ' and lower(plaats) like lower(\''.$other['filter'].'%\')';                        
+                                    }
+                                } else if (strpos($other['auth'],'datum') != false) {
+                                    if (($other['operator']) == 'vanaf') {
+                                        $q.= ' and waarde > \''.$other['filter'].'\'';
+                                    } else if (($other['operator']) == 'totmet') {
+                                        $q.= ' and waarde < \''.$other['filter'].'\'';
+                                    } else {
+                                        $q.= ' and waarde = \''.$other['filter'].'\'';
+                                    }
+                                }
+                                $q.= ')';
+                            }                            
                         } else {
-                            $q.= ' '.$other['term'].' = '.$other['filter'];
-                        }
-                        if ('waarde' == $other['term']) {
-                            if(strpos($other['auth'],'plaats') != false) {
-                                if (($other['operator']) == 'bevat') {
-                                    $q.= ' and lower(plaats) like lower(\'%'.$other['filter'].'%\')';
-                                } else if (($other['operator']) == 'bevat_exact') {
-                                    $q.= ' and lower(plaats) = lower(\''.$other['filter'].'\')';
-                                } else if (($other['operator']) == 'begint') {
-                                    $q.= ' and lower(plaats) like lower(\''.$other['filter'].'%\')';                        
-                                }
-                            } else if (strpos($other['auth'],'datum') != false) {
-                                if (($other['operator']) == 'vanaf') {
-                                    $q.= ' and datum > '.$other['filter'];
-                                } else if (($other['operator']) == 'totmet') {
-                                    $q.= ' and datum < '.$other['filter'];
-                                } else {
-                                    $q.= ' and datum = '.$other['filter'];
-                                }
+                            if (($other['operator']) == 'bevat') {
+                                $q.= ' lower('.$other['term'].') like lower(\'%'.$other['filter'].'%\')';
+                            } else if (($other['operator']) == 'bevat_exact') {
+                                $q.= ' lower('.$other['term'].') = lower(\''.$other['filter'].'\')';
+                            } else if (($other['operator']) == 'begint') {
+                                $q.= ' lower('.$other['term'].') like lower(\''.$other['filter'].'%\')';
+                            } else if (($other['operator']) == 'vanaf') {
+                                $q.= ' '.$other['term'].' > '.$other['filter'];
+                            } else if (($other['operator']) == 'totmet') {
+                                $q.= ' '.$other['term'].' < '.$other['filter'];
+                            } else {
+                                $q.= ' '.$other['term'].' = '.$other['filter'];
                             }
-                            $q.= ')';
                         }
                     }   
                 }
@@ -301,11 +302,15 @@ class Vw_feitcontroller extends Controller
      */
     public function show(Vw_feit $feit)
     {
+        /*
         $feiten = DB::table('vw_feit')->where('feit_id',$feit->feit_id)->limit(100)->get();
         foreach ($feiten as $value) {
                $naam =  $value;
         }
-        return view('feiten.show',['feiten'=>$feiten]);        
+         * 
+         */
+        $id = $feit->feit_id;
+        return view('feiten.show',['feit_id'=>$feit->feit_id]);        
     }
 
     /**

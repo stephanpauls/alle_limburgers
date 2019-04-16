@@ -19,7 +19,11 @@ Route::get('/','Vw_feitController@index');
 //Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('bron/{id}', 'Vw_feit_bronController@show');
+//Route::get('/feit/{feit_id}', 'Vw_feitController@show');
+Route::get('feit/{id}', function ($id) {
+    return view('feiten.show',['feit_id'=>$id]);        
+});
+
 Route::get('/{locale}',function($locale) {
     App::setLocale($locale);
     return App::call('App\Http\Controllers\Vw_feitController@index');
