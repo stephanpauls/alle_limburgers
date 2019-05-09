@@ -5,7 +5,7 @@ return [
     'about_menu' => 'à propos de',
     'message' => 'Message',
     'new_line'=> 'Nouvelle choix',
-    'two_choices'=> 'Au moins deux choix',
+    'two_choices'=> 'Faites au moins deux choix!',
     'details'=> 'Cliquez sur le résultat pour plus de détails',
     'fact' => 'Fait',
     'subtype' => 'Sous-type',
@@ -35,6 +35,8 @@ return [
     'text' => 'Texte',
     'detail' => 'Carte de détail',
     'search_on' => 'Recherche:',
+        'search_to' => 'Recherche:',
+
     'hide_query' => 'Masquer la requête',
     'show_query' => 'Afficher la requête',
     'reset' => 'Réinitialiser',

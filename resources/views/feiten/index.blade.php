@@ -30,8 +30,11 @@
 </div>
 </div>
 <div class="container">
-    <div id="alSearchCriterium" style="margin-left:20px;margin-top:10px;margin-bottom:10px;margin-right:180px;">
+    <div style="float:left;border:1px;width:180px;">
+        <p class="li_bold_info">{{__('app.search_to')}}</p>
+    </div>
 
+    <div id="alSearchCriterium" style="margin-left:181px;margin-top:10px;margin-bottom:10px;margin-right:10px">
     </div>
 </div>
 <div class="container" >
@@ -40,11 +43,14 @@
         <button type="button" id="liCreateSearchBlock" class="btn btn-secondary">{{__('app.new_line')}}</button>
     </div>
 
-    <div class="btn-group" style="margin-bottom: 20px;margin-right:30%;" role="group" aria-label="Basic example">
+    <div class="btn-group" style="margin-bottom: 20px;margin-right:2%" role="group" aria-label="Basic example">
         <button type="button" id="liCreateQuery"  style="display: none;" class="btn btn-secondary"><span>{{__('app.search')}}</span></button>                    
     </div>       
+<div id=al_two_choices class="btn-group" style="display: none;margin-right:1%;" role="group" aria-label="Basic example">
+    <p class="li_info" style="color:black;font-size:16px;">{{__('app.two_choices')}}</p>
+</div>
 
-    <div class="btn-group" style="margin-bottom: 20px;" role="group" aria-label="Basic example">
+    <div class="btn-group" style="margin-left:20%;margin-bottom: 20px;" role="group" aria-label="Basic example">
         <button type="button" id="liResetQuery" class="btn btn-secondary">{{__('app.reset')}}</button>
     </div>
     
@@ -120,6 +126,9 @@ $(document).ready(function(){
     authorities = [];
     feiten = [];
     subtypes = [];
+    bronnen = [];
+    oobjtypes = [];
+    soorten = [];
     
     transtab = [];
     transtab['url']='{{ url('') }}';
@@ -392,7 +401,7 @@ $(document).ready(function(){
         $('#al_detailResultList').empty();
         $('#li_navbar').empty();
         $('#li_navbar_detail').hide();
-        addSearchBlock(0);
+        addBronSearchBlock(0);
     });
 
     $('#liShowQuery').click(function(e){
@@ -558,7 +567,11 @@ function createFirstSearchBlock() {
                                     }
                                     alSubtypesTable(subtypes);
                                     $('.subtypesTextBox').attr("placeholder",'{{__('app.all_subtypes')}}');
-                                    addSearchBlock(0);
+                                    addAuthSearchBlock(0);
+                                    addSoortSearchBlock(0);
+                                    addOobjtypeSearchBlock(0);
+                                    addRoleSearchBlock(0);
+                                    addBronSearchBlock(0);
                                 }
                             });
                         }
@@ -582,9 +595,8 @@ function addDatumAuthSearchBlock(arrIndex) {
             },
             success: function(result){
                 for (var i=0;i<result.length;i++) {
-                    authorities[i]=result[i].authority;
+                    authorities[i]=encodeURI(result[i].authority);
                 }
-                addDatumAuthSearchBlockFinal(arrIndex);
             }
         });
     } else {
@@ -608,9 +620,10 @@ function addAuthSearchBlock(arrIndex) {
             },
             success: function(result){
                 for (var i=0;i<result.length;i++) {
-                    authorities[i]=result[i].authority;
+                    if (result[i].authority != null){
+                        authorities[i]=encodeURI(result[i].authority);
+                    }
                 }
-                addAuthSearchBlockFinal(arrIndex);
             }
         });
     } else {
@@ -635,15 +648,103 @@ if (rollen.length == 0) {
            },
            success: function(result){
                 for (var i=0;i<result.length;i++) {
-                    rollen[i]=result[i].rol;
+                    if (result[i].rol != null){
+                        rollen[i]=encodeURI(result[i].rol);
+                    }
                 }
-                addRoleSearchBlockFinal(arrIndex);
             }
         });
     } else {
         addRoleSearchBlockFinal(arrIndex);
     }
 }
+//nieuwe start search block
+function addBronSearchBlock(arrIndex) {
+
+if (bronnen.length == 0) {
+       $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+       });
+       $.ajax({
+           url: "{{ url('/feit/post') }}",
+           method: 'post',
+           dataType: 'json',
+           data: {
+               lijst: 'bron'
+           },
+           success: function(result){
+                for (var i=0;i<result.length;i++) {
+                    if (result[i].categorie != null){
+                        bronnen[i]=encodeURI(result[i].categorie);
+                    }
+                }
+                addBronSearchBlockFinal(arrIndex);
+                composeQuery(1);
+            }
+        });
+    } else {
+        addBronSearchBlockFinal(arrIndex);
+    }
+}
+
+function addSoortSearchBlock(arrIndex) {
+
+if (soorten.length == 0) {
+       $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+       });
+       $.ajax({
+           url: "{{ url('/feit/post') }}",
+           method: 'post',
+           dataType: 'json',
+           data: {
+               lijst: 'soort'
+           },
+           success: function(result){
+                for (var i=0;i<result.length;i++) {
+                    if (result[i].soort != null){
+                        soorten[i]=encodeURI(result[i].soort);
+                    }
+                }
+            }
+        });
+    } else {
+        addSoortSearchBlockFinal(arrIndex);
+    }
+}
+
+function addOobjtypeSearchBlock(arrIndex) {
+
+if (oobjtypes.length == 0) {
+       $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+       });
+       $.ajax({
+           url: "{{ url('/feit/post') }}",
+           method: 'post',
+           dataType: 'json',
+           data: {
+               lijst: 'oobjtype'
+           },
+           success: function(result){
+                for (var i=0;i<result.length;i++) {
+                    if (result[i].oobjtype != null){
+                        oobjtypes[i]=encodeURI(result[i].oobjtype);
+                    }
+                }
+            }
+        });
+    } else {
+        addOobjtypeSearchBlockFinal(arrIndex);
+    }
+}
+
 
 function limZoekFeit()
 {
@@ -765,9 +866,15 @@ function criterialijst_change(itemNr) {
         if (val1 == 'datum') {
             addDatumSearchBlock(itemNr);
         } else if (val1 == 'authority'){
-            addDatumAuthSearchBlock(itemNr);
+            addAuthSearchBlockFinal(itemNr);
         } else if (val1 == 'rol'){
-            addRoleSearchBlock(itemNr);
+            addRoleSearchBlockFinal(itemNr);
+        } else if (val1 == 'soort'){
+            addSoortSearchBlockFinal(itemNr);
+        } else if (val1 == 'categorie'){
+            addBronSearchBlockFinal(itemNr);
+        } else if (val1 == 'oobjtype'){
+            addOobjtypeSearchBlockFinal(itemNr);
         } else {
             addSearchBlock(itemNr);
         }

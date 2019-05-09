@@ -118,7 +118,7 @@ function createStartSearchBlock(lijn,crit,andOrNot) {
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
     targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
-    targetToPush += '<option selected value="omschrijving">'+transtab['source']+'</option>';
+    targetToPush += '<option selected value="categorie">'+transtab['source']+'</option>';
     targetToPush += '<option value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
     targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
@@ -147,7 +147,7 @@ function createStartSearchBlock(lijn,crit,andOrNot) {
 
     targetToPush += '<div class="col-sm">';
     targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
-    targetToPush += '<a title="'+transtab['add']+'" onclick="addSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['add']+'" onclick="addBronSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
     targetToPush += '<a title="'+transtab['bracket']+'" onclick="addNewCondition('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
     targetToPush += '</div>';
     
@@ -210,7 +210,7 @@ function createStartDatumSearchBlock(andOrNot) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="criterialijst_1">';
     targetToPush += '<select onchange="criterialijst_change_('+itemNr+');">';
-    targetToPush += '<option  value="omschrijving">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="categorie">'+transtab['source']+'</option>';
     targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
     targetToPush += '<option selected value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
@@ -273,7 +273,6 @@ function addDatumSearchBlock(arrIndex) {
             } 
         }  
     } 
-    var poutput = [];// voorbereiding
     var targetToPush = '';
     var targetToPush = '<div class="card" id="liSearchCrit_'+itemNr+'" style="background-color:#eaecef;">';
     
@@ -290,7 +289,7 @@ function addDatumSearchBlock(arrIndex) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
-    targetToPush += '<option  value="omschrijving">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="categorie">'+transtab['source']+'</option>';
     targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
     targetToPush += '<option selected value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
@@ -320,7 +319,7 @@ function addDatumSearchBlock(arrIndex) {
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm">';
     targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
-    targetToPush += '<a title="'+transtab['add']+'" onclick="addSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['add']+'" onclick="addBronSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
     targetToPush += '<a title="'+transtab['bracket']+'" onclick="addBracketsBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
     targetToPush += '</div>';    
     targetToPush += '</div>';
@@ -333,33 +332,7 @@ function addDatumSearchBlock(arrIndex) {
     if (searchArr.length ==  0) searchArr[itemNr] = item;
     else searchArr.splice(arrIndex+1,0,item);
     
-    $('#alSearchCriterium').html('');
-    for (ind=1;ind<searchArr.length+1;ind++)
-    {
-        if (null != searchArr[ind]) {
-            poutput.push(searchArr[ind]['html']);
-        }
-    }
-    $('#alSearchCriterium').append( poutput.join(''));
-    for (ind=1;ind<searchArr.length+1;ind++)
-    {
-        if (null != searchArr[ind]) {
-            var orgindex = searchArr[ind]['orgindex'];
-            $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
-            $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
-            $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
-            if (searchArr[ind]['auth']) {
-                $("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');      
-            }
-            if (searchArr[ind]['date']) {
-                $("#dp_"+orgindex ).val(searchArr[ind]['date']);
-            } else if (searchArr[ind]['term'] == 'rol') {
-                $("#rollijst_"+orgindex+" option[value="+searchArr[ind]['filter']+"]").attr('selected', 'selected');
-            } else {
-                $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
-            }
-        }
-    } 
+    fillOutSearchBlocks();
     searchItemNr++;
 }    
 
@@ -385,7 +358,6 @@ function addSearchBlock(arrIndex) {
         }  
     }    
     
-    var poutput = [];// voorbereiding
     var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
     targetToPush += '<div class="row li_align_center" >';
     targetToPush += '<div class="col-sm col-md-offset-1">';    
@@ -400,7 +372,7 @@ function addSearchBlock(arrIndex) {
     targetToPush += '<div class="col-sm">';
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
-    targetToPush += '<option  value="omschrijving">'+transtab['source']+'</option>';
+    targetToPush += '<option selected value="categorie">'+transtab['source']+'</option>';
     targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
     targetToPush += '<option  value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
@@ -428,7 +400,7 @@ function addSearchBlock(arrIndex) {
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm">';
     targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
-    targetToPush += '<a title="'+transtab['add']+'" onclick="addSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['add']+'" onclick="addBronSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
     targetToPush += '<a title="'+transtab['bracket']+'" onclick="addBracketsBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -442,34 +414,7 @@ function addSearchBlock(arrIndex) {
     if (searchArr.length ==  0) searchArr[itemNr] = item;
     else searchArr.splice(arrIndex+1,0,item);
     
-    $('#alSearchCriterium').html('');
-    for (ind=1;ind<searchArr.length+1;ind++)
-    {
-        if (null != searchArr[ind]) {
-            poutput.push(searchArr[ind]['html']);
-        }
-    }
-    $('#alSearchCriterium').append( poutput.join(''));
-
-    for (ind=1;ind<searchArr.length+1;ind++)
-    {
-        if (null != searchArr[ind]) {
-            var orgindex = searchArr[ind]['orgindex'];
-            $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
-            $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
-            $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
-            if (searchArr[ind]['auth']) {
-                $("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');      
-            }
-            if (searchArr[ind]['date']) {
-                $("#dp_"+orgindex ).val(searchArr[ind]['date']);
-             } else if (searchArr[ind]['term'] == 'rol') {
-                $("#rollijst_"+orgindex+" option[value="+searchArr[ind]['filter']+"]").attr('selected', 'selected');
-            } else {
-                $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
-            }
-        }
-    } 
+    fillOutSearchBlocks();
     searchItemNr++;
 }    
 
@@ -497,7 +442,6 @@ function addRoleSearchBlockFinal(arrIndex) {
         }  
     }    
     
-    var poutput = [];// voorbereiding
     var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
     targetToPush += '<div class="row li_align_center" >';
     targetToPush += '<div class="col-sm col-md-offset-1">';    
@@ -513,7 +457,7 @@ function addRoleSearchBlockFinal(arrIndex) {
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
     targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
-    targetToPush += '<option  value="omschrijving">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="categorie">'+transtab['source']+'</option>';
     targetToPush += '<option  value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
     targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
@@ -537,15 +481,15 @@ function addRoleSearchBlockFinal(arrIndex) {
     targetToPush += '<div id="rollijst_'+itemNr+'">';
     targetToPush += '<select onchange="composeQuery('+itemNr+')" class="li_input">';
     for (var i=0;i<rollen.length;i++){
-        if (i==0) targetToPush += '<option selected value='+rollen[i]+'>'+rollen[i]+'</option>';
-        else targetToPush += '<option value='+rollen[i]+'>'+rollen[i]+'</option>';
+        if (i==0) targetToPush += '<option selected value='+rollen[i]+'>'+decodeURI(rollen[i])+'</option>';
+        else targetToPush += '<option value='+rollen[i]+'>'+decodeURI(rollen[i])+'</option>';
     }
     targetToPush += '</select>';
     targetToPush += '</div>';
     targetToPush += '</div>';
     targetToPush += '<div class="col-sm">';
     targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
-    targetToPush += '<a title="'+transtab['add']+'" onclick="addSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['add']+'" onclick="addBronSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
     targetToPush += '<a title="'+transtab['bracket']+'" onclick="addBracketsBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -559,37 +503,273 @@ function addRoleSearchBlockFinal(arrIndex) {
     if (searchArr.length ==  0) searchArr[itemNr] = item;
     else searchArr.splice(arrIndex+1,0,item);
     
-    $('#alSearchCriterium').html('');
-    for (ind=1;ind<searchArr.length+1;ind++)
-    {
-        if (null != searchArr[ind]) {
-            poutput.push(searchArr[ind]['html']);
-        }
-    }
-    $('#alSearchCriterium').append( poutput.join(''));
-
-    for (ind=1;ind<searchArr.length+1;ind++)
-    {
-        if (null != searchArr[ind]) {
-            var orgindex = searchArr[ind]['orgindex'];
-            $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
-            $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
-            $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
-            if (searchArr[ind]['auth']) {
-                $("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');      
-            }
-            if (searchArr[ind]['date']) {
-                $("#dp_"+orgindex ).val(searchArr[ind]['date']);
-            } else if (searchArr[ind]['term'] == 'rol') {
-                $("#rollijst_"+orgindex+" option[value="+searchArr[ind]['filter']+"]").attr('selected', 'selected');
-            } else {
-                $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
-            }
-        }
-    } 
+    fillOutSearchBlocks();
     searchItemNr++;
 }    
 
+function addSoortSearchBlockFinal(arrIndex) {
+
+    $('#feitenbox').hide();
+    $('#subtypesbox').hide();
+    fadeSearchButton();
+        
+    var itemNr = searchItemNr;
+    if (arrIndex == 0) {
+        arrIndex = itemNr;
+    } else {
+        for (ind=1;ind<searchArr.length+1;ind++)
+        {
+            if (null != searchArr[ind]) {
+                var orgindex = searchArr[ind]['orgindex'];
+                if (orgindex == arrIndex ) {
+                    arrIndex = ind;
+                    break;
+                }
+            } 
+        }  
+    }    
+    
+    var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
+    targetToPush += '<div class="row li_align_center" >';
+    targetToPush += '<div class="col-sm col-md-offset-1">';    
+    targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
+    targetToPush += '<select onchange="composeQuery('+itemNr+')">';
+    targetToPush += '<option value="AND">'+transtab['and']+'</option>';
+    targetToPush += '<option value="OR">'+transtab['or']+'</option>';
+    targetToPush += '<option value="NOT">'+transtab['not']+'</option>';
+    targetToPush += '</select>';  
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="criterialijst_'+itemNr+'">';
+    targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
+    targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
+    targetToPush += '<option  value="categorie">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="datum">'+transtab['date']+'</option>';
+    targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
+    targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
+    targetToPush += '<option  value="plaats">'+transtab['place']+'</option>';
+    targetToPush += '<option  value="rol">'+transtab['role']+'</option>';
+    targetToPush += '<option selected value="soort">'+transtab['type']+'</option>';
+    targetToPush += '<option  value="tekst">'+transtab['text']+'</option>';
+    targetToPush += '<option  value="toponiem">'+transtab['toponym']+'</option>';
+    targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';  
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="operatorlijst_'+itemNr+'">';
+    targetToPush += '<select onchange="composeQuery('+itemNr+')">';
+    targetToPush += '<option value="bevat_exact">'+transtab['contains_exact']+'</option>';
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="soortlijst_'+itemNr+'">';
+    targetToPush += '<select onchange="composeQuery('+itemNr+')" class="li_input">';
+    for (var i=0;i<soorten.length;i++){
+        if (i==0) targetToPush += '<option selected value='+soorten[i]+'>'+decodeURI(soorten[i])+'</option>';
+        else targetToPush += '<option value='+soorten[i]+'>'+decodeURI(soorten[i])+'</option>';
+    }
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['add']+'" onclick="addBronSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['bracket']+'" onclick="addBracketsBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+
+    var item = {'html':targetToPush,
+                'orgindex':itemNr,
+                'bracket':'-'};
+       
+    if (searchArr.length ==  0) searchArr[itemNr] = item;
+    else searchArr.splice(arrIndex+1,0,item);
+    
+    fillOutSearchBlocks();
+    searchItemNr++;
+}    
+
+function addBronSearchBlockFinal(arrIndex) {
+
+    $('#feitenbox').hide();
+    $('#subtypesbox').hide();
+    fadeSearchButton();
+        
+    var itemNr = searchItemNr;
+    if (arrIndex == 0) {
+        arrIndex = itemNr;
+    } else {
+        for (ind=1;ind<searchArr.length+1;ind++)
+        {
+            if (null != searchArr[ind]) {
+                var orgindex = searchArr[ind]['orgindex'];
+                if (orgindex == arrIndex ) {
+                    arrIndex = ind;
+                    break;
+                }
+            } 
+        }  
+    }    
+    
+    var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
+    targetToPush += '<div class="row li_align_center" >';
+    targetToPush += '<div class="col-sm col-md-offset-1">';    
+    targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
+    targetToPush += '<select onchange="composeQuery('+itemNr+')">';
+    targetToPush += '<option value="AND">'+transtab['and']+'</option>';
+    targetToPush += '<option value="OR">'+transtab['or']+'</option>';
+    targetToPush += '<option value="NOT">'+transtab['not']+'</option>';
+    targetToPush += '</select>';  
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="criterialijst_'+itemNr+'">';
+    targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
+    targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
+    targetToPush += '<option  selected value="categorie">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="datum">'+transtab['date']+'</option>';
+    targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
+    targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
+    targetToPush += '<option  value="plaats">'+transtab['place']+'</option>';
+    targetToPush += '<option  value="rol">'+transtab['role']+'</option>';
+    targetToPush += '<option  value="soort">'+transtab['type']+'</option>';
+    targetToPush += '<option  value="tekst">'+transtab['text']+'</option>';
+    targetToPush += '<option  value="toponiem">'+transtab['toponym']+'</option>';
+    targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';  
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="operatorlijst_'+itemNr+'">';
+    targetToPush += '<select onchange="composeQuery('+itemNr+')">';
+    targetToPush += '<option value="bevat_exact">'+transtab['contains_exact']+'</option>';
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="bronlijst_'+itemNr+'">';
+    targetToPush += '<select onchange="composeQuery('+itemNr+')" class="li_input">';
+    for (var i=0;i<bronnen.length;i++){
+        if (i==0) targetToPush += '<option selected value='+bronnen[i]+'>'+decodeURI(bronnen[i])+'</option>';
+        else targetToPush += '<option value='+bronnen[i]+'>'+decodeURI(bronnen[i])+'</option>';
+    }
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['add']+'" onclick="addBronSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['bracket']+'" onclick="addBracketsBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+
+    var item = {'html':targetToPush,
+                'orgindex':itemNr,
+                'bracket':'-'};
+    
+    
+    if (searchArr.length ==  0) {
+        searchArr[itemNr] = item;
+    }
+    else searchArr.splice(arrIndex+1,0,item);
+    
+    fillOutSearchBlocks();
+    searchItemNr++;
+}    
+
+function addOobjtypeSearchBlockFinal(arrIndex) {
+
+    $('#feitenbox').hide();
+    $('#subtypesbox').hide();
+    fadeSearchButton();
+        
+    var itemNr = searchItemNr;
+    if (arrIndex == 0) {
+        arrIndex = itemNr;
+    } else {
+        for (ind=1;ind<searchArr.length+1;ind++)
+        {
+            if (null != searchArr[ind]) {
+                var orgindex = searchArr[ind]['orgindex'];
+                if (orgindex == arrIndex ) {
+                    arrIndex = ind;
+                    break;
+                }
+            } 
+        }  
+    }    
+    
+    var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
+    targetToPush += '<div class="row li_align_center" >';
+    targetToPush += '<div class="col-sm col-md-offset-1">';    
+    targetToPush += '<div id="andOrNotlijst_'+itemNr+'" style="margin-left:10px">';
+    targetToPush += '<select onchange="composeQuery('+itemNr+')">';
+    targetToPush += '<option value="AND">'+transtab['and']+'</option>';
+    targetToPush += '<option value="OR">'+transtab['or']+'</option>';
+    targetToPush += '<option value="NOT">'+transtab['not']+'</option>';
+    targetToPush += '</select>';  
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="criterialijst_'+itemNr+'">';
+    targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
+    targetToPush += '<option value="authority">'+transtab['authority_list']+'</option>';
+    targetToPush += '<option  value="categorie">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="datum">'+transtab['date']+'</option>';
+    targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
+    targetToPush += '<option selected value="oobjtype">'+transtab['objecttype']+'</option>';
+    targetToPush += '<option  value="plaats">'+transtab['place']+'</option>';
+    targetToPush += '<option  value="rol">'+transtab['role']+'</option>';
+    targetToPush += '<option  value="soort">'+transtab['type']+'</option>';
+    targetToPush += '<option  value="tekst">'+transtab['text']+'</option>';
+    targetToPush += '<option  value="toponiem">'+transtab['toponym']+'</option>';
+    targetToPush += '<option value="voornamen">'+transtab['first_name']+'</option>';  
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="operatorlijst_'+itemNr+'">';
+    targetToPush += '<select onchange="composeQuery('+itemNr+')">';
+    targetToPush += '<option value="bevat_exact">'+transtab['contains_exact']+'</option>';
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<div id="oobjtypelijst_'+itemNr+'">';
+    targetToPush += '<select onchange="composeQuery('+itemNr+')" class="li_input">';
+    for (var i=0;i<oobjtypes.length;i++){
+        if (i==0) targetToPush += '<option selected value='+oobjtypes[i]+'>'+decodeURI(oobjtypes[i])+'</option>';
+        else targetToPush += '<option value='+oobjtypes[i]+'>'+decodeURI(oobjtypes[i])+'</option>';
+    }
+    targetToPush += '</select>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '<div class="col-sm">';
+    targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['add']+'" onclick="addBronSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['bracket']+'" onclick="addBracketsBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+    targetToPush += '</div>';
+
+    var item = {'html':targetToPush,
+                'orgindex':itemNr,
+                'bracket':'-'};
+       
+    if (searchArr.length ==  0) searchArr[itemNr] = item;
+    else searchArr.splice(arrIndex+1,0,item);
+    
+    fillOutSearchBlocks();
+    searchItemNr++;
+}    
 
 
 function addAuthSearchBlockFinal(arrIndex) {
@@ -615,7 +795,6 @@ function addAuthSearchBlockFinal(arrIndex) {
         }  
     }    
     
-    var poutput = [];// voorbereiding
     var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
     targetToPush += '<div class="row li_align_center" >';
     targetToPush += '<div class="col-sm col-md-offset-1">';    
@@ -631,7 +810,7 @@ function addAuthSearchBlockFinal(arrIndex) {
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
     targetToPush += '<option selected value="authority">'+transtab['authority_list']+'</option>';
-    targetToPush += '<option  value="omschrijving">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="categorie">'+transtab['source']+'</option>';
     targetToPush += '<option  value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
     targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
@@ -657,8 +836,8 @@ function addAuthSearchBlockFinal(arrIndex) {
     targetToPush += '<div id="authoritylijst_'+itemNr+'">';
     targetToPush += '<select class="li_input_auth" onchange="authoritylist_change('+itemNr+')">';
     for (var i=0;i<authorities.length;i++){
-        //auth =authorities[i].replace(/ /g, "°");
-        targetToPush += '<option value='+authorities[i]+'>'+authorities[i]+'</option>';
+        if (i==0) targetToPush += '<option selected value='+authorities[i]+'>'+decodeURI(authorities[i])+'</option>';
+        else targetToPush += '<option value='+authorities[i]+'>'+decodeURI(authorities[i])+'</option>';
     }
     targetToPush += '</select>';
     targetToPush += '</div>';
@@ -669,7 +848,7 @@ function addAuthSearchBlockFinal(arrIndex) {
     
     targetToPush += '<div class="col-sm">';
     targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
-    targetToPush += '<a title="'+transtab['add']+'" onclick="addSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['add']+'" onclick="addBronSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
     targetToPush += '<a title="'+transtab['bracket']+'" onclick="addBracketsBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -683,34 +862,7 @@ function addAuthSearchBlockFinal(arrIndex) {
     if (searchArr.length ==  0) searchArr[itemNr] = item;
     else searchArr.splice(arrIndex+1,0,item);
     
-    $('#alSearchCriterium').html('');
-    for (ind=1;ind<searchArr.length+1;ind++)
-    {
-        if (null != searchArr[ind]) {
-            poutput.push(searchArr[ind]['html']);
-        }
-    }
-    $('#alSearchCriterium').append( poutput.join(''));
-
-    for (ind=1;ind<searchArr.length+1;ind++)
-    {
-        if (null != searchArr[ind]) {
-            var orgindex = searchArr[ind]['orgindex'];
-            $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
-            $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
-            $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
-            if (searchArr[ind]['auth']) {
-                $("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');      
-            }
-            if (searchArr[ind]['date']) {
-                $("#dp_"+orgindex ).val(searchArr[ind]['date']);
-            } else if (searchArr[ind]['term'] == 'rol') {
-                $("#rollijst_"+orgindex+" option[value="+searchArr[ind]['filter']+"]").attr('selected', 'selected');
-            } else {
-                $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
-            }
-        }
-    } 
+    fillOutSearchBlocks();
     searchItemNr++;
 }    
 
@@ -737,7 +889,6 @@ function addDatumAuthSearchBlockFinal(arrIndex) {
         }  
     }    
     
-    var poutput = [];// voorbereiding
     var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
     targetToPush += '<div class="row li_align_center" >';
     targetToPush += '<div class="col-sm col-md-offset-1">';    
@@ -753,7 +904,7 @@ function addDatumAuthSearchBlockFinal(arrIndex) {
     targetToPush += '<div id="criterialijst_'+itemNr+'">';
     targetToPush += '<select onchange="criterialijst_change('+itemNr+');">';
     targetToPush += '<option selected value="authority">'+transtab['authority_list']+'</option>';
-    targetToPush += '<option  value="omschrijving">'+transtab['source']+'</option>';
+    targetToPush += '<option  value="categorie">'+transtab['source']+'</option>';
     targetToPush += '<option  value="datum">'+transtab['date']+'</option>';
     targetToPush += '<option  value="naam">'+transtab['name']+'</option>';
     targetToPush += '<option  value="oobjtype">'+transtab['objecttype']+'</option>';
@@ -778,7 +929,7 @@ function addDatumAuthSearchBlockFinal(arrIndex) {
     targetToPush += '<select class="li_input_auth" onchange="authoritylist_change('+itemNr+')">';
     for (var i=0;i<authorities.length;i++){
         //auth =authorities[i].replace(/ /g, "°");
-        targetToPush += '<option value='+authorities[i]+'>'+authorities[i]+'</option>';
+        targetToPush += '<option value='+authorities[i]+'>'+decodeURI(authorities[i])+'</option>';
     }
     targetToPush += '</select>';
     targetToPush += '</div>';
@@ -789,7 +940,7 @@ function addDatumAuthSearchBlockFinal(arrIndex) {
     
     targetToPush += '<div class="col-sm">';
     targetToPush += '<a title="'+transtab['remove']+'" onclick="removeSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/remove.png" alt=""></a>';
-    targetToPush += '<a title="'+transtab['add']+'" onclick="addSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
+    targetToPush += '<a title="'+transtab['add']+'" onclick="addBronSearchBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/add.png" alt=""></a>';
     targetToPush += '<a title="'+transtab['bracket']+'" onclick="addBracketsBlock('+itemNr+')";><img class="li_img" src="'+transtab['url']+'/public/img/brackets.png" alt=""></a>';
     targetToPush += '</div>';
     targetToPush += '</div>';
@@ -803,34 +954,7 @@ function addDatumAuthSearchBlockFinal(arrIndex) {
     if (searchArr.length ==  0) searchArr[itemNr] = item;
     else searchArr.splice(arrIndex+1,0,item);
     
-    $('#alSearchCriterium').html('');
-    for (ind=1;ind<searchArr.length+1;ind++)
-    {
-        if (null != searchArr[ind]) {
-            poutput.push(searchArr[ind]['html']);
-        }
-    }
-    $('#alSearchCriterium').append( poutput.join(''));
-
-    for (ind=1;ind<searchArr.length+1;ind++)
-    {
-        if (null != searchArr[ind]) {
-            var orgindex = searchArr[ind]['orgindex'];
-            $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
-            $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
-            $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
-            if (searchArr[ind]['auth']) {
-                $("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');      
-            }
-            if (searchArr[ind]['date']) {
-                $("#dp_"+orgindex ).val(searchArr[ind]['date']);
-            } else if (searchArr[ind]['term'] == 'rol') {
-                $("#rollijst_"+orgindex+" option[value="+searchArr[ind]['filter']+"]").attr('selected', 'selected');
-            } else {
-                $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
-            }
-        }
-    } 
+    fillOutSearchBlocks();
     searchItemNr++;
 }
 
@@ -857,7 +981,6 @@ function addBracketsBlock(arrIndex) {
         }  
     }    
     
-    var poutput = [];// voorbereiding
     var targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
     targetToPush += '<div class="row li_align_center" >';
     targetToPush += '<div class="col-sm col-md-offset-1">';    
@@ -892,10 +1015,9 @@ function addBracketsBlock(arrIndex) {
     else searchArr.splice(arrIndex+1,0,item);
     
     searchItemNr++;
-    addSearchBlock(itemNr);
+    addBronSearchBlock(itemNr);
     
     itemNr=searchItemNr;
-    poutput = [];// voorbereiding
     targetToPush = '<div class="card" style="background-color:#eaecef;" id="liSearchCrit_'+itemNr+'">';
     targetToPush += '<div class="row li_align_center" >';
     targetToPush += '<div class="col-sm col-md-offset-1">';     
@@ -921,6 +1043,16 @@ function addBracketsBlock(arrIndex) {
     
     searchArr.splice(arrIndex+3,0,item);
     
+   fillOutSearchBlocks();
+    searchItemNr++;
+    
+} 
+
+
+function fillOutSearchBlocks() {
+    
+    var poutput = [];// voorbereiding    
+    
     $('#alSearchCriterium').html('');
     for (ind=1;ind<searchArr.length+1;ind++)
     {
@@ -934,24 +1066,30 @@ function addBracketsBlock(arrIndex) {
     {
         if (null != searchArr[ind]) {
             var orgindex = searchArr[ind]['orgindex'];
-            $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
-            $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
-            $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
+            $("#andOrNotlijst_"+orgindex+" option[value='"+searchArr[ind]['poort']+"']").attr('selected', 'selected');
+            $("#criterialijst_"+orgindex+" option[value='"+searchArr[ind]['term']+"']").attr('selected', 'selected');
+            $("#operatorlijst_"+orgindex+" option[value='"+searchArr[ind]['operator']+"']").attr('selected', 'selected');
             if (searchArr[ind]['auth']) {
-                $("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');      
+                $("#authoritylijst_"+orgindex+" option[value='"+searchArr[ind]['auth']+"']").attr('selected', 'selected');      
             }
             if (searchArr[ind]['date']) {
                 $("#dp_"+orgindex ).val(searchArr[ind]['date']);
             } else if (searchArr[ind]['term'] == 'rol') {
-                $("#rollijst_"+orgindex+" option[value="+searchArr[ind]['filter']+"]").attr('selected', 'selected');
+                $("#rollijst_"+orgindex+" option[value='"+searchArr[ind]['filter']+"']").attr('selected', 'selected');
+            } else if (searchArr[ind]['term'] == 'soort') {
+                $("#soortlijst_"+orgindex+" option[value='"+searchArr[ind]['filter']+"']").attr('selected', 'selected');
+            } else if (searchArr[ind]['term'] == 'oobjtype') {
+                $("#oobjtypelijst_"+orgindex+" option[value='"+searchArr[ind]['filter']+"']").attr('selected', 'selected');
+            } else if (searchArr[ind]['term'] == 'categorie') {
+                $("#bronlijst_"+orgindex+" option[value='"+searchArr[ind]['filter']+"']").attr('selected', 'selected');
             } else {
                 $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
             }
         }
     }
-    searchItemNr++;
-    
-} 
+}
+
+
 
 function checkDate(itemNr) {
     
@@ -1085,10 +1223,12 @@ function removeSearchBlock(itemNr){
     {
         if (null != searchArr[ind]) {
             var orgindex = searchArr[ind]['orgindex'];
-            $("#andOrNotlijst_"+orgindex+" option[value="+searchArr[ind]['poort']+"]").attr('selected', 'selected');
-            $("#criterialijst_"+orgindex+" option[value="+searchArr[ind]['term']+"]").attr('selected', 'selected');
-            $("#operatorlijst_"+orgindex+" option[value="+searchArr[ind]['operator']+"]").attr('selected', 'selected');
-            if (searchArr[ind]['auth'])$("#authoritylijst_"+orgindex+" option[value="+searchArr[ind]['auth']+"]").attr('selected', 'selected');            
+            $("#andOrNotlijst_"+orgindex+" option[value='"+searchArr[ind]['poort']+"']").attr('selected', 'selected');
+            $("#criterialijst_"+orgindex+" option[value='"+searchArr[ind]['term']+"']").attr('selected', 'selected');
+            $("#operatorlijst_"+orgindex+" option[value='"+searchArr[ind]['operator']+"']").attr('selected', 'selected');
+            if (searchArr[ind]['auth']) {
+                $("#authoritylijst_"+orgindex+" option[value='"+searchArr[ind]['auth']+"']").attr('selected', 'selected');            
+            }
             if (searchArr[ind]['date']) {
                 $("#dp_"+orgindex ).val(searchArr[ind]['date']);
             } else {
@@ -1145,6 +1285,8 @@ function composeQuery(itemNr) {
     }
     targetToPush += '</br>';
     var advInd = 0;
+    showSearchButton();
+
     for (j=1;j<searchArr.length+1;j++) {
         
         if (null != searchArr[j]) {
@@ -1164,13 +1306,18 @@ function composeQuery(itemNr) {
                 }
             } else if ($( "#criterialijst_"+i+" option:selected" ).val() == 'rol') {
                 li_val = li_val_fin = $( "#rollijst_"+i+" option:selected" ).val();
+            } else if ($( "#criterialijst_"+i+" option:selected" ).val() == 'categorie') {
+                li_val = li_val_fin = $( "#bronlijst_"+i+" option:selected" ).val();
+            } else if ($( "#criterialijst_"+i+" option:selected" ).val() == 'soort') {
+                li_val = li_val_fin = $( "#soortlijst_"+i+" option:selected" ).val();
+            } else if ($( "#criterialijst_"+i+" option:selected" ).val() == 'oobjtype') {
+                li_val = li_val_fin = $( "#oobjtypelijst_"+i+" option:selected" ).val();
             } else if (searchArr[j]['bracket'] == '-') {
                 li_val = li_val_fin = $( "#al_filter_"+i).val();
                 if ((!li_val) || ((li_val) === (transtab['fill_out']))) {
                     fadeSearchButton();
                 }
             }        
-
             advSQLFieldsArray[advInd] = { 
                                             'poort':$( "#andOrNotlijst_"+i+" option:selected" ).val(), 
                                             'term':searchArr[j]['term'],
@@ -1201,7 +1348,6 @@ function composeQuery(itemNr) {
     $('#alQuery').empty();
     $('#alQuery').append( poutput.join(''));
 
-    showSearchButton();
 
     if (selFeit.length>0) {
         if (selSubtype.length == 0) {
@@ -1223,13 +1369,17 @@ function composeQuery(itemNr) {
 function fadeSearchButton() {
     $('#liCreateQuery').fadeTo("fast",0.4);
     $('#liCreateQuery').prop("disabled", true);
-    $("#liCreateQuery span").text(transtab['search']+' ('+transtab['two_choices']+')');
+//    $("#liCreateQuery span").text(transtab['search']+' ('+transtab['two_choices']+')');
+    $("#liCreateQuery span").text(transtab['search']);
+    $( "#al_two_choices" ).show();
     
 }
 function showSearchButton() {
     $('#liCreateQuery').fadeTo("fast",1);
     $('#liCreateQuery').prop("disabled", false);
     $("#liCreateQuery span").text(transtab['search']);
+    $( "#al_two_choices" ).hide();
+    
 }
 
 function resetQuery() {

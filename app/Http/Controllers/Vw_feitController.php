@@ -58,6 +58,12 @@ class Vw_feitcontroller extends Controller
             $result = DB::table('mv_feit_types')->select('feittype')->get();
         } else if ($lijst == 'subtype') {
             $result = DB::table('mv_feit_subtypes')->select('feitsubtype')->get();
+        } else if ($lijst == 'bron') {
+            $result = DB::table('vw_feit-bron')->select('categorie')->distinct()->orderBy('categorie','asc')->get();
+        } else if ($lijst == 'soort') {
+            $result = DB::table('oobj')->select('soort')->distinct()->orderBy('soort','asc')->get();
+        } else if ($lijst == 'oobjtype') {
+            $result = DB::table('oobj')->select('oobjtype')->distinct()->orderBy('oobjtype','asc')->get();
         } else if ($lijst == 'zoekFeit') {
             $query = DB::table('vw_feit');
             $filter = $request->input('filter');
@@ -166,12 +172,18 @@ class Vw_feitcontroller extends Controller
             $query = DB::table('vw_feit');
             $query->leftJoin('vw_feit-pers','vw_feit.feit_id', '=','vw_feit-pers.feit_id');
             $query->leftJoin('vw_feit-bron','vw_feit.feit_id', '=','vw_feit-bron.feit_id');
-//            $query->join('oobj','oobj.feit_id', '=','vw_feit.feit_id');
                 
             $types = $request->input('feit');
             $subtypes = $request->input('subtype');
             $others = $request->input('other');
 
+            foreach ($others as $other)   {
+                if (($other['term'] == 'toponiem') || ($other['term'] == 'soort') || ($other['term'] == 'oobjtype')) {
+                    $query->leftJoin('oobj', 'vw_feit.feit_id','=','oobj.feit_id');
+                    break;
+                }
+            }
+            
             $index = 1; 
             $q = "";
             $first = true;
@@ -210,7 +222,7 @@ class Vw_feitcontroller extends Controller
             if ($others != null) {
             
                 foreach ($others as $other) {
-                    
+                    $other['filter'] = urldecode($other['filter']);
                     if ($other['term'] == 'plaats') $other['term'] = '"vw_feit"."plaats"';
                     if ($other['term'] == 'omschrijving') $other['term'] = '"vw_feit-bron"."omschrijving"';
                     if (
@@ -246,17 +258,17 @@ class Vw_feitcontroller extends Controller
                             $first = false;
                         }
                         if ('authority' == $other['term']) {
-//                            $other['auth'] = str_replace('°', ' ', $other['auth']);
+                            $other['auth'] = urldecode($other['auth']);
                             $q.= '(authority = \''.$other['auth'].'\'';
                             $other['term'] = 'waarde';
                             if ('waarde' == $other['term']) {
                                 if(strpos($other['auth'],'plaats') != false) {
                                     if (($other['operator']) == 'bevat') {
-                                        $q.= ' and lower(plaats) like lower(\'%'.$other['filter'].'%\')';
+                                        $q.= ' and lower(waarde) like lower(\'%'.$other['filter'].'%\')';
                                     } else if (($other['operator']) == 'bevat_exact') {
-                                        $q.= ' and lower(plaats) = lower(\''.$other['filter'].'\')';
+                                        $q.= ' and lower(waarde) = lower(\''.$other['filter'].'\')';
                                     } else if (($other['operator']) == 'begint') {
-                                        $q.= ' and lower(plaats) like lower(\''.$other['filter'].'%\')';                        
+                                        $q.= ' and lower(waarde) like lower(\''.$other['filter'].'%\')';                        
                                     }
                                 } else if (strpos($other['auth'],'datum') != false) {
                                     if (($other['operator']) == 'vanaf') {
@@ -265,6 +277,14 @@ class Vw_feitcontroller extends Controller
                                         $q.= ' and waarde < \''.$other['filter'].'\'';
                                     } else {
                                         $q.= ' and waarde = \''.$other['filter'].'\'';
+                                    }
+                                } else {
+                                    if (($other['operator']) == 'bevat') {
+                                        $q.= ' and lower(waarde) like lower(\'%'.$other['filter'].'%\')';
+                                    } else if (($other['operator']) == 'bevat_exact') {
+                                        $q.= ' and lower(waarde) = lower(\''.$other['filter'].'\')';
+                                    } else if (($other['operator']) == 'begint') {
+                                        $q.= ' and lower(waarde) like lower(\''.$other['filter'].'%\')';                        
                                     }
                                 }
                                 $q.= ')';
