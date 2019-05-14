@@ -59,11 +59,11 @@ class Vw_feitcontroller extends Controller
         } else if ($lijst == 'subtype') {
             $result = DB::table('mv_feit_subtypes')->select('feitsubtype')->get();
         } else if ($lijst == 'bron') {
-            $result = DB::table('vw_feit-bron')->select('categorie')->distinct()->orderBy('categorie','asc')->get();
+            $result = DB::table('mv_bronnen')->select('categorie')->get();
         } else if ($lijst == 'soort') {
-            $result = DB::table('oobj')->select('soort')->distinct()->orderBy('soort','asc')->get();
+            $result = DB::table('mv_soorten')->select('soort')->get();
         } else if ($lijst == 'oobjtype') {
-            $result = DB::table('oobj')->select('oobjtype')->distinct()->orderBy('oobjtype','asc')->get();
+            $result = DB::table('mv_oobjtypes')->select('oobjtype')->get();
         } else if ($lijst == 'zoekFeit') {
             $query = DB::table('vw_feit');
             $filter = $request->input('filter');

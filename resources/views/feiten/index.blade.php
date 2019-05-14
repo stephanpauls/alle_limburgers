@@ -3,21 +3,25 @@
 @section('content')
 
 <div class="container" style="background-color:#ffffff; border-color: rgb(65,169,73); border-style: groove; border-width: 2px;" >
+
     
 <div class="container">
+
 <div  style="background-color:#eaecef; border-style: groove; border-width: 1px; margin-top: 20px;">
     <div class="row li_align_center" >
-    <div class="col-sm">
-        <p class="li_bold_info">{{__('app.search_on')}}</p>
-    </div>
-    <div class="col-sm">
-        <div class="button-group"  style="margin: 10px">
-            <input class="geotextbox feitenTextBox" name="feitenbox" placeholder="{{__('app.all_facts')}}" onkeyup="limZoekFeit();" maxlength="20"/>
-            <button id="feiten_btn" type="button"  onclick="" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">{{__('app.fact')}}<span class="caret"></span></button>
-            <ul id=feitenbox class="dropdown-menu">
-            </ul>
+        <div class="col-sm">
+            <div style="float:left;border:1px;width:180px;">
+                <p class="li_bold_info">{{__('app.search_on')}}</p>
+            </div>            
         </div>
-    </div>
+        <div class="col-sm">
+            <div class="button-group"  style="margin: 10px">
+                <input class="geotextbox feitenTextBox" name="feitenbox" placeholder="{{__('app.all_facts')}}" onkeyup="limZoekFeit();" maxlength="20"/>
+                <button id="feiten_btn" type="button"  onclick="" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">{{__('app.fact')}}<span class="caret"></span></button>
+                <ul id=feitenbox class="dropdown-menu">
+                </ul>
+            </div>
+        </div>
         <div class="col-sm">
             <div class="button-group" style="margin: 10px">
                 <input class="geotextbox subtypesTextBox" name="subtypesbox" placeholder="{{__('app.all_subtypes')}}" onkeyup="limZoekSubtype();" maxlength="20"/>
@@ -34,7 +38,7 @@
         <p class="li_bold_info">{{__('app.search_to')}}</p>
     </div>
 
-    <div id="alSearchCriterium" style="margin-left:181px;margin-top:10px;margin-bottom:10px;margin-right:10px">
+    <div id="alSearchCriterium" style="margin-left:22%;margin-top:10px;margin-bottom:10px;margin-right:10px">
     </div>
 </div>
 <div class="container" >

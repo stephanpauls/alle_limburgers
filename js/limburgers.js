@@ -593,12 +593,11 @@ function addSoortSearchBlockFinal(arrIndex) {
     fillOutSearchBlocks();
     searchItemNr++;
 }    
-
+///START BLOCK!!!
 function addBronSearchBlockFinal(arrIndex) {
 
     $('#feitenbox').hide();
     $('#subtypesbox').hide();
-    fadeSearchButton();
         
     var itemNr = searchItemNr;
     if (arrIndex == 0) {
@@ -682,6 +681,7 @@ function addBronSearchBlockFinal(arrIndex) {
     
     fillOutSearchBlocks();
     searchItemNr++;
+    composeQuery(0); //moet opgeroepen worden omdat anders de zoek button zou kunnen wegvallen
 }    
 
 function addOobjtypeSearchBlockFinal(arrIndex) {
@@ -1172,7 +1172,6 @@ function updateSearchBlock(lijn,crit,andOrNot,auth) {
 
 function removeSearchBlock(itemNr){
 
-    var poutput = [];
     $('#li_navbar').html('');
     $('#li_navbar_detail').hide('');
     $('#al_resultList').html('');
@@ -1212,30 +1211,7 @@ function removeSearchBlock(itemNr){
         }
     }
     
-    $('#alSearchCriterium').html('');
-    for (ind=1;ind<searchArr.length+1;ind++)
-    {
-        if (null != searchArr[ind]) poutput.push(searchArr[ind]['html']);
-    }
-    $('#alSearchCriterium').append( poutput.join(''));
-
-    for (ind=1;ind<searchArr.length+1;ind++)
-    {
-        if (null != searchArr[ind]) {
-            var orgindex = searchArr[ind]['orgindex'];
-            $("#andOrNotlijst_"+orgindex+" option[value='"+searchArr[ind]['poort']+"']").attr('selected', 'selected');
-            $("#criterialijst_"+orgindex+" option[value='"+searchArr[ind]['term']+"']").attr('selected', 'selected');
-            $("#operatorlijst_"+orgindex+" option[value='"+searchArr[ind]['operator']+"']").attr('selected', 'selected');
-            if (searchArr[ind]['auth']) {
-                $("#authoritylijst_"+orgindex+" option[value='"+searchArr[ind]['auth']+"']").attr('selected', 'selected');            
-            }
-            if (searchArr[ind]['date']) {
-                $("#dp_"+orgindex ).val(searchArr[ind]['date']);
-            } else {
-                $("#al_filter_"+orgindex ).val(searchArr[ind]['filter']);
-            }
-        }
-    }    
+    fillOutSearchBlocks();
     composeQuery(0);
 }
 
@@ -1245,12 +1221,27 @@ function composeQuery(itemNr) {
     var li_val = '0';
     var li_val_fin = '0';
     if (itemNr > 0){
+        
+         if ($( "#criterialijst_"+itemNr+" option:selected" ).val() == 'rol') {
+                li_val = li_val_fin = $( "#rollijst_"+itemNr+" option:selected" ).val();
+            } else if ($( "#criterialijst_"+itemNr+" option:selected" ).val() == 'categorie') {
+                li_val = li_val_fin = $( "#bronlijst_"+itemNr+" option:selected" ).val();
+            } else if ($( "#criterialijst_"+itemNr+" option:selected" ).val() == 'soort') {
+                li_val = li_val_fin = $( "#soortlijst_"+itemNr+" option:selected" ).val();
+            } else if ($( "#criterialijst_"+itemNr+" option:selected" ).val() == 'oobjtype') {
+                li_val = li_val_fin = $( "#oobjtypelijst_"+itemNr+" option:selected" ).val(); 
+            } else {
+                 li_val = li_val_fin = $( "#al_filter_"+itemNr).val();
+            }
+        
+        
+        
         tmpArr = {
             'poort':$( "#andOrNotlijst_"+itemNr+" option:selected" ).val(),
             'term':$( "#criterialijst_"+itemNr+" option:selected" ).val(),
             'operator':$( "#operatorlijst_"+itemNr+" option:selected" ).val(),
             'auth':$("#authoritylijst_"+itemNr+" option:selected" ).text(),
-            'filter':$( "#al_filter_"+itemNr).val(),
+            'filter':li_val,
         };
         for (ind=1;ind<searchArr.length+1;ind++)
         {
