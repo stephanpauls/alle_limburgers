@@ -12,3 +12,7 @@ npm-debug.log
 yarn-error.log
 .env
 .phpunit.result.cache
+credentials.json
+credentials_stephan.json
+client_id_stephan.json
+client_id.json
