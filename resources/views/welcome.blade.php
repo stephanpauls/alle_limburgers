@@ -69,16 +69,16 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ secure_url('/home') }}">Home</a>
                     @else
                     @endauth
                 </div>
             @endif
                             <li class="nav-item">
-                                <a class="nav-link" href="nl"><img src="{{ asset ('public/img/nl.png')}}" alt=""> Nederlands</a>
+                                <a class="nav-link" href="nl"><img src="{{ secure_asset ('public/img/nl.png')}}" alt=""> Nederlands</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="en"><img src="{{ asset ('public/img/england.png')}}" alt="">English</a>
+                                <a class="nav-link" href="en"><img src="{{ secure_asset ('public/img/england.png')}}" alt="">English</a>
                             </li>
             <div class="content">
                 <div class="title m-b-md">

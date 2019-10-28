@@ -1627,7 +1627,7 @@ function alResultDetailTable(resultaat,transtab) {
         if(result.scan_oat) {
             targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\''+result.scan_oat+'\');\" class=\"btn btn-secondary\">'+transtab['scan_oat']+'</button></div>';
         }
-        targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">NL-LI-RMD00-100-001-1842-a02</button></div>';
+//        targetToPush += '<div><button type=\"button\" onclick=\"getGoogleDriveADAFileId(\'NL-LI-RMD00-100-001-1842-a02\');\" class=\"btn btn-secondary\">NL-LI-RMD00-100-001-1842-a02</button></div>';
         targetToPush += '</div>';        
         
     } else if (result.indexOf("blad") > -1){

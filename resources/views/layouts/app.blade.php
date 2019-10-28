@@ -10,35 +10,35 @@
     <title>{{ config('app.name', 'Alle limburgers') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/limburgers.js') }}" defer></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="{{ asset('js/jquery-editable-select.js') }}" defer></script>
-    <script src="{{ asset('js/jquery-ui.min.js') }}" defer></script>
+    <script src="{{ secure_asset('js/app.js') }}" defer></script>
+    <script src="{{ secure_asset('js/limburgers.js') }}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="{{ secure_asset('js/jquery-editable-select.js') }}" defer></script>
+    <script src="{{ secure_asset('js/jquery-ui.min.js') }}" defer></script>
     
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/limburgers.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/limburgers.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-sm navbar-light navbar-laravel">
             <div class="container-fluid">
-                <a class="navbar-brand"  href="{{ url('/') }}">
-                    <img src="{{ asset ('public/img/tree_logo.png')}}" alt="" class="img_navbar"> {{ config('app.proj', 'Laravel') }} 
+                <a class="navbar-brand"  href="{{ secure_url('/') }}">
+                    <img src="{{ secure_asset ('public/img/tree_logo.png')}}" alt="" class="img_navbar"> {{ config('app.proj', 'Laravel') }} 
                 </a>
-                <a class="navbar-italic"  href="{{ url('/') }}">
+                <a class="navbar-italic"  href="{{ secure_url('/') }}">
                     {{ config('app.name', 'Laravel') }} 
                 </a>
 @yield('menu')
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#"><img src="{{ asset ('public/img/info.png')}}" class="img_italic"></a>
+                            <a class="nav-link" href="#"><img src="{{ secure_asset ('public/img/info.png')}}" class="img_italic"></a>
                         </li>
                     </ul>
 
@@ -47,16 +47,16 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/nl') }}"><img src="{{ asset ('public/img/nl.png')}}" alt="">&nbsp;Nl</a>
+                                <a class="nav-link" href="{{ secure_url('/nl') }}"><img src="{{ secure_asset ('public/img/nl.png')}}" alt="">&nbsp;Nl</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/en') }}">&nbsp;<img src="{{ asset ('public/img/england.png')}}" alt="">&nbsp;En</a>
+                                <a class="nav-link" href="{{ secure_url('/en') }}">&nbsp;<img src="{{ secure_asset ('public/img/england.png')}}" alt="">&nbsp;En</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/de') }}">&nbsp;<img src="{{ asset ('public/img/deutschland.png')}}" alt="">&nbsp;De</a>
+                                <a class="nav-link" href="{{ secure_url('/de') }}">&nbsp;<img src="{{ secure_asset ('public/img/deutschland.png')}}" alt="">&nbsp;De</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/fr') }}">&nbsp;<img src="{{ asset ('public/img/france.png')}}" alt="">&nbsp;Fr</a>
+                                <a class="nav-link" href="{{ secure_url('/fr') }}">&nbsp;<img src="{{ secure_asset ('public/img/france.png')}}" alt="">&nbsp;Fr</a>
                             </li>
                         @else
                             <li class="nav-item dropdown">

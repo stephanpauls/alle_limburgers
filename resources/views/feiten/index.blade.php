@@ -135,7 +135,7 @@ $(document).ready(function(){
     soorten = [];
     
     transtab = [];
-    transtab['url']='{{ url('') }}';
+    transtab['url']='{{ secure_url('') }}';
     transtab['name']='{{__('app.name')}}';
     transtab['first_name']='{{__('app.first_name')}}';
     transtab['role']='{{__('app.role')}}';
@@ -272,7 +272,7 @@ $(document).ready(function(){
         });
 
        $.ajax({
-          url: "{{ url('/feit/post') }}",
+          url: "{{ secure_url('/feit/post') }}",
           method: 'post',
           dataType: 'json',
           data: {
@@ -360,7 +360,7 @@ $(document).ready(function(){
         });
 
         $.ajax({
-           url: "{{ url('/feit/post') }}",
+           url: "{{ secure_url('/feit/post') }}",
            method: 'post',
            dataType: 'json',
            data: {
@@ -433,7 +433,7 @@ $(document).ready(function(){
       });
 
        $.ajax({
-          url: "{{ url('/feit/post') }}",
+          url: "{{ secure_url('/feit/post') }}",
           method: 'post',
           dataType: 'json',
           data: {
@@ -477,7 +477,7 @@ $(document).ready(function(){
            }
         });
         $.ajax({
-            url: "{{ url('/feit/post') }}",
+            url: "{{ secure_url('/feit/post') }}",
             method: 'post',
             dataType: 'json',
             data: {
@@ -487,7 +487,7 @@ $(document).ready(function(){
                 alFeitenTable(result);
                 $('.feitenTextBox').attr("placeholder",'{{__('app.all_facts')}}');
                 $.ajax({
-                    url: "{{url('/feit/post')}}",
+                    url: "{{secure_url('/feit/post')}}",
                     method: 'post',
                     dataType: 'json',
                     data: {
@@ -540,7 +540,7 @@ function createFirstSearchBlock() {
           }
        });
                     $.ajax({
-                        url: "{{ url('/feit/post') }}",
+                        url: "{{ secure_url('/feit/post') }}",
                         method: 'post',
                         dataType: 'json',
                         data: {
@@ -556,7 +556,7 @@ function createFirstSearchBlock() {
                             alFeitenTable(feiten);
                             $('.feitenTextBox').attr("placeholder",'{{__('app.all_facts')}}');
                             $.ajax({
-                                url: "{{url('/feit/post')}}",
+                                url: "{{secure_url('/feit/post')}}",
                                 method: 'post',
                                 dataType: 'json',
                                 data: {
@@ -591,7 +591,7 @@ function addDatumAuthSearchBlock(arrIndex) {
           }
         });
         $.ajax({
-            url: "{{ url('/feit/post') }}",
+            url: "{{ secure_url('/feit/post') }}",
             method: 'post',
             dataType: 'json',
             data: {
@@ -616,7 +616,7 @@ function addAuthSearchBlock(arrIndex) {
           }
         });
         $.ajax({
-            url: "{{ url('/feit/post') }}",
+            url: "{{ secure_url('/feit/post') }}",
             method: 'post',
             dataType: 'json',
             data: {
@@ -644,7 +644,7 @@ if (rollen.length == 0) {
           }
        });
        $.ajax({
-           url: "{{ url('/feit/post') }}",
+           url: "{{ secure_url('/feit/post') }}",
            method: 'post',
            dataType: 'json',
            data: {
@@ -672,7 +672,7 @@ if (bronnen.length == 0) {
           }
        });
        $.ajax({
-           url: "{{ url('/feit/post') }}",
+           url: "{{ secure_url('/feit/post') }}",
            method: 'post',
            dataType: 'json',
            data: {
@@ -702,7 +702,7 @@ if (soorten.length == 0) {
           }
        });
        $.ajax({
-           url: "{{ url('/feit/post') }}",
+           url: "{{ secure_url('/feit/post') }}",
            method: 'post',
            dataType: 'json',
            data: {
@@ -730,7 +730,7 @@ if (oobjtypes.length == 0) {
           }
        });
        $.ajax({
-           url: "{{ url('/feit/post') }}",
+           url: "{{ secure_url('/feit/post') }}",
            method: 'post',
            dataType: 'json',
            data: {
@@ -760,7 +760,7 @@ function limZoekFeit()
     });
           
     $.ajax({
-        url: "{{ url('/feit/post') }}",
+        url: "{{ secure_url('/feit/post') }}",
         method: 'post',
         dataType: 'json',
         data: {
@@ -785,7 +785,7 @@ function limZoekSubtype() {
     });
           
     $.ajax({
-        url: "{{ url('/feit/post') }}",
+        url: "{{ secure_url('/feit/post') }}",
         method: 'post',
         dataType: 'json',
         data: {
@@ -813,7 +813,7 @@ function jumpToPreviousDetailPage()
         });
 
         $.ajax({
-           url: "{{ url('/feit/post') }}",
+           url: "{{ secure_url('/feit/post') }}",
            method: 'post',
            dataType: 'json',
            data: {
@@ -841,7 +841,7 @@ function jumpToNextDetailPage()
         });
 
         $.ajax({
-           url: "{{ url('/feit/post') }}",
+           url: "{{ secure_url('/feit/post') }}",
            method: 'post',
            dataType: 'json',
            data: {
@@ -935,7 +935,7 @@ function getGoogleDriveADAFileId(adacode){
         });
 
         $.ajax({
-           url: "{{ url('/feit/post') }}",
+           url: "{{ secure_url('/feit/post') }}",
            method: 'post',
            dataType: 'json',
            data: {
@@ -947,7 +947,7 @@ function getGoogleDriveADAFileId(adacode){
                imageresult = result;
                newwindow.onload = function () {
                     $.ajax({
-                        url: "{{ url('/feit/post') }}",
+                        url: "{{ secure_url('/feit/post') }}",
                         method: 'post',
                         dataType: 'json',
                         data: {

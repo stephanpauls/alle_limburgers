@@ -34,7 +34,7 @@ $(document).ready(function(){
     subtypes = [];
     
     transtab = [];
-    transtab['url']='{{ url('') }}';
+    transtab['url']='{{ secure_url('') }}';
     transtab['name']='{{__('app.name')}}';
     transtab['first_name']='{{__('app.first_name')}}';
     transtab['role']='{{__('app.role')}}';
@@ -177,7 +177,7 @@ $(document).ready(function(){
         });
 
         $.ajax({
-           url: "{{ url('/feit/post') }}",
+           url: "{{ secure_url('/feit/post') }}",
            method: 'post',
            dataType: 'json',
            data: {
@@ -211,7 +211,7 @@ function zoekFeit(feit_id) {
     });
 
     $.ajax({
-        url: "{{ url('/feit/post') }}",
+        url: "{{ secure_url('/feit/post') }}",
         method: 'post',
         dataType: 'json',
         data: {
@@ -238,7 +238,7 @@ function jumpToPreviousDetailPage()
         });
 
         $.ajax({
-           url: "{{ url('/feit/post') }}",
+           url: "{{ secure_url('/feit/post') }}",
            method: 'post',
            dataType: 'json',
            data: {
@@ -266,7 +266,7 @@ function jumpToNextDetailPage()
         });
 
         $.ajax({
-           url: "{{ url('/feit/post') }}",
+           url: "{{ secure_url('/feit/post') }}",
            method: 'post',
            dataType: 'json',
            data: {
@@ -297,7 +297,7 @@ function getGoogleDriveADAFileId(adacode){
         });
 
         $.ajax({
-           url: "{{ url('/feit/post') }}",
+           url: "{{ secure_url('/feit/post') }}",
            method: 'post',
            dataType: 'json',
            data: {
@@ -309,7 +309,7 @@ function getGoogleDriveADAFileId(adacode){
                imageresult = result;
                newwindow.onload = function () {
                     $.ajax({
-                        url: "{{ url('/feit/post') }}",
+                        url: "{{ secure_url('/feit/post') }}",
                         method: 'post',
                         dataType: 'json',
                         data: {
